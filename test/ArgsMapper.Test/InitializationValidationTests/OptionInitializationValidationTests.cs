@@ -1,0 +1,233 @@
+﻿// The MIT License (MIT)
+// 
+// Copyright (c) 2019 Akan Murat Cimen
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
+using ArgsMapper.InitializationValidations.OptionValidations;
+using Xunit;
+
+namespace ArgsMapper.Test.InitializationValidationTests
+{
+    public class OptionInitializationValidationTests
+    {
+        [Theory]
+        [InlineData("opt:ion")]
+        [InlineData("opt=ion")]
+        [InlineData("opt ion")]
+        internal void AddOption_Should_Throw_InvalidOptionLongNameException(string optionLongName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<InvalidOptionLongNameException>(() =>
+                mapper.AddOption(x => x.Option, optionLongName)
+            );
+        }
+
+        [Theory]
+        [InlineData("version")]
+        internal void AddOption_Should_Throw_ReservedOptionLongNameException(string optionLongName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<ReservedOptionLongNameException>(() =>
+                mapper.AddOption(x => x.Option, optionLongName)
+            );
+        }
+
+        [Theory]
+        [InlineData('v')]
+        internal void AddOption_Should_Throw_ReservedOptionShortNameException(char optionShortName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<ReservedOptionShortNameException>(() =>
+                mapper.AddOption(x => x.Option, optionShortName, "option")
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_ArgumentException_When_Property_Has_No_Setter()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolWithoutSetterOptionArgs>();
+
+            // Assert
+            Assert.Throws<ArgumentException>(() =>
+                mapper.AddOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_ArgumentException_When_Property_Internal()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneInternalBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<ArgumentException>(() =>
+                mapper.AddOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_ArgumentException_When_Property_Method()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolMethodOptionArgs>();
+
+            // Assert
+            Assert.Throws<ArgumentException>(() =>
+                mapper.AddOption(x => x.Option())
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_OptionLongNameAlreadyExistsException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+
+            // Assert
+            Assert.Throws<OptionLongNameAlreadyExistsException>(() =>
+                mapper.AddOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_OptionLongNameRequiredException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<OptionLongNameRequiredException>(() =>
+                mapper.AddOption(x => x.Option, string.Empty)
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_OptionShortNameAlreadyExistsException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.AddOption(x => x.Option, 'o', "option1");
+
+            // Assert
+            Assert.Throws<OptionShortNameAlreadyExistsException>(() =>
+                mapper.AddOption(x => x.Option, 'o', "option2")
+            );
+        }
+
+        [Fact]
+        internal void AddOption_Should_Throw_UnsupportedOptionPropertyTypeException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneByteOptionArgs>();
+
+            // Assert
+            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
+                mapper.AddOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_ArgumentException_When_Property_Has_No_Setter()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolWithoutSetterOptionArgs>();
+
+            // Assert
+            Assert.Throws<ArgumentException>(() =>
+                mapper.AddPositionalOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_ArgumentException_When_Property_Internal()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneInternalBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<ArgumentException>(() =>
+                mapper.AddPositionalOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_ArgumentException_When_Property_Method()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolMethodOptionArgs>();
+
+            // Assert
+            Assert.Throws<ArgumentException>(() =>
+                mapper.AddPositionalOption(x => x.Option())
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_PositionalOptionConflictsWithCommandException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command);
+
+            // Assert
+            Assert.Throws<PositionalOptionConflictsWithCommandException>(() =>
+                mapper.AddPositionalOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_UnsupportedPositionalOptionPropertyTypeException_Class()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<UnsupportedPositionalOptionPropertyTypeException>(() =>
+                mapper.AddPositionalOption(x => x.Command)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_UnsupportedPositionalOptionPropertyTypeException_List()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionArgs>();
+
+            // Assert
+            Assert.Throws<UnsupportedPositionalOptionPropertyTypeException>(() =>
+                mapper.AddPositionalOption(x => x.Option)
+            );
+        }
+    }
+}

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Version>0.1.0</Version>
+    <Authors>Akan Murat Cimen</Authors>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/akanmuratcimen/args-mapper</PackageProjectUrl>
+    <Copyright>Akan Murat Cimen 2019</Copyright>
+    <Company />
+    <RepositoryUrl>https://github.com/akanmuratcimen/args-mapper</RepositoryUrl>
+    <PackageTags>args cli command line fluent commandline parser mapper</PackageTags>
+    <Description>An easy to use, simple, strongly typed dotnet core command line parser.</Description>
+  </PropertyGroup>
+
+</Project>
