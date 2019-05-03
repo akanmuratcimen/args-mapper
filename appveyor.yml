@@ -11,8 +11,6 @@ branches:
   only:
     - master
     - dev
-    - appveyor-integration
-    - coveralls-integration
 
 test: off
 
