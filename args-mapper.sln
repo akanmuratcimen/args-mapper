@@ -14,7 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{33536150-AC2D-4649-9335-4D3A18AD54C2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		appveyor.yml = appveyor.yml
 		args-mapper.sln.licenseheader = args-mapper.sln.licenseheader
+		build.ps1 = build.ps1
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
