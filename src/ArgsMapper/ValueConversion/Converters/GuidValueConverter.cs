@@ -20,29 +20,15 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using ArgsMapper.ValueConversion.Converters;
+using System.Globalization;
 
-namespace ArgsMapper.ValueConversion
+namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class ValueConverters
+    internal class GuidValueConverter : IValueConverter
     {
-        internal static HashSet<Type> SupportedTypes = new HashSet<Type>(Converters.Keys);
-
-        internal static IDictionary<Type, IValueConverter> Converters => new Dictionary<Type, IValueConverter> {
-            [typeof(char)] = new CharValueConverter(),
-            [typeof(bool)] = new BoolValueConverter(),
-            [typeof(short)] = new ShortValueConverter(),
-            [typeof(ushort)] = new UShortValueConverter(),
-            [typeof(int)] = new IntValueConverter(),
-            [typeof(uint)] = new UIntValueConverter(),
-            [typeof(long)] = new LongValueConverter(),
-            [typeof(ulong)] = new ULongValueConverter(),
-            [typeof(float)] = new FloatValueConverter(),
-            [typeof(double)] = new DoubleValueConverter(),
-            [typeof(decimal)] = new DecimalValueConverter(),
-            [typeof(string)] = new StringValueConverter(),
-            [typeof(Guid)] = new GuidValueConverter()
-        };
+        public object Convert(string value, CultureInfo cultureInfo)
+        {
+            return Guid.Parse(value);
+        }
     }
 }
