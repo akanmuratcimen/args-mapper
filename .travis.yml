@@ -6,7 +6,12 @@ dotnet: 2.2
 
 os:
   - linux
-  
+
+branches:
+  only:
+  - master
+  - dev
+
 script:
   - dotnet build
   - dotnet test test/ArgsMapper.Test/ArgsMapper.Test.csproj
