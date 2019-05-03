@@ -7,9 +7,6 @@ dotnet: 2.2.0
 os:
   - linux
   - windows
-
-install:
-  - dotnet restore
-
+  
 script:
   - dotnet build
