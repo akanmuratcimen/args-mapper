@@ -3,11 +3,16 @@ skip_tags: true
 image: Visual Studio 2017
 configuration: Release
 
+environment:
+  COVERALLS_API_TOKEN:
+    secure: UunyRXXKMOhQwfzvFkJpkdOqQRdwrtHNccrWLdkql5fN+q8X8rnlVwGAjV9CYLoj
+
 branches:
   only:
     - master
     - dev
     - appveyor-integration
+    - coveralls-integration
 
 test: off
 
