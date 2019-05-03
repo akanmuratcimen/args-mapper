@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -19,7 +19,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using System.Collections.Generic;
 
 namespace ArgsMapper.Utilities
@@ -37,36 +36,6 @@ namespace ArgsMapper.Utilities
             }
 
             dictionary.Add(key, values);
-        }
-
-        internal static int GetMaxLength(this IEnumerable<string> values)
-        {
-            var result = 0;
-
-            foreach (var value in values)
-            {
-                if (value.Length > result)
-                {
-                    result = value.Length;
-                }
-            }
-
-            return result;
-        }
-
-        internal static string ToSeparatedString(this IEnumerable<string> values, string separator)
-        {
-            if (values == null)
-            {
-                throw new ArgumentNullException(nameof(values));
-            }
-
-            return string.Join(separator, values);
-        }
-
-        internal static string ToCommaSeparatedString(this IEnumerable<string> values)
-        {
-            return values.ToSeparatedString(", ");
         }
     }
 }

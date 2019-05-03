@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -31,11 +31,6 @@ namespace ArgsMapper
         ///     The value to set if no value is found whilst parsing this option.
         /// </summary>
         public T DefaultValue { get; set; }
-
-        /// <summary>
-        ///     The help text will be shown in help.
-        /// </summary>
-        public string HelpText { get; set; }
 
         /// <summary>
         ///     Ignores the option if true.
