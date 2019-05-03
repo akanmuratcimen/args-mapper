@@ -1,12 +1,13 @@
 version: 0.1.{build}
 skip_tags: true
-image: Visual Studio 2019 Preview
+image: Visual Studio 2017
 configuration: Release
 
 branches:
   only:
     - master
     - dev
+    - appveyor-integration
 
 test: off
 
