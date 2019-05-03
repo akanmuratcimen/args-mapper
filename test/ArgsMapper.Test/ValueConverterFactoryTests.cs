@@ -44,7 +44,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<Guid?>))]
         [InlineData(typeof(List<TimeSpan?>))]
         [InlineData(typeof(List<DateTime?>))]
-        internal void ValueConverterFactory_Convert_ListNullablePrimitiveTypes(Type type)
+        internal void ValueConverterFactory_Convert_ListNullableTypes(Type type)
         {
             Assert.IsType(type, ValueConverterFactory.Convert(
                 Array.Empty<string>(), type, CultureInfo.InvariantCulture));
@@ -65,10 +65,10 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<Guid>), "319dae9f5f2f4846a8d5789e01f5b7e2", "11470f068e8c4052ad54e3d3e5cccf6c")]
         [InlineData(typeof(List<TimeSpan>), "6.12:14:45", "6:12:14:45")]
         [InlineData(typeof(List<DateTime>), "08/18/2018 07:22:16", "Sat, 18 Aug 2018 07:22:16 GMT")]
-        internal void ValueConverterFactory_Convert_ListPrimitiveTypes(Type type, params string[] values)
+        [InlineData(typeof(List<Uri>), "amqp://user:pass@host:10000/path", "ftp://foo.bar.com:000")]
+        internal void ValueConverterFactory_Convert_ListTypes(Type type, params string[] values)
         {
-            Assert.IsType(type, ValueConverterFactory.Convert(
-                values, type, CultureInfo.InvariantCulture));
+            Assert.IsType(type, ValueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
@@ -86,10 +86,9 @@ namespace ArgsMapper.Test
         [InlineData(typeof(Guid?))]
         [InlineData(typeof(TimeSpan?))]
         [InlineData(typeof(DateTime?))]
-        internal void ValueConverterFactory_Convert_NullablePrimitiveTypes(Type type)
+        internal void ValueConverterFactory_Convert_NullableTypes(Type type)
         {
-            Assert.Null(ValueConverterFactory.Convert(
-                Array.Empty<string>(), type, CultureInfo.InvariantCulture));
+            Assert.Null(ValueConverterFactory.Convert(Array.Empty<string>(), type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
@@ -119,10 +118,10 @@ namespace ArgsMapper.Test
         [InlineData(typeof(DateTime), "7 PM")]
         [InlineData(typeof(DateTime), "018-08-18T07:22:16.0000000-07:00")]
         [InlineData(typeof(DateTime), "08/18/2018 07:22:16 -5:00")]
-        internal void ValueConverterFactory_Convert_PrimitiveTypes(Type type, string value)
+        [InlineData(typeof(Uri), "https://www.foobar.com")]
+        internal void ValueConverterFactory_Convert_Types(Type type, string value)
         {
-            Assert.IsType(type, ValueConverterFactory.Convert(
-                new[] { value }, type, CultureInfo.InvariantCulture));
+            Assert.IsType(type, ValueConverterFactory.Convert(new[] { value }, type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
@@ -140,6 +139,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(Guid), "invalid-value")]
         [InlineData(typeof(TimeSpan), "invalid-value")]
         [InlineData(typeof(DateTime), "invalid-value")]
+        [InlineData(typeof(Uri), "invalid-value")]
         internal void ValueConverterFactory_Convert_Should_Throw_Exception(Type type, params string[] values)
         {
             Assert.ThrowsAny<Exception>(() => ValueConverterFactory.Convert(

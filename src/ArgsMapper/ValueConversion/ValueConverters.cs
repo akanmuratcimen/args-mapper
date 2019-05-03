@@ -45,7 +45,8 @@ namespace ArgsMapper.ValueConversion
                 [typeof(string)] = new StringValueConverter(),
                 [typeof(Guid)] = new GuidValueConverter(),
                 [typeof(TimeSpan)] = new TimeSpanValueConverter(),
-                [typeof(DateTime)] = new DateTimeValueConverter()
+                [typeof(DateTime)] = new DateTimeValueConverter(),
+                [typeof(Uri)] = new UriValueConverter()
             };
     }
 }
