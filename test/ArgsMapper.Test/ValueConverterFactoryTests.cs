@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -41,6 +41,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<uint?>))]
         [InlineData(typeof(List<ulong?>))]
         [InlineData(typeof(List<ushort?>))]
+        [InlineData(typeof(List<Guid?>))]
         internal void ValueConverterFactory_Convert_ListNullablePrimitiveTypes(Type type)
         {
             Assert.IsType(type, ValueConverterFactory.Convert(
@@ -59,6 +60,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<uint>), "0", "1")]
         [InlineData(typeof(List<ulong>), "0", "1")]
         [InlineData(typeof(List<ushort>), "0", "1")]
+        [InlineData(typeof(List<Guid>), "319dae9f5f2f4846a8d5789e01f5b7e2", "11470f068e8c4052ad54e3d3e5cccf6c")]
         internal void ValueConverterFactory_Convert_ListPrimitiveTypes(Type type, params string[] values)
         {
             Assert.IsType(type, ValueConverterFactory.Convert(
@@ -77,6 +79,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(uint?))]
         [InlineData(typeof(ulong?))]
         [InlineData(typeof(ushort?))]
+        [InlineData(typeof(Guid?))]
         internal void ValueConverterFactory_Convert_NullablePrimitiveTypes(Type type)
         {
             Assert.Null(ValueConverterFactory.Convert(
@@ -101,6 +104,8 @@ namespace ArgsMapper.Test
         [InlineData(typeof(uint), "0")]
         [InlineData(typeof(ulong), "0")]
         [InlineData(typeof(ushort), "0")]
+        [InlineData(typeof(Guid), "aa13a8b4-be17-4932-8af0-08b84accd971")]
+        [InlineData(typeof(Guid), "4DFF9BAACA3E4FA38A1B75B289389227")]
         internal void ValueConverterFactory_Convert_PrimitiveTypes(Type type, string value)
         {
             Assert.IsType(type, ValueConverterFactory.Convert(
@@ -119,6 +124,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(uint), "invalid-value")]
         [InlineData(typeof(ulong), "invalid-value")]
         [InlineData(typeof(ushort), "invalid-value")]
+        [InlineData(typeof(Guid), "invalid-value")]
         internal void ValueConverterFactory_Convert_Should_Throw_Exception(Type type, params string[] values)
         {
             Assert.ThrowsAny<Exception>(() => ValueConverterFactory.Convert(
