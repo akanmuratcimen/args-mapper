@@ -19,27 +19,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace ArgsMapper
+using System;
+using System.Globalization;
+
+namespace ArgsMapper.ValueConversion.Converters
 {
-    /// <summary>
-    ///     Args Option Settings.
-    /// </summary>
-    /// <typeparam name="T">The type of the arguments model.</typeparam>
-    public class ArgsOptionSettings<T>
+    internal class DateTimeValueConverter : IValueConverter
     {
-        /// <summary>
-        ///     The value to set if no value is found whilst parsing this option.
-        /// </summary>
-        public T DefaultValue { get; set; }
-
-        /// <summary>
-        ///     Ignores the option if true.
-        /// </summary>
-        public bool IsDisabled { get; set; }
-
-        /// <summary>
-        ///     Whether the option is required.
-        /// </summary>
-        public bool IsRequired { get; set; }
+        public object Convert(string value, CultureInfo cultureInfo)
+        {
+            return DateTime.Parse(value, cultureInfo);
+        }
     }
 }

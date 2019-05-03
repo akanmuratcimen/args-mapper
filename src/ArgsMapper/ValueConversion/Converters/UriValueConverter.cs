@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -19,35 +19,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Text;
+using System;
+using System.Globalization;
 
-namespace ArgsMapper.Utilities
+namespace ArgsMapper.ValueConversion.Converters
 {
-    internal static class StringBuilderExtensions
+    internal class UriValueConverter : IValueConverter
     {
-        internal static StringBuilder TrimEnd(this StringBuilder stringBuilder)
+        public object Convert(string value, CultureInfo cultureInfo)
         {
-            if (stringBuilder == null || stringBuilder.Length == 0)
-            {
-                return stringBuilder;
-            }
-
-            var i = stringBuilder.Length - 1;
-
-            for (; i >= 0; i--)
-            {
-                if (!char.IsWhiteSpace(stringBuilder[i]))
-                {
-                    break;
-                }
-            }
-
-            if (i < stringBuilder.Length - 1)
-            {
-                stringBuilder.Length = i + 1;
-            }
-
-            return stringBuilder;
+            return new Uri(value);
         }
     }
 }

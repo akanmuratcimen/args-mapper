@@ -29,20 +29,24 @@ namespace ArgsMapper.ValueConversion
     {
         internal static HashSet<Type> SupportedTypes = new HashSet<Type>(Converters.Keys);
 
-        internal static IDictionary<Type, IValueConverter> Converters => new Dictionary<Type, IValueConverter> {
-            [typeof(char)] = new CharValueConverter(),
-            [typeof(bool)] = new BoolValueConverter(),
-            [typeof(short)] = new ShortValueConverter(),
-            [typeof(ushort)] = new UShortValueConverter(),
-            [typeof(int)] = new IntValueConverter(),
-            [typeof(uint)] = new UIntValueConverter(),
-            [typeof(long)] = new LongValueConverter(),
-            [typeof(ulong)] = new ULongValueConverter(),
-            [typeof(float)] = new FloatValueConverter(),
-            [typeof(double)] = new DoubleValueConverter(),
-            [typeof(decimal)] = new DecimalValueConverter(),
-            [typeof(string)] = new StringValueConverter(),
-            [typeof(Guid)] = new GuidValueConverter()
-        };
+        internal static IDictionary<Type, IValueConverter> Converters =>
+            new Dictionary<Type, IValueConverter> {
+                [typeof(char)] = new CharValueConverter(),
+                [typeof(bool)] = new BoolValueConverter(),
+                [typeof(short)] = new ShortValueConverter(),
+                [typeof(ushort)] = new UShortValueConverter(),
+                [typeof(int)] = new IntValueConverter(),
+                [typeof(uint)] = new UIntValueConverter(),
+                [typeof(long)] = new LongValueConverter(),
+                [typeof(ulong)] = new ULongValueConverter(),
+                [typeof(float)] = new FloatValueConverter(),
+                [typeof(double)] = new DoubleValueConverter(),
+                [typeof(decimal)] = new DecimalValueConverter(),
+                [typeof(string)] = new StringValueConverter(),
+                [typeof(Guid)] = new GuidValueConverter(),
+                [typeof(TimeSpan)] = new TimeSpanValueConverter(),
+                [typeof(DateTime)] = new DateTimeValueConverter(),
+                [typeof(Uri)] = new UriValueConverter()
+            };
     }
 }
