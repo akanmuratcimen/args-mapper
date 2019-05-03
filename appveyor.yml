@@ -1,0 +1,21 @@
+version: 0.1.{build}
+skip_tags: true
+image: Visual Studio 2017
+configuration: Release
+
+environment:
+  COVERALLS_API_TOKEN:
+    secure: UunyRXXKMOhQwfzvFkJpkdOqQRdwrtHNccrWLdkql5fN+q8X8rnlVwGAjV9CYLoj
+
+branches:
+  only:
+    - master
+    - dev
+
+test: off
+
+build:
+  verbosity: minimal
+
+build_script:
+- ps: ./build.ps1
