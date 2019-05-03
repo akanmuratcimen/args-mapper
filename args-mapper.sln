@@ -11,16 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BF7B508E-BED
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{41B8427C-B6EE-42D2-B25D-F986EDD7FB0A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{33536150-AC2D-4649-9335-4D3A18AD54C2}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		appveyor.yml = appveyor.yml
-		args-mapper.sln.licenseheader = args-mapper.sln.licenseheader
-		build.ps1 = build.ps1
-		LICENSE.md = LICENSE.md
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4AF1641-CA15-4907-A512-DC90EC3C1425}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "samples\Basic\Basic.csproj", "{902C42FE-996D-48D5-9220-20A9EF9D0493}"
