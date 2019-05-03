@@ -1,0 +1,12 @@
+language: csharp
+sudo: required
+dist: xenial
+mono: none
+dotnet: 2.2
+
+os:
+  - linux
+  
+script:
+  - dotnet build
+  - dotnet test test/ArgsMapper.Test/ArgsMapper.Test.csproj
