@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -52,6 +52,14 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
     {
         public InvalidCommandOptionLongNameException(string name) :
             base($"'{name}' has invalid characters.")
+        {
+        }
+    }
+
+    public class InvalidCommandOptionShortNameException : Exception
+    {
+        public InvalidCommandOptionShortNameException(char shortName) :
+            base($"'{shortName}' is an invalid short name. A short name can only be a letter.")
         {
         }
     }

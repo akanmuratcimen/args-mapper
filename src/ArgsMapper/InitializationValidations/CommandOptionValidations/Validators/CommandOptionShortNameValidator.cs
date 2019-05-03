@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -28,9 +28,14 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
     {
         public void Validate<T>(ArgsCommandSettings<T> commandSettings, Option commandOption) where T : class
         {
+            // ReSharper disable once PossibleInvalidOperationException
             if (commandOption.HasShortName)
             {
-                // ReSharper disable once PossibleInvalidOperationException
+                if (!char.IsLetter(commandOption.ShortName.Value))
+                {
+                    throw new InvalidCommandOptionShortNameException(commandOption.ShortName.Value);
+                }
+
                 if (Constants.ReservedOptionShortNames.Contains(commandOption.ShortName.Value))
                 {
                     throw new ReservedCommandOptionShortNameException(commandOption.ShortName.Value);
