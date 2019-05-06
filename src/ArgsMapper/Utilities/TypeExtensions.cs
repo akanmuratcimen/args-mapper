@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -22,7 +22,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.Utilities
 {
@@ -60,11 +59,6 @@ namespace ArgsMapper.Utilities
             return type.GetGenericArguments()[0];
         }
 
-        internal static bool IsBaseSupported(this Type type)
-        {
-            return ValueConverters.SupportedTypes.Contains(type.GetBaseType());
-        }
-
         internal static bool IsCollection(this Type type)
         {
             return
@@ -82,11 +76,6 @@ namespace ArgsMapper.Utilities
         internal static bool IsNullable(this Type type)
         {
             return Nullable.GetUnderlyingType(type) != null;
-        }
-
-        internal static bool IsSupported(this Type type)
-        {
-            return ValueConverters.SupportedTypes.Contains(type);
         }
     }
 }

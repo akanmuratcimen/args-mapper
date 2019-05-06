@@ -20,7 +20,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
 using System.Linq.Expressions;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
@@ -29,27 +28,26 @@ namespace ArgsMapper.Infrastructure
 {
     internal static class CommandInitializer
     {
-        internal static Command Initialize<T, TProperty>(Expression<Func<T, TProperty>> propertySelector,
-            string name, Action<ArgsCommandSettings<TProperty>> commandSettings,
-            StringComparison stringComparison, CultureInfo cultureInfo)
+        internal static Command Initialize<T, TProperty>(ArgsMapper<T> mapper, 
+            Expression<Func<T, TProperty>> propertySelector, string name, 
+            Action<ArgsCommandSettings<T, TProperty>> commandSettings) where T : class
         {
             var command = new Command();
 
             var propertyInfos = propertySelector.GetPropertyInfos();
 
             command.PropertyInfos = propertyInfos;
-            command.Name = name ?? propertyInfos.GetName(cultureInfo);
-            command.CultureInfo = cultureInfo;
+            command.Name = name ?? propertyInfos.GetName(mapper.Settings.Culture);
+            command.CultureInfo = mapper.Settings.Culture;
+
+            var settings = new ArgsCommandSettings<T, TProperty>();
+
+            settings.Mapper = mapper;
 
             if (commandSettings is null)
             {
                 return command;
             }
-
-            var settings = new ArgsCommandSettings<TProperty>();
-
-            settings.StringComparison = stringComparison;
-            settings.Culture = cultureInfo;
 
             commandSettings(settings);
 

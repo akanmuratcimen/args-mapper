@@ -29,6 +29,13 @@ namespace ArgsMapper.Test
 {
     public class ValueConverterFactoryTests
     {
+        private readonly IValueConverterFactory _valueConverterFactory;
+
+        public ValueConverterFactoryTests()
+        {
+            _valueConverterFactory = new ValueConverterFactory();
+        }
+
         [Theory]
         [InlineData(typeof(List<bool?>))]
         [InlineData(typeof(List<char?>))]
@@ -46,7 +53,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<DateTime?>))]
         internal void ValueConverterFactory_Convert_ListNullableTypes(Type type)
         {
-            Assert.IsType(type, ValueConverterFactory.Convert(
+            Assert.IsType(type, _valueConverterFactory.Convert(
                 Array.Empty<string>(), type, CultureInfo.InvariantCulture));
         }
 
@@ -68,7 +75,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<Uri>), "amqp://user:pass@host:10000/path", "ftp://foo.bar.com:000")]
         internal void ValueConverterFactory_Convert_ListTypes(Type type, params string[] values)
         {
-            Assert.IsType(type, ValueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));
+            Assert.IsType(type, _valueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
@@ -88,7 +95,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(DateTime?))]
         internal void ValueConverterFactory_Convert_NullableTypes(Type type)
         {
-            Assert.Null(ValueConverterFactory.Convert(Array.Empty<string>(), type, CultureInfo.InvariantCulture));
+            Assert.Null(_valueConverterFactory.Convert(Array.Empty<string>(), type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
@@ -121,7 +128,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(Uri), "https://www.foobar.com")]
         internal void ValueConverterFactory_Convert_Types(Type type, string value)
         {
-            Assert.IsType(type, ValueConverterFactory.Convert(new[] { value }, type, CultureInfo.InvariantCulture));
+            Assert.IsType(type, _valueConverterFactory.Convert(new[] { value }, type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
@@ -142,7 +149,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(Uri), "invalid-value")]
         internal void ValueConverterFactory_Convert_Should_Throw_Exception(Type type, params string[] values)
         {
-            Assert.ThrowsAny<Exception>(() => ValueConverterFactory.Convert(
+            Assert.ThrowsAny<Exception>(() => _valueConverterFactory.Convert(
                 values, type, CultureInfo.InvariantCulture));
         }
     }

@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -22,19 +22,53 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using ArgsMapper.Utilities;
+using ArgsMapper.ValueConversion.Converters;
 
 namespace ArgsMapper.ValueConversion
 {
-    internal class ValueConverterFactory
+    internal interface IValueConverterFactory
     {
-        internal static object Convert(IList<string> values, Type type, CultureInfo cultureInfo)
+        HashSet<Type> SupportedTypes { get; }
+        object Convert(IList<string> values, Type type, IFormatProvider formatProvider);
+        bool IsSupportedBaseType(Type type);
+        bool IsSupportedType(Type type);
+    }
+
+    internal class ValueConverterFactory : IValueConverterFactory
+    {
+        internal ValueConverterFactory()
+        {
+            Converters = new Dictionary<Type, IValueConverter> {
+                [typeof(char)] = new CharValueConverter(),
+                [typeof(bool)] = new BoolValueConverter(),
+                [typeof(short)] = new ShortValueConverter(),
+                [typeof(ushort)] = new UShortValueConverter(),
+                [typeof(int)] = new IntValueConverter(),
+                [typeof(uint)] = new UIntValueConverter(),
+                [typeof(long)] = new LongValueConverter(),
+                [typeof(ulong)] = new ULongValueConverter(),
+                [typeof(float)] = new FloatValueConverter(),
+                [typeof(double)] = new DoubleValueConverter(),
+                [typeof(decimal)] = new DecimalValueConverter(),
+                [typeof(string)] = new StringValueConverter(),
+                [typeof(Guid)] = new GuidValueConverter(),
+                [typeof(TimeSpan)] = new TimeSpanValueConverter(),
+                [typeof(DateTime)] = new DateTimeValueConverter(),
+                [typeof(Uri)] = new UriValueConverter()
+            };
+        }
+
+        private IDictionary<Type, IValueConverter> Converters { get; }
+
+        public HashSet<Type> SupportedTypes => new HashSet<Type>(Converters.Keys);
+
+        public object Convert(IList<string> values, Type type, IFormatProvider formatProvider)
         {
             if (type.IsList())
             {
-                return CreateListWithValues(type.GetFirstGenericArgument(), values, cultureInfo);
+                return CreateListWithValues(type.GetFirstGenericArgument(), values, formatProvider);
             }
 
             var value = values.Count > 1 ? values.LastOrDefault() : values.FirstOrDefault();
@@ -44,20 +78,31 @@ namespace ArgsMapper.ValueConversion
                 return null;
             }
 
-            return ValueConverters.Converters[type.GetBaseType()].Convert(value, cultureInfo);
+            return Converters[type.GetBaseType()].Convert(value, formatProvider);
         }
 
-        private static IList CreateListWithValues(Type itemType, IEnumerable<string> values, CultureInfo cultureInfo)
+        private IList CreateListWithValues(Type itemType, IEnumerable<string> values,
+            IFormatProvider formatProvider)
         {
             var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
-            var converter = ValueConverters.Converters[itemType.GetBaseType()];
+            var converter = Converters[itemType.GetBaseType()];
 
             foreach (var value in values)
             {
-                list.Add(converter.Convert(value, cultureInfo));
+                list.Add(converter.Convert(value, formatProvider));
             }
 
             return list;
+        }
+
+        public bool IsSupportedBaseType(Type type)
+        {
+            return SupportedTypes.Contains(type.GetBaseType());
+        }
+
+        public bool IsSupportedType(Type type)
+        {
+            return SupportedTypes.Contains(type);
         }
     }
 }

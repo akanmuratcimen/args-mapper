@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -20,7 +20,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -31,7 +30,7 @@ namespace ArgsMapper.ValueConversion.Converters
         private static readonly string[] _falseValues = { "0", "off", "false" };
         private static readonly string[] _trueValues = { null, string.Empty, "1", "on", "true" };
 
-        public object Convert(string value, CultureInfo cultureInfo)
+        public object Convert(string value, IFormatProvider formatProvider)
         {
             if (IsValidTrueValue(value))
             {

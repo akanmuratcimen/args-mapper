@@ -20,15 +20,14 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
     internal class TimeSpanValueConverter : IValueConverter
     {
-        public object Convert(string value, CultureInfo cultureInfo)
+        public object Convert(string value, IFormatProvider formatProvider)
         {
-            return TimeSpan.Parse(value, cultureInfo);
+            return TimeSpan.Parse(value, formatProvider);
         }
     }
 }

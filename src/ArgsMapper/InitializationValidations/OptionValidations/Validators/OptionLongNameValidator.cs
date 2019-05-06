@@ -24,7 +24,7 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
-    internal class OptionLongNameValidator : IOptionInitializationValidator
+    internal class OptionLongNameValidator : IOptionValidator
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {

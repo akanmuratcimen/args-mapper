@@ -19,15 +19,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using System.Globalization;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
     internal class DoubleValueConverter : IValueConverter
     {
-        public object Convert(string value, CultureInfo cultureInfo)
+        public object Convert(string value, IFormatProvider formatProvider)
         {
-            return double.Parse(value, NumberStyles.Any, cultureInfo);
+            return double.Parse(value, NumberStyles.Any, formatProvider);
         }
     }
 }

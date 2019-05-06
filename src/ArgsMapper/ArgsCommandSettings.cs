@@ -19,9 +19,7 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using ArgsMapper.Models;
 
 namespace ArgsMapper
@@ -29,25 +27,18 @@ namespace ArgsMapper
     /// <summary>
     ///     Args Command Settings.
     /// </summary>
-    public class ArgsCommandSettings
+    /// <typeparam name="T">The type of the arguments model.</typeparam>
+    /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
+
+    // ReSharper disable once UnusedTypeParameter
+    public class ArgsCommandSettings<T, TProperty> where T : class
     {
         /// <summary>
         ///     Ignores the option if true.
         /// </summary>
         public bool IsDisabled { get; set; }
-    }
 
-    /// <inheritdoc />
-    /// <summary>
-    ///     Args Command Settings.
-    /// </summary>
-    /// <typeparam name="T">The type of the arguments model.</typeparam>
-
-    // ReSharper disable once UnusedTypeParameter
-    public class ArgsCommandSettings<T> : ArgsCommandSettings
-    {
-        internal CultureInfo Culture { get; set; }
         internal List<Option> Options { get; } = new List<Option>();
-        internal StringComparison StringComparison { get; set; }
+        internal ArgsMapper<T> Mapper { get; set; }
     }
 }

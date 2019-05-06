@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -25,27 +25,28 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations
 {
-    internal interface IOptionInitializationValidator
+    internal interface IOptionValidationService
     {
         void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class;
     }
 
-    internal class OptionInitializationValidator
+    internal class OptionValidationService : IOptionValidationService
     {
-        private static IEnumerable<IOptionInitializationValidator> Validators
+        public OptionValidationService()
         {
-            get
-            {
-                yield return new OptionPropertyTypeValidator();
-                yield return new OptionLongNameValidator();
-                yield return new OptionLongNameDuplicationValidator();
-                yield return new OptionShortNameValidator();
-                yield return new OptionShortNameDuplicationValidator();
-                yield return new PositionalOptionAndCommandConflictValidator();
-            }
+            Validators = new List<IOptionValidator> {
+                new OptionPropertyTypeValidator(),
+                new OptionLongNameValidator(),
+                new OptionLongNameDuplicationValidator(),
+                new OptionShortNameValidator(),
+                new OptionShortNameDuplicationValidator(),
+                new PositionalOptionAndCommandConflictValidator()
+            };
         }
 
-        internal static void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        private IEnumerable<IOptionValidator> Validators { get; }
+
+        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
             foreach (var validator in Validators)
             {

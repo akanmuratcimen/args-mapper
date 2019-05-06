@@ -20,15 +20,14 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
     internal class DateTimeValueConverter : IValueConverter
     {
-        public object Convert(string value, CultureInfo cultureInfo)
+        public object Convert(string value, IFormatProvider formatProvider)
         {
-            return DateTime.Parse(value, cultureInfo);
+            return DateTime.Parse(value, formatProvider);
         }
     }
 }

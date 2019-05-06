@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -22,9 +22,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ArgsMapper.InitializationValidations.CommandOptionValidations;
+using ArgsMapper.InitializationValidations.CommandValidations;
+using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
@@ -37,6 +41,11 @@ namespace ArgsMapper
         ///     Settings of the mapper.
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
+
+        internal ICommandOptionValidationService CommandOptionValidationService { get; set; } = new CommandOptionValidationService();
+        internal IOptionValidationService OptionValidationService { get; set; } = new OptionValidationService();
+        internal ICommandValidationService CommandValidationService { get; set; } = new CommandValidationService();
+        internal IValueConverterFactory ValueConverterFactory { get; set; } = new ValueConverterFactory();
 
         public void Execute(string[] args, Action<T> onExecute)
         {
@@ -80,7 +89,9 @@ namespace ArgsMapper
 
             try
             {
-                result.Model = new ArgumentMapper<T>(this).Map(result.Model, args);
+                result.Model = new ArgumentMapper<T>(this,
+                        new ReflectionService(new ValueConverterFactory()))
+                    .Map(result.Model, args);
             }
             catch (UsageException e)
             {
@@ -90,7 +101,7 @@ namespace ArgsMapper
             return result;
         }
 
-        internal string VersionInfo(string[] args)
+        private string VersionInfo(string[] args)
         {
             if (args.IsNullOrEmpty())
             {

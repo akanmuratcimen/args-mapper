@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -96,7 +96,7 @@ namespace ArgsMapper
         /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T}" /> for the command.</param>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
         /// <exception cref="CommandConflictsWithPositionalOptionException">
         ///     A command cannot be defined if a positional option is already defined.
         /// </exception>
@@ -106,7 +106,7 @@ namespace ArgsMapper
         /// </exception>
         public static void AddCommand<T, TProperty>(this ArgsMapper<T> mapper,
             Expression<Func<T, TProperty>> propertySelector,
-            Action<ArgsCommandSettings<TProperty>> commandSettings)
+            Action<ArgsCommandSettings<T, TProperty>> commandSettings)
             where T : class
             where TProperty : class
         {
@@ -121,7 +121,7 @@ namespace ArgsMapper
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="name">The name for the command.</param>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T}" /> for the command.</param>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
         /// <exception cref="CommandNameRequiredException">
         ///     Command <paramref name="name" /> is null or empty.
         /// </exception>
@@ -142,14 +142,13 @@ namespace ArgsMapper
         /// </exception>
         public static void AddCommand<T, TProperty>(this ArgsMapper<T> mapper,
             Expression<Func<T, TProperty>> propertySelector, string name,
-            Action<ArgsCommandSettings<TProperty>> commandSettings)
+            Action<ArgsCommandSettings<T, TProperty>> commandSettings)
             where T : class
             where TProperty : class
         {
-            var command = CommandInitializer.Initialize(propertySelector, name, commandSettings,
-                mapper.Settings.StringComparison, mapper.Settings.Culture);
+            var command = CommandInitializer.Initialize(mapper, propertySelector, name, commandSettings);
 
-            CommandInitializationValidator.Validate(mapper, command);
+            mapper.CommandValidationService.Validate(mapper, command);
 
             mapper.Commands.Add(command);
         }
@@ -341,7 +340,7 @@ namespace ArgsMapper
             var option = OptionInitializer.Initialize(propertySelector, shortName,
                 longName, position, optionSettings, mapper.Settings.Culture);
 
-            OptionInitializationValidator.Validate(mapper, option);
+            mapper.OptionValidationService.Validate(mapper, option);
 
             mapper.Options.Add(option);
         }
