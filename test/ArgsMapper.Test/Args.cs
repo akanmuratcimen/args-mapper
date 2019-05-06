@@ -54,7 +54,9 @@ namespace ArgsMapper.Test
 
     internal class OneBoolFieldOptionArgs
     {
+#pragma warning disable CS0649
         public bool Option;
+#pragma warning restore
     }
 
     internal class OneByteOptionArgs
