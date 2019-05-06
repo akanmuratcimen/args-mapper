@@ -30,7 +30,6 @@ namespace ArgsMapper.ValueConversion
 {
     internal interface IValueConverterFactory
     {
-        HashSet<Type> SupportedTypes { get; }
         object Convert(IList<string> values, Type type, IFormatProvider formatProvider);
         bool IsSupportedBaseType(Type type);
         bool IsSupportedType(Type type);
@@ -62,7 +61,7 @@ namespace ArgsMapper.ValueConversion
 
         private IDictionary<Type, IValueConverter> Converters { get; }
 
-        public HashSet<Type> SupportedTypes => new HashSet<Type>(Converters.Keys);
+        private HashSet<Type> SupportedTypes => new HashSet<Type>(Converters.Keys);
 
         public object Convert(IList<string> values, Type type, IFormatProvider formatProvider)
         {

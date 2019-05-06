@@ -21,7 +21,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ArgsMapper.Models;
@@ -31,8 +30,8 @@ namespace ArgsMapper.Utilities
 {
     internal interface IReflectionService
     {
-        void SetValue(Option option, object model, IList<string> values, CultureInfo cultureInfo);
-        void SetValue(Option option, object model, string value, CultureInfo cultureInfo);
+        void SetValue(Option option, object model, IList<string> values, IFormatProvider formatProvider);
+        void SetValue(Option option, object model, string value, IFormatProvider formatProvider);
         void SetValue(Option option, object model, object value);
         object SetValue(Command command, object model);
     }
@@ -65,13 +64,13 @@ namespace ArgsMapper.Utilities
             propertyInfos[propertyInfos.Length - 1].SetValue(model, value);
         }
 
-        public void SetValue(Option option, object model, IList<string> values, CultureInfo cultureInfo)
+        public void SetValue(Option option, object model, IList<string> values, IFormatProvider formatProvider)
         {
             object value;
 
             try
             {
-                value = _valueConverterFactory.Convert(values, option.Type, cultureInfo);
+                value = _valueConverterFactory.Convert(values, option.Type, formatProvider);
             }
             catch (Exception e) when (e is FormatException || e is OverflowException)
             {
@@ -81,9 +80,9 @@ namespace ArgsMapper.Utilities
             SetValue(option, model, value);
         }
 
-        public void SetValue(Option option, object model, string value, CultureInfo cultureInfo)
+        public void SetValue(Option option, object model, string value, IFormatProvider formatProvider)
         {
-            SetValue(option, model, new[] { value }, cultureInfo);
+            SetValue(option, model, new[] { value }, formatProvider);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

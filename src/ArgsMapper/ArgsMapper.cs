@@ -42,10 +42,11 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        internal ICommandOptionValidationService CommandOptionValidationService { get; set; } = new CommandOptionValidationService();
-        internal IOptionValidationService OptionValidationService { get; set; } = new OptionValidationService();
-        internal ICommandValidationService CommandValidationService { get; set; } = new CommandValidationService();
-        internal IValueConverterFactory ValueConverterFactory { get; set; } = new ValueConverterFactory();
+        internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
+        internal IOptionValidationService OptionValidationService => new OptionValidationService();
+        internal ICommandValidationService CommandValidationService => new CommandValidationService();
+        internal IValueConverterFactory ValueConverterFactory => new ValueConverterFactory();
+        internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
 
         public void Execute(string[] args, Action<T> onExecute)
         {
@@ -89,9 +90,7 @@ namespace ArgsMapper
 
             try
             {
-                result.Model = new ArgumentMapper<T>(this,
-                        new ReflectionService(new ValueConverterFactory()))
-                    .Map(result.Model, args);
+                result.Model = new ArgumentMapper<T>(this, ReflectionService).Map(result.Model, args);
             }
             catch (UsageException e)
             {
