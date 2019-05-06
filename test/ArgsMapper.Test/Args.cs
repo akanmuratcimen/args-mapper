@@ -20,30 +20,36 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ArgsMapper.Test
 {
+    [ExcludeFromCodeCoverage]
     internal class OneBoolOptionArgs
     {
         public bool Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneIntOptionArgs
     {
         public int Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneBoolWithoutSetterOptionArgs
     {
         // ReSharper disable once UnassignedGetOnlyAutoProperty
         public bool Option { get; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneInternalBoolOptionArgs
     {
         internal bool Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneBoolMethodOptionArgs
     {
         public bool Option()
@@ -52,6 +58,7 @@ namespace ArgsMapper.Test
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneBoolFieldOptionArgs
     {
 #pragma warning disable CS0649
@@ -59,94 +66,112 @@ namespace ArgsMapper.Test
 #pragma warning restore
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneByteOptionArgs
     {
         public byte Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneBoolOptionAndOneBoolOptionArgs
     {
         public OneBoolOptionArgs Command { get; set; }
         public bool Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneLongNamedCommandWithOneBoolOptionArgs
     {
         public OneBoolOptionArgs SomeCommandProperty { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneBoolOptionAndOneIntOptionArgs
     {
         public OneBoolOptionArgs Command { get; set; }
         public int Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneListStringOptionArgs
     {
         public List<string> Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneListIntOptionArgs
     {
         public List<int> Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneByteOptionArgs
     {
         public OneByteOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneBoolOptionArgs
     {
         public OneBoolOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneIntOptionArgs
     {
         public OneIntOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneClassWithOneBoolOption
     {
         public OneCommandWithOneBoolOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneListStringOption
     {
         public OneListStringOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneListIntOption
     {
         public OneListIntOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneBoolWithoutSetterOptionArgs
     {
         public OneBoolWithoutSetterOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneInternalBoolOptionArgs
     {
         public OneInternalBoolOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneBoolMethodOptionArgs
     {
         public OneBoolMethodOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithoutSetterWithOneBoolOptionArgs
     {
         // ReSharper disable once UnassignedGetOnlyAutoProperty
         public OneBoolOptionArgs Command { get; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneInternalCommandWithOneBoolOptionArgs
     {
         internal OneBoolOptionArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandMethodWithOneBoolOptionArgs
     {
         public OneBoolOptionArgs Command()
@@ -155,6 +180,7 @@ namespace ArgsMapper.Test
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class ThreeIntOptionsArgs
     {
         public int Option1 { get; set; }
@@ -162,6 +188,7 @@ namespace ArgsMapper.Test
         public int Option3 { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class FourBoolOptionArgs
     {
         public bool Option1 { get; set; }
@@ -170,20 +197,13 @@ namespace ArgsMapper.Test
         public bool Option4 { get; set; }
     }
 
-    internal class OneCommandWithThreeIntOptionsFourBoolOptionArgs
-    {
-        public ThreeIntOptionsArgs Command { get; set; }
-
-        public bool Option1 { get; set; }
-        public bool Option2 { get; set; }
-        public bool Option3 { get; set; }
-    }
-
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithThreeIntOptionsArgs
     {
         public ThreeIntOptionsArgs Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class TwoLevelNestedClass
     {
         public NestedModelA NestedA { get; set; }
@@ -199,6 +219,7 @@ namespace ArgsMapper.Test
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneLevelNestedClass
     {
         public NestedModel Nested { get; set; }
@@ -209,6 +230,7 @@ namespace ArgsMapper.Test
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneLevelNestedClassWithTwoBoolOptionArgs
     {
         public NestedModel Nested { get; set; }
@@ -220,18 +242,35 @@ namespace ArgsMapper.Test
         }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithTwoLevelNestedClass
     {
         public TwoLevelNestedClass Command { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneLongNamedBoolOptionArgs
     {
         public bool SomeOptionProperty { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneLongNamedBoolOptionArgs
     {
         public OneLongNamedBoolOptionArgs Command { get; set; }
+    }
+
+    internal enum SampleEnum
+    {
+        Value1,
+        Value2,
+        Value3
+    }
+
+    internal enum SampleUshortEnum : ushort
+    {
+        Value1,
+        Value2,
+        Value3
     }
 }

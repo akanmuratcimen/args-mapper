@@ -37,9 +37,11 @@ namespace ArgsMapper.ValueConversion
 
     internal class ValueConverterFactory : IValueConverterFactory
     {
+        private readonly IDictionary<Type, IValueConverter> _converters;
+
         internal ValueConverterFactory()
         {
-            Converters = new Dictionary<Type, IValueConverter> {
+            _converters = new Dictionary<Type, IValueConverter> {
                 [typeof(char)] = new CharValueConverter(),
                 [typeof(bool)] = new BoolValueConverter(),
                 [typeof(short)] = new ShortValueConverter(),
@@ -55,13 +57,12 @@ namespace ArgsMapper.ValueConversion
                 [typeof(Guid)] = new GuidValueConverter(),
                 [typeof(TimeSpan)] = new TimeSpanValueConverter(),
                 [typeof(DateTime)] = new DateTimeValueConverter(),
-                [typeof(Uri)] = new UriValueConverter()
+                [typeof(Uri)] = new UriValueConverter(),
+                [typeof(Enum)] = new EnumValueConverter()
             };
         }
 
-        private IDictionary<Type, IValueConverter> Converters { get; }
-
-        private HashSet<Type> SupportedTypes => new HashSet<Type>(Converters.Keys);
+        private HashSet<Type> SupportedTypes => new HashSet<Type>(_converters.Keys);
 
         public object Convert(IList<string> values, Type type, IFormatProvider formatProvider)
         {
@@ -70,28 +71,14 @@ namespace ArgsMapper.ValueConversion
                 return CreateListWithValues(type.GetFirstGenericArgument(), values, formatProvider);
             }
 
-            var value = values.Count > 1 ? values.LastOrDefault() : values.FirstOrDefault();
+            var value = values.LastOrDefault();
 
             if (type.IsNullable() && string.IsNullOrEmpty(value))
             {
                 return null;
             }
 
-            return Converters[type.GetBaseType()].Convert(value, formatProvider);
-        }
-
-        private IList CreateListWithValues(Type itemType, IEnumerable<string> values,
-            IFormatProvider formatProvider)
-        {
-            var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
-            var converter = Converters[itemType.GetBaseType()];
-
-            foreach (var value in values)
-            {
-                list.Add(converter.Convert(value, formatProvider));
-            }
-
-            return list;
+            return ConvertImpl(type, value, formatProvider);
         }
 
         public bool IsSupportedBaseType(Type type)
@@ -102,6 +89,35 @@ namespace ArgsMapper.ValueConversion
         public bool IsSupportedType(Type type)
         {
             return SupportedTypes.Contains(type);
+        }
+
+        private IList CreateListWithValues(Type itemType, IEnumerable<string> values, IFormatProvider formatProvider)
+        {
+            var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
+
+            foreach (var value in values)
+            {
+                list.Add(ConvertImpl(itemType, value, formatProvider));
+            }
+
+            return list;
+        }
+
+        private object ConvertImpl(Type type, string value, IFormatProvider formatProvider)
+        {
+            var converter = _converters[type.GetBaseType()];
+
+            switch (converter)
+            {
+                case ICustomTypeValueConverter customTypeValueConverter:
+                    return customTypeValueConverter.Convert(value, type, formatProvider);
+
+                case ISystemTypeValueConverter systemTypeValueConverter:
+                    return systemTypeValueConverter.Convert(value, formatProvider);
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

@@ -33,6 +33,11 @@ namespace ArgsMapper.Utilities
                 return type.GetFirstGenericArgument();
             }
 
+            if (type.IsEnum)
+            {
+                return typeof(Enum);
+            }
+
             if (type.IsNullable())
             {
                 return Nullable.GetUnderlyingType(type);

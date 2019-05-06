@@ -23,11 +23,17 @@ using System;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class GuidValueConverter : ISystemTypeValueConverter
+    internal class EnumValueConverter : ICustomTypeValueConverter
     {
-        public object Convert(string value, IFormatProvider formatProvider)
+        public object Convert(string value, Type type, IFormatProvider formatProvider)
         {
-            return Guid.Parse(value);
+            return ToEnum(type, value) ?? throw new ArgumentOutOfRangeException();
+        }
+
+        private static object ToEnum(Type type, string value)
+        {
+            return Enum.TryParse(type, value, true, out var result)
+                && Enum.IsDefined(type, result.ToString()) ? result : null;
         }
     }
 }
