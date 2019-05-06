@@ -20,13 +20,12 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
     internal class UriValueConverter : IValueConverter
     {
-        public object Convert(string value, CultureInfo cultureInfo)
+        public object Convert(string value, IFormatProvider formatProvider)
         {
             return new Uri(value);
         }

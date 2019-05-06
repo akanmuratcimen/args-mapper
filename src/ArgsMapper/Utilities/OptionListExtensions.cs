@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -83,11 +83,6 @@ namespace ArgsMapper.Utilities
         internal static bool HasPositionalOption(this IEnumerable<Option> options)
         {
             return options.Any(x => x.IsPositionalOption);
-        }
-
-        internal static bool HasNonPositionalOption(this IEnumerable<Option> options)
-        {
-            return options.Any(x => !x.IsPositionalOption);
         }
     }
 }

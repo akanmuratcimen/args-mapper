@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -20,9 +20,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.Utilities
 {
@@ -32,14 +30,7 @@ namespace ArgsMapper.Utilities
         {
             if (type.IsList())
             {
-                var genericArgument = type.GetFirstGenericArgument();
-
-                if (genericArgument.IsNullable())
-                {
-                    return Nullable.GetUnderlyingType(genericArgument);
-                }
-
-                return genericArgument;
+                return type.GetFirstGenericArgument();
             }
 
             if (type.IsNullable())
@@ -60,20 +51,6 @@ namespace ArgsMapper.Utilities
             return type.GetGenericArguments()[0];
         }
 
-        internal static bool IsBaseSupported(this Type type)
-        {
-            return ValueConverters.SupportedTypes.Contains(type.GetBaseType());
-        }
-
-        internal static bool IsCollection(this Type type)
-        {
-            return
-                typeof(ICollection).IsAssignableFrom(type) ||
-                typeof(ICollection<>).IsAssignableFrom(type) ||
-                typeof(IEnumerable).IsAssignableFrom(type) ||
-                typeof(IEnumerable<>).IsAssignableFrom(type);
-        }
-
         internal static bool IsList(this Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
@@ -82,11 +59,6 @@ namespace ArgsMapper.Utilities
         internal static bool IsNullable(this Type type)
         {
             return Nullable.GetUnderlyingType(type) != null;
-        }
-
-        internal static bool IsSupported(this Type type)
-        {
-            return ValueConverters.SupportedTypes.Contains(type);
         }
     }
 }

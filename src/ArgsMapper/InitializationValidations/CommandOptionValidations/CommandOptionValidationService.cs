@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -20,36 +20,38 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.OptionValidations.Validators;
+using ArgsMapper.InitializationValidations.CommandOptionValidations.Validators;
 using ArgsMapper.Models;
 
-namespace ArgsMapper.InitializationValidations.OptionValidations
+namespace ArgsMapper.InitializationValidations.CommandOptionValidations
 {
-    internal interface IOptionInitializationValidator
+    internal interface ICommandOptionValidationService
     {
-        void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class;
+        void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
+            Option option) where T : class;
     }
 
-    internal class OptionInitializationValidator
+    internal class CommandOptionValidationService : ICommandOptionValidationService
     {
-        private static IEnumerable<IOptionInitializationValidator> Validators
+        internal CommandOptionValidationService()
         {
-            get
-            {
-                yield return new OptionPropertyTypeValidator();
-                yield return new OptionLongNameValidator();
-                yield return new OptionLongNameDuplicationValidator();
-                yield return new OptionShortNameValidator();
-                yield return new OptionShortNameDuplicationValidator();
-                yield return new PositionalOptionAndCommandConflictValidator();
-            }
+            Validators = new List<ICommandOptionValidator> {
+                new CommandOptionPropertyTypeValidator(),
+                new CommandOptionLongNameValidator(),
+                new CommandOptionLongNameDuplicationValidator(),
+                new CommandOptionShortNameDuplicationValidator(),
+                new CommandOptionShortNameValidator()
+            };
         }
 
-        internal static void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        private IEnumerable<ICommandOptionValidator> Validators { get; }
+
+        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
+            Option option) where T : class
         {
             foreach (var validator in Validators)
             {
-                validator.Validate(mapper, option);
+                validator.Validate(commandSettings, option);
             }
         }
     }

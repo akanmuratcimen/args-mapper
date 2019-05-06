@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -20,7 +20,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -161,27 +160,26 @@ namespace ArgsMapper.Test
         }
 
         [Theory]
-        [InlineData(typeof(int[]))]
-        [InlineData(typeof(List<int>))]
-        [InlineData(typeof(IList<int>))]
-        [InlineData(typeof(IEnumerable<int>))]
-        [InlineData(typeof(ICollection<int>))]
-        [InlineData(typeof(IReadOnlyCollection<int>))]
-        [InlineData(typeof(IReadOnlyList<int>))]
-        [InlineData(typeof(Hashtable))]
-        [InlineData(typeof(HashSet<int>))]
-        [InlineData(typeof(Queue<int>))]
-        [InlineData(typeof(Stack<int>))]
-        [InlineData(typeof(SortedList<int, int>))]
-        [InlineData(typeof(SortedSet<int>))]
-        [InlineData(typeof(IEnumerable))]
-        [InlineData(typeof(IList))]
-        [InlineData(typeof(IDictionary))]
-        [InlineData(typeof(IDictionary<int, int>))]
-        [InlineData(typeof(ArrayList))]
-        internal void TypeExtensions_IsArrayOrCollection(Type value)
+        [InlineData(typeof(IList<string>), typeof(string))]
+        [InlineData(typeof(IDictionary<int, string>), typeof(int))]
+        [InlineData(typeof(Queue<long>), typeof(long))]
+        [InlineData(typeof(string), null)]
+        internal void TypeExtensions_GetFirstGenericArgument(Type genericType, Type expectedType)
         {
-            Assert.True(value.IsCollection());
+            Assert.Equal(expectedType, genericType.GetFirstGenericArgument());
+        }
+
+        [Fact]
+        internal void Command_ToString_Should_Throw_ArgumentNullException()
+        {
+            // Arrange
+            var command = new Command {
+                Name = "command",
+                CultureInfo = null
+            };
+
+            // Act && Assert
+            Assert.Throws<ArgumentNullException>(() => command.ToString());
         }
 
         [Fact]
@@ -201,6 +199,25 @@ namespace ArgsMapper.Test
                 ((Expression<Func<TwoLevelNestedClass, bool>>)
                     (x => x.NestedA.NestedB.Option)).GetPropertyInfos()
                 .GetName(CultureInfo.InvariantCulture));
+
+            Assert.Throws<ArgumentException>(() =>
+                ((Expression<Func<OneBoolFieldOptionArgs, bool>>)
+                    (x => x.Option)).GetPropertyInfos()
+                .GetName(CultureInfo.InvariantCulture));
+        }
+
+        [Fact]
+        internal void Option_ToString_Should_Throw_ArgumentNullException()
+        {
+            // Arrange
+            var option = new Option {
+                ShortName = 'o',
+                LongName = "option",
+                CultureInfo = null
+            };
+
+            // Act && Assert
+            Assert.Throws<ArgumentNullException>(() => option.ToString());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -24,14 +24,22 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
-    internal class OptionShortNameValidator : IOptionInitializationValidator
+    internal class OptionShortNameValidator : IOptionValidator
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
             // ReSharper disable once PossibleInvalidOperationException
-            if (option.HasShortName && option.ShortName.Value.IsReservedOptionShortName())
+            if (option.HasShortName)
             {
-                throw new ReservedOptionShortNameException(option.ShortName.Value);
+                if (!char.IsLetter(option.ShortName.Value))
+                {
+                    throw new InvalidOptionShortNameException(option.ShortName.Value);
+                }
+
+                if (option.ShortName.Value.IsReservedOptionShortName())
+                {
+                    throw new ReservedOptionShortNameException(option.ShortName.Value);
+                }
             }
         }
     }

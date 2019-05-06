@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -39,6 +39,24 @@ namespace ArgsMapper.Test.InitializationValidationTests
             // Assert
             Assert.Throws<InvalidOptionLongNameException>(() =>
                 mapper.AddOption(x => x.Option, optionLongName)
+            );
+        }
+
+        [Theory]
+        [InlineData('0')]
+        [InlineData('-')]
+        [InlineData('/')]
+        [InlineData('+')]
+        [InlineData('=')]
+        [InlineData('.')]
+        internal void AddOption_Should_Throw_InvalidOptionShortNameException(char optionShortName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<InvalidOptionShortNameException>(() =>
+                mapper.AddOption(x => x.Option, optionShortName, "option")
             );
         }
 

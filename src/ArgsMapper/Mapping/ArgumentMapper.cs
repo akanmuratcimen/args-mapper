@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -31,10 +31,12 @@ namespace ArgsMapper.Mapping
     internal class ArgumentMapper<T> where T : class
     {
         private readonly ArgsMapper<T> _mapper;
+        private readonly IReflectionService _reflectionService;
 
-        internal ArgumentMapper(ArgsMapper<T> mapper)
+        internal ArgumentMapper(ArgsMapper<T> mapper, IReflectionService reflectionService)
         {
             _mapper = mapper;
+            _reflectionService = reflectionService;
         }
 
         internal T Map(T model, string[] args)
@@ -61,7 +63,7 @@ namespace ArgsMapper.Mapping
                 throw new UnknownCommandException(args[0]);
             }
 
-            var commandInstance = command.SetValue(model);
+            var commandInstance = _reflectionService.SetValue(command, model);
 
             var proceededOptions = new HashSet<Option>();
 
@@ -74,7 +76,8 @@ namespace ArgsMapper.Mapping
                     continue;
                 }
 
-                option.SetValue(commandInstance, args[i], _mapper.Settings.Culture);
+                _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
+
                 proceededOptions.Add(option);
             }
 
@@ -110,12 +113,12 @@ namespace ArgsMapper.Mapping
                     continue;
                 }
 
-                option.SetValue(commandInstance, option.DefaultValue);
+                _reflectionService.SetValue(option, commandInstance, option.DefaultValue);
             }
 
             foreach (var (option, values) in groupedOptions)
             {
-                option.SetValue(commandInstance, values, _mapper.Settings.Culture);
+                _reflectionService.SetValue(option, commandInstance, values, _mapper.Settings.Culture);
             }
 
             return model;
@@ -134,7 +137,8 @@ namespace ArgsMapper.Mapping
                     continue;
                 }
 
-                option.SetValue(model, args[i], _mapper.Settings.Culture);
+                _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);
+
                 proceededOptions.Add(option);
             }
 
@@ -170,12 +174,12 @@ namespace ArgsMapper.Mapping
                     continue;
                 }
 
-                option.SetValue(model, option.DefaultValue);
+                _reflectionService.SetValue(option, model, option.DefaultValue);
             }
 
             foreach (var (option, values) in groupedOptions)
             {
-                option.SetValue(model, values, _mapper.Settings.Culture);
+                _reflectionService.SetValue(option, model, values, _mapper.Settings.Culture);
             }
 
             return model;

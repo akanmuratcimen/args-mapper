@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -22,14 +22,24 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ArgsMapper.InitializationValidations.CommandOptionValidations;
+using ArgsMapper.InitializationValidations.CommandValidations;
+using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
     public sealed class ArgsMapper<T> where T : class
     {
+        private ICommandOptionValidationService _commandOptionValidationService;
+        private ICommandValidationService _commandValidationService;
+        private IOptionValidationService _optionValidationService;
+        private IReflectionService _reflectionService;
+        private IValueConverterFactory _valueConverterFactory;
+
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();
 
@@ -37,6 +47,21 @@ namespace ArgsMapper
         ///     Settings of the mapper.
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
+
+        internal IOptionValidationService OptionValidationService => _optionValidationService ??
+            (_optionValidationService = new OptionValidationService());
+
+        internal ICommandValidationService CommandValidationService => _commandValidationService ??
+            (_commandValidationService = new CommandValidationService());
+
+        internal IValueConverterFactory ValueConverterFactory => _valueConverterFactory ??
+            (_valueConverterFactory = new ValueConverterFactory());
+
+        internal IReflectionService ReflectionService => _reflectionService ??
+            (_reflectionService = new ReflectionService(ValueConverterFactory));
+
+        internal ICommandOptionValidationService CommandOptionValidationService => _commandOptionValidationService ??
+            (_commandOptionValidationService = new CommandOptionValidationService());
 
         public void Execute(string[] args, Action<T> onExecute)
         {
@@ -80,7 +105,7 @@ namespace ArgsMapper
 
             try
             {
-                result.Model = new ArgumentMapper<T>(this).Map(result.Model, args);
+                result.Model = new ArgumentMapper<T>(this, ReflectionService).Map(result.Model, args);
             }
             catch (UsageException e)
             {
@@ -90,7 +115,7 @@ namespace ArgsMapper
             return result;
         }
 
-        internal string VersionInfo(string[] args)
+        private string VersionInfo(string[] args)
         {
             if (args.IsNullOrEmpty())
             {

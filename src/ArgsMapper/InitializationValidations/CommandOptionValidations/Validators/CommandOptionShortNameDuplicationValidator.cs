@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -24,9 +24,10 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
 {
-    internal class CommandOptionShortNameDuplicationValidator : ICommandOptionInitializationValidator
+    internal class CommandOptionShortNameDuplicationValidator : ICommandOptionValidator
     {
-        public void Validate<T>(ArgsCommandSettings<T> commandSettings, Option commandOption) where T : class
+        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
+            Option commandOption) where T : class
         {
             if (!commandOption.HasShortName)
             {

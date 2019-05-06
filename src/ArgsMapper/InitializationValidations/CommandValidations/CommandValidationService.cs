@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -25,24 +25,25 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.InitializationValidations.CommandValidations
 {
-    internal interface ICommandInitializationValidator
+    internal interface ICommandValidationService
     {
         void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class;
     }
 
-    internal class CommandInitializationValidator
+    internal class CommandValidationService : ICommandValidationService
     {
-        private static IEnumerable<ICommandInitializationValidator> Validators
+        public CommandValidationService()
         {
-            get
-            {
-                yield return new CommandNameValidator();
-                yield return new CommandNameDuplicationValidator();
-                yield return new CommandAndPositionalOptionConflictValidator();
-            }
+            Validators = new List<ICommandValidator> {
+                new CommandNameValidator(),
+                new CommandNameDuplicationValidator(),
+                new CommandAndPositionalOptionConflictValidator()
+            };
         }
 
-        internal static void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class
+        private IEnumerable<ICommandValidator> Validators { get; }
+
+        public void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class
         {
             foreach (var validator in Validators)
             {

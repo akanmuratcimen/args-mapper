@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -50,6 +50,11 @@ namespace ArgsMapper.Test
         {
             return false;
         }
+    }
+
+    internal class OneBoolFieldOptionArgs
+    {
+        public bool Option;
     }
 
     internal class OneByteOptionArgs

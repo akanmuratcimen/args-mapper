@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -70,6 +70,26 @@ namespace ArgsMapper.Test.InitializationValidationTests
             mapper.AddCommand(x => x.Command, "command", commandSettings => {
                 Assert.Throws<InvalidCommandOptionLongNameException>(() =>
                     commandSettings.AddOption(x => x.Option, optionLongName)
+                );
+            });
+        }
+
+        [Theory]
+        [InlineData('0')]
+        [InlineData('-')]
+        [InlineData('/')]
+        [InlineData('+')]
+        [InlineData('=')]
+        [InlineData('.')]
+        internal void AddCommand_AddOption_Should_Throw_InvalidCommandOptionShortNameException(char optionShortName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                Assert.Throws<InvalidCommandOptionShortNameException>(() =>
+                    commandSettings.AddOption(x => x.Option, optionShortName, "option")
                 );
             });
         }
