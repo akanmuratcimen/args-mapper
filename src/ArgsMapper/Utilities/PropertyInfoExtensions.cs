@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -27,9 +27,9 @@ namespace ArgsMapper.Utilities
 {
     internal static class PropertyInfoExtensions
     {
-        internal static string GetName(this PropertyInfo[] propertyInfos, CultureInfo culture)
+        internal static string GetName(this PropertyInfo[] propertyInfos, CultureInfo cultureInfo)
         {
-            return string.Join('.', propertyInfos.Select(x => x.Name.ToHyphenCase(culture)));
+            return string.Join('.', propertyInfos.Select(x => x.Name.ToHyphenCase(cultureInfo)));
         }
 
         internal static bool HasPublicSetterMethod(this PropertyInfo propertyInfo)

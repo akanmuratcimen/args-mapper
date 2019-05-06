@@ -34,6 +34,12 @@ namespace ArgsMapper
 {
     public sealed class ArgsMapper<T> where T : class
     {
+        private ICommandOptionValidationService _commandOptionValidationService;
+        private ICommandValidationService _commandValidationService;
+        private IOptionValidationService _optionValidationService;
+        private IReflectionService _reflectionService;
+        private IValueConverterFactory _valueConverterFactory;
+
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();
 
@@ -42,11 +48,20 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
-        internal IOptionValidationService OptionValidationService => new OptionValidationService();
-        internal ICommandValidationService CommandValidationService => new CommandValidationService();
-        internal IValueConverterFactory ValueConverterFactory => new ValueConverterFactory();
-        internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
+        internal IOptionValidationService OptionValidationService => _optionValidationService ??
+            (_optionValidationService = new OptionValidationService());
+
+        internal ICommandValidationService CommandValidationService => _commandValidationService ??
+            (_commandValidationService = new CommandValidationService());
+
+        internal IValueConverterFactory ValueConverterFactory => _valueConverterFactory ??
+            (_valueConverterFactory = new ValueConverterFactory());
+
+        internal IReflectionService ReflectionService => _reflectionService ??
+            (_reflectionService = new ReflectionService(ValueConverterFactory));
+
+        internal ICommandOptionValidationService CommandOptionValidationService => _commandOptionValidationService ??
+            (_commandOptionValidationService = new CommandOptionValidationService());
 
         public void Execute(string[] args, Action<T> onExecute)
         {

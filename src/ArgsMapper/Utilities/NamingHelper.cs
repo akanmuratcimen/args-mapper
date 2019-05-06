@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -31,7 +31,7 @@ namespace ArgsMapper.Utilities
             return value.All(char.IsUpper);
         }
 
-        internal static string ToHyphenCase(this string value, CultureInfo culture)
+        internal static string ToHyphenCase(this string value, CultureInfo cultureInfo)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -40,15 +40,15 @@ namespace ArgsMapper.Utilities
 
             if (IsUpperCase(value))
             {
-                return value.ToLower(culture);
+                return value.ToLower(cultureInfo);
             }
 
             return string
                 .Concat(value.Select((x, i) =>
                     i > 0 && char.IsUpper(x)
-                        ? "-" + x.ToString(culture)
-                        : x.ToString(culture)))
-                .ToLower(culture);
+                        ? "-" + x.ToString(cultureInfo)
+                        : x.ToString(cultureInfo)))
+                .ToLower(cultureInfo);
         }
     }
 }

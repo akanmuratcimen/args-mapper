@@ -20,7 +20,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace ArgsMapper.Utilities
@@ -31,14 +30,7 @@ namespace ArgsMapper.Utilities
         {
             if (type.IsList())
             {
-                var genericArgument = type.GetFirstGenericArgument();
-
-                if (genericArgument.IsNullable())
-                {
-                    return Nullable.GetUnderlyingType(genericArgument);
-                }
-
-                return genericArgument;
+                return type.GetFirstGenericArgument();
             }
 
             if (type.IsNullable())
@@ -57,15 +49,6 @@ namespace ArgsMapper.Utilities
             }
 
             return type.GetGenericArguments()[0];
-        }
-
-        internal static bool IsCollection(this Type type)
-        {
-            return
-                typeof(ICollection).IsAssignableFrom(type) ||
-                typeof(ICollection<>).IsAssignableFrom(type) ||
-                typeof(IEnumerable).IsAssignableFrom(type) ||
-                typeof(IEnumerable<>).IsAssignableFrom(type);
         }
 
         internal static bool IsList(this Type type)
