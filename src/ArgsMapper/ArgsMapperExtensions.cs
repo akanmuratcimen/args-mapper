@@ -37,7 +37,7 @@ namespace ArgsMapper
         ///     Adds a new command to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TCommand">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="name">The name for the command.</param>
@@ -59,10 +59,10 @@ namespace ArgsMapper
         ///     Throws when the <paramref name="propertySelector" /> is not refers to a property or
         ///     It has no public setter method or It is not a public property at all.
         /// </exception>
-        public static void AddCommand<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, string name)
+        public static void AddCommand<T, TCommand>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TCommand>> propertySelector, string name)
             where T : class
-            where TProperty : class
+            where TCommand : class
         {
             AddCommand(mapper, propertySelector, name, null);
         }
@@ -71,7 +71,7 @@ namespace ArgsMapper
         ///     Adds a new command to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TCommand">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <exception cref="CommandConflictsWithPositionalOptionException">
@@ -81,10 +81,10 @@ namespace ArgsMapper
         ///     Throws when the <paramref name="propertySelector" /> is not refers to a property or
         ///     It has no public setter method or It is not a public property at all.
         /// </exception>
-        public static void AddCommand<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector)
+        public static void AddCommand<T, TCommand>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TCommand>> propertySelector)
             where T : class
-            where TProperty : class
+            where TCommand : class
         {
             AddCommand(mapper, propertySelector, null, null);
         }
@@ -93,10 +93,10 @@ namespace ArgsMapper
         ///     Adds a new command to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TCommand">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <exception cref="CommandConflictsWithPositionalOptionException">
         ///     A command cannot be defined if a positional option is already defined.
         /// </exception>
@@ -104,11 +104,11 @@ namespace ArgsMapper
         ///     Throws when the <paramref name="propertySelector" /> is not refers to a property or
         ///     It has no public setter method or It is not a public property at all.
         /// </exception>
-        public static void AddCommand<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector,
-            Action<ArgsCommandSettings<T, TProperty>> commandSettings)
+        public static void AddCommand<T, TCommand>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TCommand>> propertySelector,
+            Action<ArgsCommandSettings<T, TCommand>> commandSettings)
             where T : class
-            where TProperty : class
+            where TCommand : class
         {
             AddCommand(mapper, propertySelector, null, commandSettings);
         }
@@ -117,11 +117,11 @@ namespace ArgsMapper
         ///     Adds a new command to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TCommand">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="name">The name for the command.</param>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <exception cref="CommandNameRequiredException">
         ///     Command <paramref name="name" /> is null or empty.
         /// </exception>
@@ -140,11 +140,11 @@ namespace ArgsMapper
         ///     Throws when the <paramref name="propertySelector" /> is not refers to a property or
         ///     It has no public setter method or It is not a public property at all.
         /// </exception>
-        public static void AddCommand<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, string name,
-            Action<ArgsCommandSettings<T, TProperty>> commandSettings)
+        public static void AddCommand<T, TCommand>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TCommand>> propertySelector, string name,
+            Action<ArgsCommandSettings<T, TCommand>> commandSettings)
             where T : class
-            where TProperty : class
+            where TCommand : class
         {
             var command = CommandInitializer.Initialize(mapper, propertySelector, name, commandSettings);
 
@@ -157,7 +157,7 @@ namespace ArgsMapper
         ///     Adds a new option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
@@ -166,8 +166,8 @@ namespace ArgsMapper
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists in the <see cref="ArgsMapper{T}" />.
         /// </exception>
-        public static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector)
+        public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector)
             where T : class
         {
             AddOption(mapper, propertySelector, null, null, false, null);
@@ -177,7 +177,7 @@ namespace ArgsMapper
         ///     Adds a new option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
@@ -187,9 +187,9 @@ namespace ArgsMapper
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists in the <see cref="ArgsMapper{T}" />.
         /// </exception>
-        public static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector,
-            Action<ArgsOptionSettings<TProperty>> optionSettings)
+        public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector,
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
             AddOption(mapper, propertySelector, null, null, false, optionSettings);
@@ -199,7 +199,7 @@ namespace ArgsMapper
         ///     Adds a new option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
@@ -217,8 +217,8 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, string longName)
+        public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, string longName)
             where T : class
         {
             AddOption(mapper, propertySelector, null, longName, false, null);
@@ -228,7 +228,7 @@ namespace ArgsMapper
         ///     Adds a new option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
@@ -247,9 +247,9 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TProperty>> optionSettings)
+        public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, string longName,
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
             AddOption(mapper, propertySelector, null, longName, false, optionSettings);
@@ -259,7 +259,7 @@ namespace ArgsMapper
         ///     Adds a new option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="shortName">The short name for the option.</param>
@@ -282,8 +282,8 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, char shortName, string longName)
+        public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, char shortName, string longName)
             where T : class
         {
             AddOption(mapper, propertySelector, shortName, longName, false, null);
@@ -293,7 +293,7 @@ namespace ArgsMapper
         ///     Adds a new option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="shortName">The short name for the option.</param>
@@ -317,17 +317,17 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, char shortName, string longName,
-            Action<ArgsOptionSettings<TProperty>> optionSettings)
+        public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, char shortName, string longName,
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
             AddOption(mapper, propertySelector, shortName, longName, false, optionSettings);
         }
 
-        private static void AddOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, char? shortName, string longName,
-            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings)
+        private static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, char? shortName, string longName,
+            bool isPositional, Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
             ushort? position = null;
@@ -349,14 +349,14 @@ namespace ArgsMapper
         ///     Adds a new positional option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector)
+        public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector)
             where T : class
         {
             AddOption(mapper, propertySelector, null, null, true, null);
@@ -366,18 +366,18 @@ namespace ArgsMapper
         ///     Adds a new positional option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector,
-            Action<ArgsOptionSettings<TProperty>> optionSettings)
+        public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector,
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
-            where TProperty : IComparable, IConvertible, IEquatable<TProperty>
+            where TOption : IComparable, IConvertible, IEquatable<TOption>
         {
             AddOption(mapper, propertySelector, null, null, true, optionSettings);
         }
@@ -386,17 +386,17 @@ namespace ArgsMapper
         ///     Adds a new positional option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, string longName)
+        public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, string longName)
             where T : class
-            where TProperty : IComparable, IConvertible, IEquatable<TProperty>
+            where TOption : IComparable, IConvertible, IEquatable<TOption>
         {
             AddOption(mapper, propertySelector, null, longName, true, null);
         }
@@ -405,7 +405,7 @@ namespace ArgsMapper
         ///     Adds a new positional option to the <see cref="ArgsMapper{T}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the model.</typeparam>
+        /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
@@ -413,11 +413,11 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TProperty>(this ArgsMapper<T> mapper,
-            Expression<Func<T, TProperty>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TProperty>> optionSettings)
+        public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
+            Expression<Func<T, TOption>> propertySelector, string longName,
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
-            where TProperty : IComparable, IConvertible, IEquatable<TProperty>
+            where TOption : IComparable, IConvertible, IEquatable<TOption>
         {
             AddOption(mapper, propertySelector, null, longName, true, optionSettings);
         }

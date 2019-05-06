@@ -28,37 +28,40 @@ using ArgsMapper.Utilities;
 namespace ArgsMapper
 {
     /// <summary>
-    ///     <see cref="ArgsCommandSettings{T, TProperty}" /> extension
+    ///     <see cref="ArgsCommandSettings{T, TCommand}" /> extension
     ///     methods to add option or positional option to command.
     /// </summary>
     public static class ArgsCommandSettingsExtensions
     {
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists
-        ///     in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        public static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector) where T : class
+        public static void AddOption<T, TCommand, TOption>(
+            this ArgsCommandSettings<T, TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector) where T : class
         {
             AddOption(commandSettings, propertySelector, null, null, false, null);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
@@ -66,21 +69,24 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists
-        ///     in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        public static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, Action<ArgsOptionSettings<TProperty>> optionSettings)
+        public static void AddOption<T, TCommand, TOption>(
+            this ArgsCommandSettings<T, TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector, 
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
             AddOption(commandSettings, propertySelector, null, null, false, optionSettings);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <exception cref="OptionLongNameRequiredException">
@@ -92,23 +98,25 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
-        ///     already exists in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, string longName) where T : class
+        public static void AddOption<T, TCommand, TOption>(
+            this ArgsCommandSettings<T, TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector, string longName) where T : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, null);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
@@ -121,24 +129,26 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
-        ///     already exists in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TProperty>> optionSettings) where T : class
+        public static void AddOption<T, TCommand, TOption>(
+            this ArgsCommandSettings<T, TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector, string longName,
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, optionSettings);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="shortName">The short name for the option.</param>
         /// <param name="longName">The long name for the option.</param>
@@ -151,27 +161,30 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="OptionShortNameAlreadyExistsException">
         ///     An option with the same <paramref name="shortName" />
-        ///     already exists in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
-        ///     already exists in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, char shortName, string longName) where T : class
+        public static void AddOption<T, TCommand, TOption>(
+            this ArgsCommandSettings<T, TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector, 
+            char shortName, string longName) where T : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, null);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="shortName">The short name for the option.</param>
         /// <param name="longName">The long name for the option.</param>
@@ -185,18 +198,20 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="OptionShortNameAlreadyExistsException">
         ///     An option with the same <paramref name="shortName" />
-        ///     already exists in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
-        ///     already exists in the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        public static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, char shortName, string longName,
-            Action<ArgsOptionSettings<TProperty>> optionSettings) where T : class
+        public static void AddOption<T, TCommand, TOption>(
+            this ArgsCommandSettings<T, TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector, 
+            char shortName, string longName,
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, optionSettings);
         }
@@ -221,76 +236,80 @@ namespace ArgsMapper
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TCommand, TProperty>(
+        public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector) where T : class
         {
             AddOption(commandSettings, propertySelector, null, null, true, null);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TCommand, TProperty>(
+        public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector,
-            Action<ArgsOptionSettings<TProperty>> optionSettings)
+            Expression<Func<TCommand, TOption>> propertySelector,
+            Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
             AddOption(commandSettings, propertySelector, null, null, true, optionSettings);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TCommand, TProperty>(
+        public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TProperty>> optionSettings) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector, string longName,
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, optionSettings);
         }
 
         /// <summary>
-        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TProperty}" />.
+        ///     Adds a new option to the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </summary>
         /// <typeparam name="T">The type of the arguments model.</typeparam>
-        /// <typeparam name="TProperty">The type of the property of the command model.</typeparam>
-        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TProperty}" /> for the command.</param>
+        /// <typeparam name="TCommand">The type of the command.</typeparam>
+        /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
+        /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
         ///     Throws when the positional option property not supported.
         /// </exception>
-        public static void AddPositionalOption<T, TCommand, TProperty>(
+        public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, string longName) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector, string longName) where T : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, null);
         }
