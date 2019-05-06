@@ -24,7 +24,7 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.InitializationValidations.CommandValidations.Validators
 {
-    internal class CommandNameDuplicationValidator : ICommandInitializationValidator
+    internal class CommandNameDuplicationValidator : ICommandValidator
     {
         public void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class
         {

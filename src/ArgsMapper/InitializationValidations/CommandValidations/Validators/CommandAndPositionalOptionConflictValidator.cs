@@ -24,7 +24,7 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.InitializationValidations.CommandValidations.Validators
 {
-    internal class CommandAndPositionalOptionConflictValidator : ICommandInitializationValidator
+    internal class CommandAndPositionalOptionConflictValidator : ICommandValidator
     {
         public void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class
         {

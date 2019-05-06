@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -24,12 +24,13 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
 {
-    internal class CommandOptionLongNameDuplicationValidator : ICommandOptionInitializationValidator
+    internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
     {
-        public void Validate<T>(ArgsCommandSettings<T> commandSettings, Option commandOption) where T : class
+        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
+            Option commandOption) where T : class
         {
             if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                commandOption.LongName, commandSettings.StringComparison)))
+                commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))
             {
                 throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
             }

@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -20,20 +20,22 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using ArgsMapper.Models;
-using ArgsMapper.Utilities;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
-    internal class OptionPropertyTypeValidator : IOptionInitializationValidator
+    internal class OptionPropertyTypeValidator : IOptionValidator
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
-            if (option.IsPositionalOption && !option.Type.IsSupported())
+            if (option.IsPositionalOption)
             {
-                throw new UnsupportedPositionalOptionPropertyTypeException(option.Type);
+                if (!mapper.ValueConverterFactory.IsSupportedType(option.Type))
+                {
+                    throw new UnsupportedPositionalOptionPropertyTypeException(option.Type);
+                }
             }
 
-            if (!option.Type.IsBaseSupported())
+            if (!mapper.ValueConverterFactory.IsSupportedBaseType(option.Type))
             {
                 throw new UnsupportedOptionPropertyTypeException(option.Type);
             }

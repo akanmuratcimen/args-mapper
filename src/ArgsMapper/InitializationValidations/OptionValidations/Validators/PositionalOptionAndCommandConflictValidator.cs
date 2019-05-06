@@ -24,7 +24,7 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
-    internal class PositionalOptionAndCommandConflictValidator : IOptionInitializationValidator
+    internal class PositionalOptionAndCommandConflictValidator : IOptionValidator
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {

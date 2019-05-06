@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -21,7 +21,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ArgsMapper.Models;
@@ -29,9 +28,24 @@ using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.Utilities
 {
-    internal static class ReflectionHelpers
+    internal interface IReflectionService
     {
-        internal static void SetProperty(this PropertyInfo[] propertyInfos, object model, object value)
+        void SetValue(Option option, object model, IList<string> values, IFormatProvider formatProvider);
+        void SetValue(Option option, object model, string value, IFormatProvider formatProvider);
+        void SetValue(Option option, object model, object value);
+        object SetValue(Command command, object model);
+    }
+
+    internal class ReflectionService : IReflectionService
+    {
+        private readonly IValueConverterFactory _valueConverterFactory;
+
+        public ReflectionService(IValueConverterFactory valueConverterFactory)
+        {
+            _valueConverterFactory = valueConverterFactory;
+        }
+
+        internal void SetProperty(PropertyInfo[] propertyInfos, object model, object value)
         {
             for (var i = 0; i < propertyInfos.Length - 1; i++)
             {
@@ -50,34 +64,34 @@ namespace ArgsMapper.Utilities
             propertyInfos[propertyInfos.Length - 1].SetValue(model, value);
         }
 
-        internal static void SetValue(this Option option, object model, IList<string> values, CultureInfo cultureInfo)
+        public void SetValue(Option option, object model, IList<string> values, IFormatProvider formatProvider)
         {
             object value;
 
             try
             {
-                value = ValueConverterFactory.Convert(values, option.Type, cultureInfo);
+                value = _valueConverterFactory.Convert(values, option.Type, formatProvider);
             }
             catch (Exception e) when (e is FormatException || e is OverflowException)
             {
                 throw new InvalidOptionValueException(option.ToString(), values);
             }
 
-            option.SetValue(model, value);
+            SetValue(option, model, value);
         }
 
-        internal static void SetValue(this Option option, object model, string value, CultureInfo cultureInfo)
+        public void SetValue(Option option, object model, string value, IFormatProvider formatProvider)
         {
-            SetValue(option, model, new[] { value }, cultureInfo);
+            SetValue(option, model, new[] { value }, formatProvider);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void SetValue(this Option option, object model, object value)
+        public void SetValue(Option option, object model, object value)
         {
-            option.PropertyInfos.SetProperty(model, value);
+            SetProperty(option.PropertyInfos, model, value);
         }
 
-        internal static object SetValue(this Command command, object model)
+        public object SetValue(Command command, object model)
         {
             var currentValue = command.PropertyInfo.GetValue(model);
 

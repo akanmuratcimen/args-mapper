@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -25,9 +25,10 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
 {
-    internal class CommandOptionLongNameValidator : ICommandOptionInitializationValidator
+    internal class CommandOptionLongNameValidator : ICommandOptionValidator
     {
-        public void Validate<T>(ArgsCommandSettings<T> commandSettings, Option commandOption) where T : class
+        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
+            Option commandOption) where T : class
         {
             if (string.IsNullOrEmpty(commandOption.LongName) || string.IsNullOrWhiteSpace(commandOption.LongName))
             {
