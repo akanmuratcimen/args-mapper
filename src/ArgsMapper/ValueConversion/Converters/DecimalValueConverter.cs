@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -24,7 +24,7 @@ using System.Globalization;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class DecimalValueConverter : IValueConverter
+    internal class DecimalValueConverter : ISystemTypeValueConverter
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {

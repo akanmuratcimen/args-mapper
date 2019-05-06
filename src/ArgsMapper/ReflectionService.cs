@@ -26,7 +26,7 @@ using System.Runtime.CompilerServices;
 using ArgsMapper.Models;
 using ArgsMapper.ValueConversion;
 
-namespace ArgsMapper.Utilities
+namespace ArgsMapper
 {
     internal interface IReflectionService
     {
@@ -45,25 +45,6 @@ namespace ArgsMapper.Utilities
             _valueConverterFactory = valueConverterFactory;
         }
 
-        internal void SetProperty(PropertyInfo[] propertyInfos, object model, object value)
-        {
-            for (var i = 0; i < propertyInfos.Length - 1; i++)
-            {
-                var propertyInfo = propertyInfos[i];
-                var currentValue = propertyInfo.GetValue(model);
-
-                if (currentValue == null)
-                {
-                    currentValue = Activator.CreateInstance(propertyInfo.PropertyType);
-                    propertyInfo.SetValue(model, currentValue);
-                }
-
-                model = currentValue;
-            }
-
-            propertyInfos[propertyInfos.Length - 1].SetValue(model, value);
-        }
-
         public void SetValue(Option option, object model, IList<string> values, IFormatProvider formatProvider)
         {
             object value;
@@ -72,7 +53,8 @@ namespace ArgsMapper.Utilities
             {
                 value = _valueConverterFactory.Convert(values, option.Type, formatProvider);
             }
-            catch (Exception e) when (e is FormatException || e is OverflowException)
+            catch (Exception e) when (e is FormatException || e is OverflowException ||
+                e is ArgumentOutOfRangeException)
             {
                 throw new InvalidOptionValueException(option.ToString(), values);
             }
@@ -105,6 +87,25 @@ namespace ArgsMapper.Utilities
             command.PropertyInfo.SetValue(model, commandInstance);
 
             return commandInstance;
+        }
+
+        internal void SetProperty(PropertyInfo[] propertyInfos, object model, object value)
+        {
+            for (var i = 0; i < propertyInfos.Length - 1; i++)
+            {
+                var propertyInfo = propertyInfos[i];
+                var currentValue = propertyInfo.GetValue(model);
+
+                if (currentValue == null)
+                {
+                    currentValue = Activator.CreateInstance(propertyInfo.PropertyType);
+                    propertyInfo.SetValue(model, currentValue);
+                }
+
+                model = currentValue;
+            }
+
+            propertyInfos[propertyInfos.Length - 1].SetValue(model, value);
         }
     }
 }

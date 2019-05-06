@@ -23,8 +23,17 @@ using System;
 
 namespace ArgsMapper.ValueConversion
 {
-    internal interface IValueConverter
+    internal interface ICustomTypeValueConverter : IValueConverter
+    {
+        object Convert(string value, Type type, IFormatProvider formatProvider);
+    }
+
+    internal interface ISystemTypeValueConverter : IValueConverter
     {
         object Convert(string value, IFormatProvider formatProvider);
+    }
+
+    internal interface IValueConverter
+    {
     }
 }

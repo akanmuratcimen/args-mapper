@@ -27,11 +27,11 @@ using Xunit;
 
 namespace ArgsMapper.Test
 {
-    public class ValueConverterFactoryTests
+    public class ValueConversionTests
     {
         private readonly IValueConverterFactory _valueConverterFactory;
 
-        public ValueConverterFactoryTests()
+        public ValueConversionTests()
         {
             _valueConverterFactory = new ValueConverterFactory();
         }
@@ -51,6 +51,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<Guid?>))]
         [InlineData(typeof(List<TimeSpan?>))]
         [InlineData(typeof(List<DateTime?>))]
+        [InlineData(typeof(List<SampleEnum?>))]
         internal void ValueConverterFactory_Convert_ListNullableTypes(Type type)
         {
             Assert.IsType(type, _valueConverterFactory.Convert(
@@ -73,6 +74,8 @@ namespace ArgsMapper.Test
         [InlineData(typeof(List<TimeSpan>), "6.12:14:45", "6:12:14:45")]
         [InlineData(typeof(List<DateTime>), "08/18/2018 07:22:16", "Sat, 18 Aug 2018 07:22:16 GMT")]
         [InlineData(typeof(List<Uri>), "amqp://user:pass@host:10000/path", "ftp://foo.bar.com:000")]
+        [InlineData(typeof(List<SampleEnum>), "Value1", "Value2", "value3")]
+        [InlineData(typeof(List<SampleEnum>), "1", "2")]
         internal void ValueConverterFactory_Convert_ListTypes(Type type, params string[] values)
         {
             Assert.IsType(type, _valueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));
@@ -93,6 +96,7 @@ namespace ArgsMapper.Test
         [InlineData(typeof(Guid?))]
         [InlineData(typeof(TimeSpan?))]
         [InlineData(typeof(DateTime?))]
+        [InlineData(typeof(SampleEnum?))]
         internal void ValueConverterFactory_Convert_NullableTypes(Type type)
         {
             Assert.Null(_valueConverterFactory.Convert(Array.Empty<string>(), type, CultureInfo.InvariantCulture));
@@ -126,6 +130,9 @@ namespace ArgsMapper.Test
         [InlineData(typeof(DateTime), "018-08-18T07:22:16.0000000-07:00")]
         [InlineData(typeof(DateTime), "08/18/2018 07:22:16 -5:00")]
         [InlineData(typeof(Uri), "https://www.foobar.com")]
+        [InlineData(typeof(SampleEnum), "Value1")]
+        [InlineData(typeof(SampleEnum), "1")]
+        [InlineData(typeof(SampleUshortEnum), "Value1")]
         internal void ValueConverterFactory_Convert_Types(Type type, string value)
         {
             Assert.IsType(type, _valueConverterFactory.Convert(new[] { value }, type, CultureInfo.InvariantCulture));
@@ -147,6 +154,8 @@ namespace ArgsMapper.Test
         [InlineData(typeof(TimeSpan), "invalid-value")]
         [InlineData(typeof(DateTime), "invalid-value")]
         [InlineData(typeof(Uri), "invalid-value")]
+        [InlineData(typeof(SampleEnum), "invalid-value")]
+        [InlineData(typeof(SampleEnum), "3")]
         internal void ValueConverterFactory_Convert_Should_Throw_Exception(Type type, params string[] values)
         {
             Assert.ThrowsAny<Exception>(() => _valueConverterFactory.Convert(
