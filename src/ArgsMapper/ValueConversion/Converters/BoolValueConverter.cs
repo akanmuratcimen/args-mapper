@@ -25,7 +25,7 @@ using System.Runtime.CompilerServices;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class BoolValueConverter : IValueConverter
+    internal class BoolValueConverter : ISystemTypeValueConverter
     {
         private static readonly string[] _falseValues = { "0", "off", "false" };
         private static readonly string[] _trueValues = { null, string.Empty, "1", "on", "true" };

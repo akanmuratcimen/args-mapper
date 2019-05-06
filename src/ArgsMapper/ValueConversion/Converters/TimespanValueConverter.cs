@@ -23,7 +23,7 @@ using System;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class TimeSpanValueConverter : IValueConverter
+    internal class TimeSpanValueConverter : ISystemTypeValueConverter
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {

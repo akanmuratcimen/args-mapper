@@ -57,7 +57,8 @@ namespace ArgsMapper.ValueConversion
                 [typeof(Guid)] = new GuidValueConverter(),
                 [typeof(TimeSpan)] = new TimeSpanValueConverter(),
                 [typeof(DateTime)] = new DateTimeValueConverter(),
-                [typeof(Uri)] = new UriValueConverter()
+                [typeof(Uri)] = new UriValueConverter(),
+                [typeof(Enum)] = new EnumValueConverter()
             };
         }
 
@@ -70,14 +71,14 @@ namespace ArgsMapper.ValueConversion
                 return CreateListWithValues(type.GetFirstGenericArgument(), values, formatProvider);
             }
 
-            var value = values.Count > 1 ? values.LastOrDefault() : values.FirstOrDefault();
+            var value = values.LastOrDefault();
 
             if (type.IsNullable() && string.IsNullOrEmpty(value))
             {
                 return null;
             }
 
-            return _converters[type.GetBaseType()].Convert(value, formatProvider);
+            return ConvertImpl(type, value, formatProvider);
         }
 
         public bool IsSupportedBaseType(Type type)
@@ -90,18 +91,33 @@ namespace ArgsMapper.ValueConversion
             return SupportedTypes.Contains(type);
         }
 
-        private IList CreateListWithValues(Type itemType, IEnumerable<string> values,
-            IFormatProvider formatProvider)
+        private IList CreateListWithValues(Type itemType, IEnumerable<string> values, IFormatProvider formatProvider)
         {
             var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
-            var converter = _converters[itemType.GetBaseType()];
 
             foreach (var value in values)
             {
-                list.Add(converter.Convert(value, formatProvider));
+                list.Add(ConvertImpl(itemType, value, formatProvider));
             }
 
             return list;
+        }
+
+        private object ConvertImpl(Type type, string value, IFormatProvider formatProvider)
+        {
+            var converter = _converters[type.GetBaseType()];
+
+            switch (converter)
+            {
+                case ICustomTypeValueConverter customTypeValueConverter:
+                    return customTypeValueConverter.Convert(value, type, formatProvider);
+
+                case ISystemTypeValueConverter systemTypeValueConverter:
+                    return systemTypeValueConverter.Convert(value, formatProvider);
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

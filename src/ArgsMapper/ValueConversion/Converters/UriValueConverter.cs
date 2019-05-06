@@ -23,7 +23,7 @@ using System;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class UriValueConverter : IValueConverter
+    internal class UriValueConverter : ISystemTypeValueConverter
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {

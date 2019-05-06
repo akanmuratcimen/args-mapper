@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -23,7 +23,7 @@ using System;
 
 namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class StringValueConverter : IValueConverter
+    internal class StringValueConverter : ISystemTypeValueConverter
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {
