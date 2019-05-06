@@ -234,4 +234,11 @@ namespace ArgsMapper.Test
     {
         public OneLongNamedBoolOptionArgs Command { get; set; }
     }
+
+    internal enum SampleEnum
+    {
+        Value1,
+        Value2,
+        Value3
+    }
 }
