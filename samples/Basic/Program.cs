@@ -3,7 +3,7 @@ using ArgsMapper;
 
 namespace Basic
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {

@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -25,19 +25,19 @@ namespace ArgsMapper.Models.EqualityComparers
 {
     internal sealed class OptionPropertyInfoEqualityComparer : IEqualityComparer<Option>
     {
-        public bool Equals(Option left, Option right)
+        public bool Equals(Option x, Option y)
         {
-            if (ReferenceEquals(left, right))
+            if (ReferenceEquals(x, y))
             {
                 return true;
             }
 
-            return left.PropertyInfo.Equals(right.PropertyInfo);
+            return x.PropertyInfo.Equals(y.PropertyInfo);
         }
 
-        public int GetHashCode(Option option)
+        public int GetHashCode(Option obj)
         {
-            return option.PropertyInfo.GetHashCode();
+            return obj.PropertyInfo.GetHashCode();
         }
     }
 }

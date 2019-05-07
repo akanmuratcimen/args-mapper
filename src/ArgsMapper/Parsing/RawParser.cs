@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -25,7 +25,7 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Parsing
 {
-    internal class RawParser
+    internal static class RawParser
     {
         internal static IDictionary<(string key, OptionMatchType matchType), List<string>>
             ParseOptions(string[] args, int startIndex = 0)

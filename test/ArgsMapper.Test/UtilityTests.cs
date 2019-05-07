@@ -202,19 +202,6 @@ namespace ArgsMapper.Test
         }
 
         [Fact]
-        internal void Command_ToString_Should_Throw_ArgumentNullException()
-        {
-            // Arrange
-            var command = new Command {
-                Name = "command",
-                CultureInfo = null
-            };
-
-            // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => command.ToString());
-        }
-
-        [Fact]
         internal void ExpressionExtensions_GetPropertyName()
         {
             Assert.Equal("option",
@@ -236,20 +223,6 @@ namespace ArgsMapper.Test
                 ((Expression<Func<OneBoolFieldOptionArgs, bool>>)
                     (x => x.Option)).GetPropertyInfos()
                 .GetName(CultureInfo.InvariantCulture));
-        }
-
-        [Fact]
-        internal void Option_ToString_Should_Throw_ArgumentNullException()
-        {
-            // Arrange
-            var option = new Option {
-                ShortName = 'o',
-                LongName = "option",
-                CultureInfo = null
-            };
-
-            // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => option.ToString());
         }
     }
 }

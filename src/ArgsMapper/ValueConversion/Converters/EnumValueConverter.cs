@@ -27,7 +27,7 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, Type type, IFormatProvider formatProvider)
         {
-            return ToEnum(type, value) ?? throw new ArgumentOutOfRangeException();
+            return ToEnum(type, value) ?? throw new ArgumentOutOfRangeException(nameof(value));
         }
 
         private static object ToEnum(Type type, string value)

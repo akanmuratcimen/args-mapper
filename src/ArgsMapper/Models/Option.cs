@@ -43,11 +43,6 @@ namespace ArgsMapper.Models
 
         public override string ToString()
         {
-            if (CultureInfo == null)
-            {
-                throw new ArgumentNullException(nameof(CultureInfo));
-            }
-
             if (IsPositionalOption)
             {
                 return LongName.ToHyphenCase(CultureInfo);

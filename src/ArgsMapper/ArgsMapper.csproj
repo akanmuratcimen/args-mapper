@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -12,6 +12,10 @@
     <RepositoryUrl>https://github.com/akanmuratcimen/args-mapper</RepositoryUrl>
     <PackageTags>args cli command line fluent commandline parser mapper</PackageTags>
     <Description>An easy to use, simple, strongly typed dotnet core command line parser.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CA2240;S3925</NoWarn>
   </PropertyGroup>
 
 </Project>

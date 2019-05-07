@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -30,8 +30,8 @@ namespace ArgsMapper
 
         internal static readonly char[] AssignmentOperators = { '=', ':', ' ' };
 
-        internal static char[] VersionOptionShortNames = { 'v' };
-        internal static string[] VersionOptionLongNames = { "version" };
+        internal static readonly char[] VersionOptionShortNames = { 'v' };
+        internal static readonly string[] VersionOptionLongNames = { "version" };
 
         internal static IEnumerable<char> ReservedOptionShortNames
         {
