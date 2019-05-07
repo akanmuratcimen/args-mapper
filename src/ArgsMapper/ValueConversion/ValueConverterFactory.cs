@@ -116,7 +116,7 @@ namespace ArgsMapper.ValueConversion
                     return systemTypeValueConverter.Convert(value, formatProvider);
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(converter));
             }
         }
     }

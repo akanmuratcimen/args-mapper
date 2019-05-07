@@ -124,6 +124,22 @@ namespace ArgsMapper.Test
             Assert.Equal(expected, displayName);
         }
 
+        [Fact]
+        internal void OptionListExtensions_Get_Should_Return_Null()
+        {
+            // Arrange
+            var options = new List<Option> {
+                new Option()
+            };
+
+            // Act
+            var option = options.Get(OptionMatchType.None, "option", 
+                StringComparison.InvariantCultureIgnoreCase);
+
+            // Assert
+            Assert.Null(option);
+        }
+
         [Theory]
         [InlineData("", false)]
         [InlineData("v", false)]
@@ -137,6 +153,12 @@ namespace ArgsMapper.Test
         internal void OptionExtensions_IsVersionOption(string value, bool expected)
         {
             Assert.Equal(expected, value.IsVersionOption());
+        }
+
+        [Fact]
+        internal void ArgsExtensions_GetOptionMatchType_Should_Return_None()
+        {
+            Assert.Equal(OptionMatchType.None, "foobar".GetOptionMatchType());
         }
 
         [Theory]
@@ -160,6 +182,16 @@ namespace ArgsMapper.Test
         }
 
         [Theory]
+        [InlineData(typeof(List<string>), typeof(string))]
+        [InlineData(typeof(char?), typeof(char))]
+        [InlineData(typeof(SampleEnum), typeof(Enum))]
+        [InlineData(typeof(int), typeof(int))]
+        internal void TypeExtensions_GetBaseType(Type type, Type expectedType)
+        {
+            Assert.Equal(expectedType, type.GetBaseType());
+        }
+
+        [Theory]
         [InlineData(typeof(IList<string>), typeof(string))]
         [InlineData(typeof(IDictionary<int, string>), typeof(int))]
         [InlineData(typeof(Queue<long>), typeof(long))]
@@ -167,19 +199,6 @@ namespace ArgsMapper.Test
         internal void TypeExtensions_GetFirstGenericArgument(Type genericType, Type expectedType)
         {
             Assert.Equal(expectedType, genericType.GetFirstGenericArgument());
-        }
-
-        [Fact]
-        internal void Command_ToString_Should_Throw_ArgumentNullException()
-        {
-            // Arrange
-            var command = new Command {
-                Name = "command",
-                CultureInfo = null
-            };
-
-            // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => command.ToString());
         }
 
         [Fact]
@@ -204,20 +223,6 @@ namespace ArgsMapper.Test
                 ((Expression<Func<OneBoolFieldOptionArgs, bool>>)
                     (x => x.Option)).GetPropertyInfos()
                 .GetName(CultureInfo.InvariantCulture));
-        }
-
-        [Fact]
-        internal void Option_ToString_Should_Throw_ArgumentNullException()
-        {
-            // Arrange
-            var option = new Option {
-                ShortName = 'o',
-                LongName = "option",
-                CultureInfo = null
-            };
-
-            // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => option.ToString());
         }
     }
 }

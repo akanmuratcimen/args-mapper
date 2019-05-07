@@ -39,11 +39,6 @@ namespace ArgsMapper.Models
 
         public override string ToString()
         {
-            if (CultureInfo == null)
-            {
-                throw new ArgumentNullException(nameof(CultureInfo));
-            }
-
             return Name.ToHyphenCase(CultureInfo);
         }
     }
