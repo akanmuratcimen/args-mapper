@@ -186,12 +186,24 @@ namespace ArgsMapper.Test.InitializationValidationTests
         internal void AddCommand_AddOption_Should_Throw_UnsupportedCommandOptionPropertyTypeException()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneByteOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithUnsupportedTypeOptionArgs>();
 
             // Assert
             mapper.AddCommand(x => x.Command, "command", commandSettings => {
                 Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
-                    commandSettings.AddOption(x => x.Option)
+                    commandSettings.AddOption(x => x.QueueOption)
+                );
+
+                Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
+                    commandSettings.AddOption(x => x.StackOption)
+                );
+
+                Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
+                    commandSettings.AddOption(x => x.IEnumerableIntOption)
+                );
+
+                Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
+                    commandSettings.AddOption(x => x.ListIntOption)
                 );
             });
         }
