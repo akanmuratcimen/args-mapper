@@ -63,7 +63,7 @@ namespace ArgsMapper
 
             if (mapperResult.HasError)
             {
-                Settings.DefaultWriter.WriteLine(mapperResult.ErrorMessage);
+                Settings.DefaultWriter.Write(mapperResult.ErrorMessage);
 
                 return;
             }
@@ -102,12 +102,7 @@ namespace ArgsMapper
 
         private string VersionInfo(string[] args)
         {
-            if (args.IsNullOrEmpty())
-            {
-                return null;
-            }
-
-            if (args[0].IsVersionOption())
+            if (!args.IsNullOrEmpty() && args[0].IsVersionOption())
             {
                 return Settings.ApplicationVersion.ToString();
             }

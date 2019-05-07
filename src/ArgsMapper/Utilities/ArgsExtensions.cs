@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -27,12 +27,6 @@ namespace ArgsMapper.Utilities
 {
     internal static class ArgsExtensions
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static string AddShortNamePrefix(this string value)
-        {
-            return Constants.OptionShortNamePrefix + value;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static string AddShortNamePrefix(this char value)
         {

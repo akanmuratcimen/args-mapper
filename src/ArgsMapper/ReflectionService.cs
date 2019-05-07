@@ -75,13 +75,6 @@ namespace ArgsMapper
 
         public object SetValue(Command command, object model)
         {
-            var currentValue = command.PropertyInfo.GetValue(model);
-
-            if (currentValue != null)
-            {
-                return currentValue;
-            }
-
             var commandInstance = Activator.CreateInstance(command.Type);
 
             command.PropertyInfo.SetValue(model, commandInstance);
