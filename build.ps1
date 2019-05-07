@@ -22,9 +22,9 @@ if ($env:APPVEYOR_JOB_ID) {
 		--commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE `
 		--jobId $env:APPVEYOR_JOB_ID
 
-	& dotnet tool install --global dotnet-sonarscanner --tool-path tools
+	& dotnet tool install dotnet-sonarscanner --tool-path tools
 
-	& dotnet sonarscanner begin `
+	& dotnet ".\tools\dotnet-sonarscanner" begin `
 		/k:"akanmuratcimen_args-mapper" `
 		/o:"akanmuratcimen-github" `
 		/d:sonar.host.url="https://sonarcloud.io" `
