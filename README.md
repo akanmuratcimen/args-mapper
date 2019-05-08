@@ -5,7 +5,7 @@
 An easy to use, simple, strongly typed dotnet core command line parser.
 
 ## Samples  
-There is a [sample projects](https://github.com/akanmuratcimen/args-mapper/tree/master/samples) that you can look at.  
+There are [sample projects](https://github.com/akanmuratcimen/args-mapper/tree/master/samples) that you can look at.  
 
 ## License  
 args-mapper is licensed under the [MIT license](LICENSE).
