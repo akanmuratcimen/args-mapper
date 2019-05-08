@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Xunit;
 
-namespace ArgsMapper.Test
+namespace ArgsMapper.Tests
 {
     public class VersionTests
     {

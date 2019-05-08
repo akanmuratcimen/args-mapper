@@ -23,7 +23,7 @@ using System;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using Xunit;
 
-namespace ArgsMapper.Test.InitializationValidationTests
+namespace ArgsMapper.Tests.InitializationValidationTests
 {
     public class OptionInitializationValidationTests
     {

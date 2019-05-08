@@ -22,7 +22,7 @@
 using System;
 using Xunit;
 
-namespace ArgsMapper.Test.MapperTests
+namespace ArgsMapper.Tests.MapperTests
 {
     public class OptionTests
     {

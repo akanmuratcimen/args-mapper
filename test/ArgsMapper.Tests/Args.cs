@@ -22,7 +22,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ArgsMapper.Test
+namespace ArgsMapper.Tests
 {
     [ExcludeFromCodeCoverage]
     internal class OneBoolOptionArgs

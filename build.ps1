@@ -3,7 +3,7 @@ Push-Location $PSScriptRoot
 & dotnet restore --no-cache
 & dotnet build -c Release
 
-& dotnet test test/ArgsMapper.Test/ArgsMapper.Test.csproj -c Debug `
+& dotnet test test/ArgsMapper.Tests/ArgsMapper.Tests.csproj -c Debug `
     /p:CollectCoverage=true `
     /p:CoverletOutputFormat=opencover `
     /p:CoverletOutput=../../artifacts/coverage.xml `

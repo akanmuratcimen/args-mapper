@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ArgsMapper.Test
+namespace ArgsMapper.Tests
 {
     public class ExecutionTests
     {
