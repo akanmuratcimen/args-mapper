@@ -25,7 +25,7 @@ using System.Globalization;
 using ArgsMapper.ValueConversion;
 using Xunit;
 
-namespace ArgsMapper.Test
+namespace ArgsMapper.Tests
 {
     public class ValueConversionTests
     {

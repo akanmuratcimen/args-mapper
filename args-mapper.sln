@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgsMapper", "src\ArgsMapper\ArgsMapper.csproj", "{C028B5F6-1CF4-4059-9232-899B30D81D2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgsMapper.Test", "test\ArgsMapper.Test\ArgsMapper.Test.csproj", "{868DC994-23C9-4CC5-A0F8-CFFAEEC8FCB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgsMapper.Tests", "test\ArgsMapper.Tests\ArgsMapper.Tests.csproj", "{868DC994-23C9-4CC5-A0F8-CFFAEEC8FCB4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BF7B508E-BEDB-4AFC-8A98-23A3B46665F0}"
 EndProject

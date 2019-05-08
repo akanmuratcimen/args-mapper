@@ -23,7 +23,7 @@ using System;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using Xunit;
 
-namespace ArgsMapper.Test.InitializationValidationTests
+namespace ArgsMapper.Tests.InitializationValidationTests
 {
     public class OptionInitializationValidationTests
     {
@@ -166,11 +166,23 @@ namespace ArgsMapper.Test.InitializationValidationTests
         internal void AddOption_Should_Throw_UnsupportedOptionPropertyTypeException()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneByteOptionArgs>();
+            var mapper = new ArgsMapper<UnsupportedTypeOptionArgs>();
 
             // Assert
             Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
-                mapper.AddOption(x => x.Option)
+                mapper.AddOption(x => x.QueueOption)
+            );
+
+            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
+                mapper.AddOption(x => x.StackOption)
+            );
+
+            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
+                mapper.AddOption(x => x.IEnumerableIntOption)
+            );
+
+            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
+                mapper.AddOption(x => x.ListIntOption)
             );
         }
 

@@ -22,7 +22,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ArgsMapper.Test
+namespace ArgsMapper.Tests
 {
     [ExcludeFromCodeCoverage]
     internal class OneBoolOptionArgs
@@ -105,9 +105,9 @@ namespace ArgsMapper.Test
     }
 
     [ExcludeFromCodeCoverage]
-    internal class OneCommandWithOneByteOptionArgs
+    internal class OneCommandWithUnsupportedTypeOptionArgs
     {
-        public OneByteOptionArgs Command { get; set; }
+        public UnsupportedTypeOptionArgs Command { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
@@ -258,6 +258,15 @@ namespace ArgsMapper.Test
     internal class OneCommandWithOneLongNamedBoolOptionArgs
     {
         public OneLongNamedBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class UnsupportedTypeOptionArgs
+    {
+        public Queue<int> QueueOption { get; set; }
+        public Stack<int> StackOption { get; set; }
+        public IEnumerable<int> IEnumerableIntOption { get; set; }
+        public IList<int> ListIntOption { get; set; }
     }
 
     internal enum SampleEnum

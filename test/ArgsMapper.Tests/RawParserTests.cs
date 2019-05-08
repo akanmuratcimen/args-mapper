@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -24,7 +24,7 @@ using ArgsMapper.Models;
 using ArgsMapper.Parsing;
 using Xunit;
 
-namespace ArgsMapper.Test
+namespace ArgsMapper.Tests
 {
     public class RawParserTests
     {

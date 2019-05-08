@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -21,4 +21,4 @@
 
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ArgsMapper.Test")]
+[assembly: InternalsVisibleTo("ArgsMapper.Tests")]
