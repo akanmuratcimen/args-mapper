@@ -27,6 +27,7 @@ using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
+using ArgsMapper.Usage;
 using ArgsMapper.Utilities;
 using ArgsMapper.ValueConversion;
 
@@ -47,6 +48,8 @@ namespace ArgsMapper
         internal IValueConverterFactory ValueConverterFactory => new ValueConverterFactory();
         internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
         internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
+
+        public IUsageBuilder<T> Usage { get; set; }
 
         public void Execute(string[] args, Action<T> onExecute)
         {

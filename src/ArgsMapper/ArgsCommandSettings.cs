@@ -40,5 +40,10 @@ namespace ArgsMapper
 
         internal List<Option> Options { get; } = new List<Option>();
         internal ArgsMapper<T> Mapper { get; set; }
+
+        /// <summary>
+        ///     The text to use in the usage screen.
+        /// </summary>
+        public string UsageText { get; set; }
     }
 }
