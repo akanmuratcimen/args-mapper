@@ -6,6 +6,7 @@ namespace ArgsMapper.Usage
     public interface IUsageBuilder<T> where T : class
     {
         void AddSection(string header, Action<IUsageSectionSettings<T>> usageSettings);
+        void AddContent(UsageContent content);
     }
 
     public interface IUsageSectionSettings<T> where T : class

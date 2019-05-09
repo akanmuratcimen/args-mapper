@@ -26,6 +26,8 @@ namespace ArgsMapper.Tests
                 });
             });
 
+            mapper.Usage.AddContent("sample content.");
+
             mapper.AddCommand(x => x.Command, "command", commandSettings => {
                 commandSettings.UsageText = "command usage description";
 

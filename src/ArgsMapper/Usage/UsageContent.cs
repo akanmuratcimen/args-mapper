@@ -1,7 +1,7 @@
-﻿// UsageContent.cs
+// UsageContent.cs
 namespace ArgsMapper.Usage
 {
-    public class UsageContent
+    public struct UsageContent
     {
         internal UsageContent(params string[] contents)
         {
