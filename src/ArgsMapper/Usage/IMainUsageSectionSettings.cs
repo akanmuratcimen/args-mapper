@@ -20,13 +20,18 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Linq.Expressions;
 
 namespace ArgsMapper.Usage
 {
-    internal class UsageBuilder<T> : UsageContent, IUsageBuilder<T> where T : class
+    public interface IMainUsageSectionSettings<T> : IUsageContent where T : class
     {
-        public void AddSection(string header, Action<IUsageSectionSettings<T>> usageSectionSettings)
-        {
-        }
+        int MaxWidth { get; set; }
+
+        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
+            string description = null);
+
+        void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
+            string description = null) where TCommand : class;
     }
 }

@@ -21,9 +21,9 @@
 
 using Xunit;
 
-namespace ArgsMapper.Tests
+namespace ArgsMapper.Tests.UsageTests
 {
-    public class UsageTests
+    public class UsageInitializationTests
     {
         [Fact]
         internal void Usage_AddCommand_Usage_AddSection_AddContent_2_Tuple()
