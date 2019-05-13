@@ -19,12 +19,21 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-
 namespace ArgsMapper.Usage
 {
-    public interface IUsageBuilder<T> : IUsageContent where T : class
+    public interface IUsageContent
     {
-        void AddSection(string header, Action<IUsageSectionSettings<T>> usageSectionSettings);
+        void AddContent(params string[] contents);
+        void AddContent(params (string column1, string column2)[] columns);
+        void AddContent(params (string column1, string column2, string column3)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5, string column6)[] columns);
     }
 }

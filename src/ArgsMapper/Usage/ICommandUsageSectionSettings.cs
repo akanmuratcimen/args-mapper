@@ -20,11 +20,16 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Linq.Expressions;
 
 namespace ArgsMapper.Usage
 {
-    public interface IUsageBuilder<T> : IUsageContent where T : class
+    // ReSharper disable once UnusedTypeParameter
+    public interface ICommandUsageSectionSettings<T, TCommand> : IUsageContent where T : class
     {
-        void AddSection(string header, Action<IUsageSectionSettings<T>> usageSectionSettings);
+        int MaxWidth { get; set; }
+
+        void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
+            string description = null);
     }
 }

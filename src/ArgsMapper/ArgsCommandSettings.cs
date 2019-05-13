@@ -21,6 +21,7 @@
 
 using System.Collections.Generic;
 using ArgsMapper.Models;
+using ArgsMapper.Usage;
 
 namespace ArgsMapper
 {
@@ -42,8 +43,8 @@ namespace ArgsMapper
         internal ArgsMapper<T> Mapper { get; set; }
 
         /// <summary>
-        ///     The text to use in the usage screen.
+        ///     Command usage builder.
         /// </summary>
-        public string UsageText { get; set; }
+        public ICommandUsageBuilder<T, TProperty> Usage { get; } = new CommandUsageBuilder<T, TProperty>();
     }
 }

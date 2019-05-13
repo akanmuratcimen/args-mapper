@@ -41,10 +41,5 @@ namespace ArgsMapper
         ///     Whether the option is required.
         /// </summary>
         public bool IsRequired { get; set; }
-
-        /// <summary>
-        ///     The text to use in the usage screen.
-        /// </summary>
-        public string UsageText { get; set; }
     }
 }

@@ -49,7 +49,7 @@ namespace ArgsMapper
         internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
         internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
 
-        public IUsageBuilder<T> Usage { get; set; }
+        public IUsageBuilder<T> Usage { get; } = new UsageBuilder<T>();
 
         public void Execute(string[] args, Action<T> onExecute)
         {

@@ -23,8 +23,10 @@ using System;
 
 namespace ArgsMapper.Usage
 {
-    public interface IUsageBuilder<T> : IUsageContent where T : class
+    internal class CommandUsageBuilder<T, TCommand> : UsageContent, ICommandUsageBuilder<T, TCommand> where T : class
     {
-        void AddSection(string header, Action<IUsageSectionSettings<T>> usageSectionSettings);
+        public void AddSection(string header, Action<ICommandUsageSectionSettings<T, TCommand>> usageSectionSettings)
+        {
+        }
     }
 }
