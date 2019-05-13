@@ -20,13 +20,69 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Text;
 
 namespace ArgsMapper.Usage
 {
-    internal class MainUsageBuilder<T> : UsageContent, IMainUsageBuilder<T> where T : class
+    internal class MainUsageBuilder<T> : IMainUsageBuilder<T> where T : class
     {
-        public void AddSection(string header, Action<IMainUsageSectionSettings<T>> usageSectionSettings)
+        private readonly StringBuilder _stringBuilder = new StringBuilder();
+
+        public void AddSection(string header, Action<IMainUsageSectionSettings<T>> sectionSettings)
         {
+            var mainUsageSectionSettings = new MainUsageSectionSettings<T>();
+
+            sectionSettings(mainUsageSectionSettings);
+
+            _stringBuilder.Append(mainUsageSectionSettings.StringBuilder);
+        }
+
+        public void AddContent(params string[] contents)
+        {
+            _stringBuilder.AppendContent(contents);
+        }
+
+        public void AddContent(params (string column1, string column2)[] columns)
+        {
+            foreach (var (column1, column2) in columns)
+            {
+                _stringBuilder.AppendContent(column1, column2);
+            }
+        }
+
+        public void AddContent(params (string column1, string column2, string column3)[] columns)
+        {
+            foreach (var (column1, column2, column3) in columns)
+            {
+                _stringBuilder.AppendContent(column1, column2, column3);
+            }
+        }
+
+        public void AddContent(params (string column1, string column2, string column3,
+            string column4)[] columns)
+        {
+            foreach (var (column1, column2, column3, column4) in columns)
+            {
+                _stringBuilder.AppendContent(column1, column2, column3, column4);
+            }
+        }
+
+        public void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5)[] columns)
+        {
+            foreach (var (column1, column2, column3, column4, column5) in columns)
+            {
+                _stringBuilder.AppendContent(column1, column2, column3, column4, column5);
+            }
+        }
+
+        public void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5, string column6)[] columns)
+        {
+            foreach (var (column1, column2, column3, column4, column5, column6) in columns)
+            {
+                _stringBuilder.AppendContent(column1, column2, column3, column4, column5, column6);
+            }
         }
     }
 }

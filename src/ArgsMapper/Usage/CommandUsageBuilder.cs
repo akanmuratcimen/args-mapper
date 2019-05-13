@@ -23,9 +23,36 @@ using System;
 
 namespace ArgsMapper.Usage
 {
-    internal class CommandUsageBuilder<T, TCommand> : UsageContent, ICommandUsageBuilder<T, TCommand> where T : class
+    internal class CommandUsageBuilder<T, TCommand> : ICommandUsageBuilder<T, TCommand> where T : class
     {
-        public void AddSection(string header, Action<ICommandUsageSectionSettings<T, TCommand>> usageSectionSettings)
+        public void AddSection(string header, Action<ICommandUsageSectionSettings<T, TCommand>> sectionSettings)
+        {
+        }
+
+        public void AddContent(params string[] contents)
+        {
+        }
+
+        public void AddContent(params (string column1, string column2)[] columns)
+        {
+        }
+
+        public void AddContent(params (string column1, string column2, string column3)[] columns)
+        {
+        }
+
+        public void AddContent(params (string column1, string column2, string column3,
+            string column4)[] columns)
+        {
+        }
+
+        public void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5)[] columns)
+        {
+        }
+
+        public void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5, string column6)[] columns)
         {
         }
     }

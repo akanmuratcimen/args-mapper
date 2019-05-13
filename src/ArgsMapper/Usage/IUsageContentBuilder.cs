@@ -21,8 +21,19 @@
 
 namespace ArgsMapper.Usage
 {
-    internal class UsageScreenRenderer
+    public interface IUsageContentBuilder
     {
+        void AddContent(params string[] contents);
+        void AddContent(params (string column1, string column2)[] columns);
+        void AddContent(params (string column1, string column2, string column3)[] columns);
 
+        void AddContent(params (string column1, string column2, string column3,
+            string column4)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5, string column6)[] columns);
     }
 }

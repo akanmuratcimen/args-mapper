@@ -24,7 +24,7 @@ using System.Linq.Expressions;
 
 namespace ArgsMapper.Usage
 {
-    public interface IMainUsageSectionSettings<T> : IUsageContent where T : class
+    public interface IMainUsageSectionSettings<T> : IUsageContentBuilder where T : class
     {
         int MaxWidth { get; set; }
 

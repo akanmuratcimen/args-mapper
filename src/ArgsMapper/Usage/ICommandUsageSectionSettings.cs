@@ -25,7 +25,7 @@ using System.Linq.Expressions;
 namespace ArgsMapper.Usage
 {
     // ReSharper disable once UnusedTypeParameter
-    public interface ICommandUsageSectionSettings<T, TCommand> : IUsageContent where T : class
+    public interface ICommandUsageSectionSettings<T, TCommand> : IUsageContentBuilder where T : class
     {
         int MaxWidth { get; set; }
 
