@@ -21,42 +21,43 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using ArgsMapper.Models;
 
 namespace ArgsMapper.Usage
 {
     internal class CommandUsageBuilder<TCommand> : ICommandUsageBuilder<TCommand> where TCommand : class
     {
-        private readonly IList<Option> _commandOptions;
-        private readonly StringBuilder _stringBuilder = new StringBuilder();
+        private readonly IEnumerable<Option> _commandOptions;
 
-        public CommandUsageBuilder(IList<Option> commandOptions)
+        public CommandUsageBuilder(IEnumerable<Option> commandOptions)
         {
             _commandOptions = commandOptions;
         }
+
+        private IUsageRenderer UsageRenderer => new UsageRenderer(Settings.MaxWidth);
 
         public IUsageBuilderSettings Settings { get; } = new UsageBuilderSettings();
 
         public void AddSection(string header, Action<ICommandUsageSectionSettings<TCommand>> sectionSettings)
         {
-            var settings = new CommandUsageSectionSettings<TCommand>(_commandOptions, Settings);
+            var usageScreenRenderer = new UsageRenderer(Settings.MaxWidth);
+            var settings = new CommandUsageSectionSettings<TCommand>(_commandOptions, usageScreenRenderer);
 
             sectionSettings(settings);
 
-            _stringBuilder.AppendSection(Settings.MaxWidth, header, settings.StringBuilder);
+            UsageRenderer.AppendSection(header, usageScreenRenderer.ToString());
         }
 
         public void AddContent(params string[] contents)
         {
-            _stringBuilder.AppendContent(Settings.MaxWidth, contents);
+            UsageRenderer.AppendContent(contents);
         }
 
         public void AddContent(params (string column1, string column2)[] columns)
         {
             foreach (var (column1, column2) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2);
+                UsageRenderer.AppendContent(column1, column2);
             }
         }
 
@@ -64,7 +65,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3);
+                UsageRenderer.AppendContent(column1, column2, column3);
             }
         }
 
@@ -73,7 +74,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4);
+                UsageRenderer.AppendContent(column1, column2, column3, column4);
             }
         }
 
@@ -82,7 +83,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4, column5);
+                UsageRenderer.AppendContent(column1, column2, column3, column4, column5);
             }
         }
 
@@ -91,7 +92,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5, column6) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4, column5, column6);
+                UsageRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
             }
         }
     }

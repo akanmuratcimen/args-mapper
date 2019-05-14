@@ -23,30 +23,50 @@ using System.Text;
 
 namespace ArgsMapper.Usage
 {
-    internal static class UsageScreenFormatter
+    internal interface IUsageRenderer
     {
-        internal static StringBuilder AppendContent(this StringBuilder stringBuilder, 
-            int maxWidth, params string[] contents)
+        void AppendContent(params string[] contents);
+        void AppendSection(string header, string sectionString);
+        void AppendOption(string optionString, string description);
+        void AppendCommand(string commandString, string description);
+        string ToString();
+    }
+
+    internal class UsageRenderer : IUsageRenderer
+    {
+        private readonly int _maxWidth;
+        private readonly StringBuilder _stringBuilder = new StringBuilder();
+
+        public UsageRenderer(int maxWidth)
         {
-            return stringBuilder;
+            _maxWidth = maxWidth;
         }
 
-        internal static StringBuilder AppendSection(this StringBuilder stringBuilder, 
-            int maxWidth, string header, StringBuilder sectionStringBuilder)
+        public int MaxWidth { get; set; }
+
+        public void AppendContent(params string[] contents)
         {
-            return stringBuilder;
+            _stringBuilder.Append("");
         }
 
-        internal static StringBuilder AppendOption(this StringBuilder stringBuilder,
-            int maxWidth, string optionString, string description)
+        public void AppendSection(string header, string sectionString)
         {
-            return stringBuilder;
+            _stringBuilder.Append("");
         }
 
-        internal static StringBuilder AppendCommand(this StringBuilder stringBuilder,
-            int maxWidth, string commandString, string description)
+        public void AppendOption(string optionString, string description)
         {
-            return stringBuilder;
+            _stringBuilder.Append("");
+        }
+
+        public void AppendCommand(string commandString, string description)
+        {
+            _stringBuilder.Append("");
+        }
+
+        public override string ToString()
+        {
+            return _stringBuilder.ToString();
         }
     }
 }

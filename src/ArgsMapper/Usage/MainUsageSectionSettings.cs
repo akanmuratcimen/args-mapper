@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
 
@@ -30,31 +29,24 @@ namespace ArgsMapper.Usage
 {
     internal class MainUsageSectionSettings<T> : IMainUsageSectionSettings<T> where T : class
     {
-        private readonly IList<Command> _commands;
-        private readonly IList<Option> _options;
+        private readonly IEnumerable<Command> _commands;
+        private readonly IEnumerable<Option> _options;
+        private readonly IUsageRenderer _usageRenderer;
 
-        private readonly IUsageBuilderSettings _settings;
-
-        public MainUsageSectionSettings(
-            IList<Command> commands,
-            IList<Option> options,
-            IUsageBuilderSettings settings)
+        public MainUsageSectionSettings(IEnumerable<Command> commands, 
+            IEnumerable<Option> options, IUsageRenderer usageRenderer)
         {
             _commands = commands;
             _options = options;
-            _settings = settings;
+            _usageRenderer = usageRenderer;
         }
-
-        public StringBuilder StringBuilder { get; } = new StringBuilder();
 
         public void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
             string description = null)
         {
             var option = _options.Get(propertySelector);
 
-            // todo check whether the option is exist.
-
-            StringBuilder.AppendOption(_settings.MaxWidth, option.ToString(), description);
+            _usageRenderer.AppendOption(option.ToString(), description);
         }
 
         public void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
@@ -62,21 +54,19 @@ namespace ArgsMapper.Usage
         {
             var command = _commands.Get(propertySelector);
 
-            // todo check whether the command is exist.
-
-            StringBuilder.AppendOption(_settings.MaxWidth, command.ToString(), description);
+            _usageRenderer.AppendOption(command.ToString(), description);
         }
 
         public void AddContent(params string[] contents)
         {
-            StringBuilder.AppendContent(_settings.MaxWidth, contents);
+            _usageRenderer.AppendContent(contents);
         }
 
         public void AddContent(params (string column1, string column2)[] columns)
         {
             foreach (var (column1, column2) in columns)
             {
-                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2);
+                _usageRenderer.AppendContent(column1, column2);
             }
         }
 
@@ -84,7 +74,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3) in columns)
             {
-                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3);
+                _usageRenderer.AppendContent(column1, column2, column3);
             }
         }
 
@@ -93,7 +83,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4) in columns)
             {
-                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3, column4);
+                _usageRenderer.AppendContent(column1, column2, column3, column4);
             }
         }
 
@@ -102,7 +92,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5) in columns)
             {
-                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3, column4, column5);
+                _usageRenderer.AppendContent(column1, column2, column3, column4, column5);
             }
         }
 
@@ -111,7 +101,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5, column6) in columns)
             {
-                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3, column4, column5, column6);
+                _usageRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
             }
         }
     }
