@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
     internal interface ICommandOptionValidationService
     {
         void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
-            Option option) where T : class;
+            Option option) where T : class where TProperty : class;
     }
 
     internal class CommandOptionValidationService : ICommandOptionValidationService
@@ -47,7 +47,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
         private IEnumerable<ICommandOptionValidator> Validators { get; }
 
         public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
-            Option option) where T : class
+            Option option) where T : class where TProperty : class
         {
             foreach (var validator in Validators)
             {

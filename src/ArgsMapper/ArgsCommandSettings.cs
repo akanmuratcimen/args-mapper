@@ -32,7 +32,7 @@ namespace ArgsMapper
     /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
 
     // ReSharper disable once UnusedTypeParameter
-    public class ArgsCommandSettings<T, TProperty> where T : class
+    public class ArgsCommandSettings<T, TProperty> where T : class where TProperty : class
     {
         /// <summary>
         ///     Ignores the option if true.
@@ -45,6 +45,6 @@ namespace ArgsMapper
         /// <summary>
         ///     Command usage builder.
         /// </summary>
-        public ICommandUsageBuilder<T, TProperty> Usage => new CommandUsageBuilder<T, TProperty>(Options);
+        public ICommandUsageBuilder<TProperty> Usage => new CommandUsageBuilder<TProperty>(Options);
     }
 }

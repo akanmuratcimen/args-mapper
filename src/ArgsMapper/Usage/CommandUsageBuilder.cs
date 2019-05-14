@@ -26,7 +26,7 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.Usage
 {
-    internal class CommandUsageBuilder<T, TCommand> : ICommandUsageBuilder<T, TCommand> where T : class
+    internal class CommandUsageBuilder<TCommand> : ICommandUsageBuilder<TCommand> where TCommand : class
     {
         private readonly IList<Option> _commandOptions;
         private readonly StringBuilder _stringBuilder = new StringBuilder();
@@ -38,9 +38,9 @@ namespace ArgsMapper.Usage
 
         public IUsageBuilderSettings Settings { get; } = new UsageBuilderSettings();
 
-        public void AddSection(string header, Action<ICommandUsageSectionSettings<T, TCommand>> sectionSettings)
+        public void AddSection(string header, Action<ICommandUsageSectionSettings<TCommand>> sectionSettings)
         {
-            var settings = new CommandUsageSectionSettings<T, TCommand>(_commandOptions, Settings);
+            var settings = new CommandUsageSectionSettings<TCommand>(_commandOptions, Settings);
 
             sectionSettings(settings);
 

@@ -27,7 +27,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
     internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
     {
         public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
-            Option commandOption) where T : class
+            Option commandOption) where T : class where TProperty : class
         {
             if (commandSettings.Options.Any(x => string.Equals(x.LongName,
                 commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))

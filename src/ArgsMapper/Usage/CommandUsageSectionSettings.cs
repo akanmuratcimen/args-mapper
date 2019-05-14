@@ -28,7 +28,8 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Usage
 {
-    internal class CommandUsageSectionSettings<T, TCommand> : ICommandUsageSectionSettings<T, TCommand> where T : class
+    internal class CommandUsageSectionSettings<TCommand> : ICommandUsageSectionSettings<TCommand> 
+        where TCommand : class
     {
         private readonly IList<Option> _commandOptions;
         private readonly IUsageBuilderSettings _settings;

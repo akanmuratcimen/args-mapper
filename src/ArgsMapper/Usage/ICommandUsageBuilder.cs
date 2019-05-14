@@ -23,9 +23,9 @@ using System;
 
 namespace ArgsMapper.Usage
 {
-    public interface ICommandUsageBuilder<T, TCommand> : IUsageContentBuilder where T : class
+    public interface ICommandUsageBuilder<TCommand> : IUsageContentBuilder where TCommand : class
     {
         IUsageBuilderSettings Settings { get; }
-        void AddSection(string header, Action<ICommandUsageSectionSettings<T, TCommand>> sectionSettings);
+        void AddSection(string header, Action<ICommandUsageSectionSettings<TCommand>> sectionSettings);
     }
 }

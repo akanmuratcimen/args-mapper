@@ -27,7 +27,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
     internal class CommandOptionShortNameValidator : ICommandOptionValidator
     {
         public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
-            Option commandOption) where T : class
+            Option commandOption) where T : class where TProperty : class
         {
             // ReSharper disable once PossibleInvalidOperationException
             if (commandOption.HasShortName)

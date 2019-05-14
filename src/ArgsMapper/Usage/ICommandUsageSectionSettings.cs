@@ -24,8 +24,7 @@ using System.Linq.Expressions;
 
 namespace ArgsMapper.Usage
 {
-    // ReSharper disable once UnusedTypeParameter
-    public interface ICommandUsageSectionSettings<T, TCommand> : IUsageContentBuilder where T : class
+    public interface ICommandUsageSectionSettings<TCommand> : IUsageContentBuilder where TCommand : class
     {
         void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector, string description = null);
     }

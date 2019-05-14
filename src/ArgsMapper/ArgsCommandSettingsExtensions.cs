@@ -50,7 +50,7 @@ namespace ArgsMapper
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, false, null);
         }
@@ -75,7 +75,7 @@ namespace ArgsMapper
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, 
             Action<ArgsOptionSettings<TOption>> optionSettings)
-            where T : class
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, false, optionSettings);
         }
@@ -105,7 +105,8 @@ namespace ArgsMapper
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, string longName) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector, string longName) 
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, null);
         }
@@ -137,7 +138,7 @@ namespace ArgsMapper
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, optionSettings);
         }
@@ -173,7 +174,7 @@ namespace ArgsMapper
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, 
-            char shortName, string longName) where T : class
+            char shortName, string longName) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, null);
         }
@@ -211,14 +212,15 @@ namespace ArgsMapper
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, 
             char shortName, string longName,
-            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, optionSettings);
         }
 
         private static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TProperty>> propertySelector, char? shortName, string longName,
-            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings) where T : class
+            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings) 
+            where T : class where TCommand : class
         {
             ushort? position = null;
 
@@ -248,7 +250,7 @@ namespace ArgsMapper
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, true, null);
         }
@@ -269,7 +271,7 @@ namespace ArgsMapper
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector,
             Action<ArgsOptionSettings<TOption>> optionSettings)
-            where T : class
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, true, optionSettings);
         }
@@ -290,7 +292,7 @@ namespace ArgsMapper
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, optionSettings);
         }
@@ -309,7 +311,8 @@ namespace ArgsMapper
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, string longName) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector, string longName) 
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, null);
         }
