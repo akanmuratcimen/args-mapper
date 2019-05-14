@@ -30,8 +30,6 @@ namespace ArgsMapper
     /// </summary>
     /// <typeparam name="T">The type of the arguments model.</typeparam>
     /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
-
-    // ReSharper disable once UnusedTypeParameter
     public class ArgsCommandSettings<T, TProperty> where T : class where TProperty : class
     {
         /// <summary>
