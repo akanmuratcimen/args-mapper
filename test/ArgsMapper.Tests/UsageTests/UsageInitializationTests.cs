@@ -190,6 +190,8 @@ namespace ArgsMapper.Tests.UsageTests
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+
                 commandSettings.Usage.AddSection("header", section => {
                     section.AddOption(x => x.Option);
                 });
@@ -197,14 +199,12 @@ namespace ArgsMapper.Tests.UsageTests
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_MaxWidth_In_Settings()
+        internal void Usage_AddCommand_Usage_Settings_MaxWidth_In_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.AddSection("header", section => {
-                    section.MaxWidth = 80;
-                });
+                commandSettings.Usage.Settings.MaxWidth = 80;
             });
         }
 
@@ -324,6 +324,8 @@ namespace ArgsMapper.Tests.UsageTests
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
+            mapper.AddCommand(x => x.Command);
+
             mapper.Usage.AddSection("header", section => {
                 section.AddCommand(x => x.Command);
             });
@@ -404,19 +406,19 @@ namespace ArgsMapper.Tests.UsageTests
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
+            mapper.AddOption(x => x.Option);
+
             mapper.Usage.AddSection("header", section => {
                 section.AddOption(x => x.Option);
             });
         }
 
         [Fact]
-        internal void Usage_AddSection_MaxWidth_In_Settings()
+        internal void Usage_Settings_MaxWidth_In_Settings()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
-            mapper.Usage.AddSection("header", section => {
-                section.MaxWidth = 80;
-            });
+            mapper.Usage.Settings.MaxWidth = 80;
         }
     }
 }

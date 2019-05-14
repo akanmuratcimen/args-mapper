@@ -19,14 +19,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Linq.Expressions;
-
 namespace ArgsMapper.Usage
 {
-    // ReSharper disable once UnusedTypeParameter
-    public interface ICommandUsageSectionSettings<T, TCommand> : IUsageContentBuilder where T : class
+    public interface IUsageBuilderSettings
     {
-        void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector, string description = null);
+        int MaxWidth { get; set; }
     }
 }

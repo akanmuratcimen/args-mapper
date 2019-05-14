@@ -25,7 +25,26 @@ namespace ArgsMapper.Usage
 {
     internal static class UsageScreenFormatter
     {
-        internal static StringBuilder AppendContent(this StringBuilder stringBuilder, params string[] contents)
+        internal static StringBuilder AppendContent(this StringBuilder stringBuilder, 
+            int maxWidth, params string[] contents)
+        {
+            return stringBuilder;
+        }
+
+        internal static StringBuilder AppendSection(this StringBuilder stringBuilder, 
+            int maxWidth, string header, StringBuilder sectionStringBuilder)
+        {
+            return stringBuilder;
+        }
+
+        internal static StringBuilder AppendOption(this StringBuilder stringBuilder,
+            int maxWidth, string optionString, string description)
+        {
+            return stringBuilder;
+        }
+
+        internal static StringBuilder AppendCommand(this StringBuilder stringBuilder,
+            int maxWidth, string commandString, string description)
         {
             return stringBuilder;
         }

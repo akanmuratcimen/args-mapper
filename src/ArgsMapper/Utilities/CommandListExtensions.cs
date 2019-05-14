@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using ArgsMapper.Models;
 
 namespace ArgsMapper.Utilities
@@ -31,6 +32,14 @@ namespace ArgsMapper.Utilities
         internal static Command Get(this IEnumerable<Command> commands, string value, StringComparison stringComparison)
         {
             return commands.FirstOrDefault(x => string.Equals(x.Name, value, stringComparison));
+        }
+
+        internal static Command Get<T, TCommand>(this IEnumerable<Command> commands,
+            Expression<Func<T, TCommand>> propertySelector)
+        {
+            var propertyInfos = propertySelector.GetPropertyInfos();
+
+            return commands.FirstOrDefault(x => x.PropertyInfo == propertyInfos[0]);
         }
     }
 }

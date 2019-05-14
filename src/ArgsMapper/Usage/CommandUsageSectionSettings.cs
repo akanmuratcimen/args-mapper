@@ -21,45 +21,46 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Usage
 {
-    internal class MainUsageBuilder<T> : IMainUsageBuilder<T> where T : class
+    internal class CommandUsageSectionSettings<T, TCommand> : ICommandUsageSectionSettings<T, TCommand> where T : class
     {
-        private readonly IList<Command> _commands;
-        private readonly IList<Option> _options;
+        private readonly IList<Option> _commandOptions;
+        private readonly IUsageBuilderSettings _settings;
 
-        private readonly StringBuilder _stringBuilder = new StringBuilder();
-
-        public MainUsageBuilder(IList<Command> commands, IList<Option> options)
+        public CommandUsageSectionSettings(IList<Option> commandOptions, IUsageBuilderSettings settings)
         {
-            _commands = commands;
-            _options = options;
+            _commandOptions = commandOptions;
+            _settings = settings;
         }
 
-        public IUsageBuilderSettings Settings { get; } = new UsageBuilderSettings();
+        public StringBuilder StringBuilder { get; } = new StringBuilder();
 
-        public void AddSection(string header, Action<IMainUsageSectionSettings<T>> sectionSettings)
+        public void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
+            string description = null)
         {
-            var settings = new MainUsageSectionSettings<T>(_commands, _options, Settings);
+            var option = _commandOptions.Get(propertySelector);
 
-            sectionSettings(settings);
+            // todo check whether the option is exist.
 
-            _stringBuilder.AppendSection(Settings.MaxWidth, header, settings.StringBuilder);
+            StringBuilder.AppendOption(_settings.MaxWidth, option.ToString(), description);
         }
 
         public void AddContent(params string[] contents)
         {
-            _stringBuilder.AppendContent(Settings.MaxWidth, contents);
+            StringBuilder.AppendContent(_settings.MaxWidth, contents);
         }
 
         public void AddContent(params (string column1, string column2)[] columns)
         {
             foreach (var (column1, column2) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2);
+                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2);
             }
         }
 
@@ -67,7 +68,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3);
+                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3);
             }
         }
 
@@ -76,7 +77,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4);
+                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3, column4);
             }
         }
 
@@ -85,7 +86,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4, column5);
+                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3, column4, column5);
             }
         }
 
@@ -94,7 +95,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5, column6) in columns)
             {
-                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4, column5, column6);
+                StringBuilder.AppendContent(_settings.MaxWidth, column1, column2, column3, column4, column5, column6);
             }
         }
     }

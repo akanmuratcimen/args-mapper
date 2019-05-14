@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using ArgsMapper.Models;
 
 namespace ArgsMapper.Utilities
@@ -42,6 +43,14 @@ namespace ArgsMapper.Utilities
                 default:
                     return null;
             }
+        }
+
+        internal static Option Get<T, TOption>(this IEnumerable<Option> options,
+            Expression<Func<T, TOption>> propertySelector)
+        {
+            var propertyInfos = propertySelector.GetPropertyInfos();
+
+            return options.FirstOrDefault(x => x.PropertyInfo == propertyInfos[propertyInfos.Length - 1]);
         }
 
         internal static Option GetByShortName(this IEnumerable<Option> options, string key)

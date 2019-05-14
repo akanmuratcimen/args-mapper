@@ -45,6 +45,6 @@ namespace ArgsMapper
         /// <summary>
         ///     Command usage builder.
         /// </summary>
-        public ICommandUsageBuilder<T, TProperty> Usage { get; } = new CommandUsageBuilder<T, TProperty>();
+        public ICommandUsageBuilder<T, TProperty> Usage => new CommandUsageBuilder<T, TProperty>(Options);
     }
 }

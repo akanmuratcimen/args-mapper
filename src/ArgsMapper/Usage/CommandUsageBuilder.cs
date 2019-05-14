@@ -20,40 +20,79 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
+using System.Text;
+using ArgsMapper.Models;
 
 namespace ArgsMapper.Usage
 {
     internal class CommandUsageBuilder<T, TCommand> : ICommandUsageBuilder<T, TCommand> where T : class
     {
+        private readonly IList<Option> _commandOptions;
+        private readonly StringBuilder _stringBuilder = new StringBuilder();
+
+        public CommandUsageBuilder(IList<Option> commandOptions)
+        {
+            _commandOptions = commandOptions;
+        }
+
+        public IUsageBuilderSettings Settings { get; } = new UsageBuilderSettings();
+
         public void AddSection(string header, Action<ICommandUsageSectionSettings<T, TCommand>> sectionSettings)
         {
+            var settings = new CommandUsageSectionSettings<T, TCommand>(_commandOptions, Settings);
+
+            sectionSettings(settings);
+
+            _stringBuilder.AppendSection(Settings.MaxWidth, header, settings.StringBuilder);
         }
 
         public void AddContent(params string[] contents)
         {
+            _stringBuilder.AppendContent(Settings.MaxWidth, contents);
         }
 
         public void AddContent(params (string column1, string column2)[] columns)
         {
+            foreach (var (column1, column2) in columns)
+            {
+                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2);
+            }
         }
 
         public void AddContent(params (string column1, string column2, string column3)[] columns)
         {
+            foreach (var (column1, column2, column3) in columns)
+            {
+                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3);
+            }
         }
 
         public void AddContent(params (string column1, string column2, string column3,
             string column4)[] columns)
         {
+            foreach (var (column1, column2, column3, column4) in columns)
+            {
+                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4);
+            }
         }
 
         public void AddContent(params (string column1, string column2, string column3,
             string column4, string column5)[] columns)
         {
+            foreach (var (column1, column2, column3, column4, column5) in columns)
+            {
+                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4, column5);
+            }
         }
 
         public void AddContent(params (string column1, string column2, string column3,
             string column4, string column5, string column6)[] columns)
         {
+            foreach (var (column1, column2, column3, column4, column5, column6) in columns)
+            {
+                _stringBuilder.AppendContent(Settings.MaxWidth, column1, column2, column3, column4, column5, column6);
+            }
         }
     }
 }

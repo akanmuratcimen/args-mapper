@@ -26,10 +26,7 @@ namespace ArgsMapper.Usage
 {
     public interface IMainUsageSectionSettings<T> : IUsageContentBuilder where T : class
     {
-        int MaxWidth { get; set; }
-
-        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
-            string description = null);
+        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector, string description = null);
 
         void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
             string description = null) where TCommand : class;
