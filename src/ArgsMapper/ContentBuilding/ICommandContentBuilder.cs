@@ -20,15 +20,12 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Linq.Expressions;
 
-namespace ArgsMapper.Usage
+namespace ArgsMapper.ContentBuilding
 {
-    public interface IMainUsageSectionSettings<T> : IUsageContentBuilder where T : class
+    public interface ICommandContentBuilder<TCommand> : IContentBuilder where TCommand : class
     {
-        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector, string description = null);
-
-        void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
-            string description = null) where TCommand : class;
+        IContentBuilderSettings Settings { get; }
+        void AddSection(string header, Action<ICommandContentSectionSettings<TCommand>> sectionSettings);
     }
 }

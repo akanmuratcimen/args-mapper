@@ -19,13 +19,21 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Linq.Expressions;
-
-namespace ArgsMapper.Usage
+namespace ArgsMapper.ContentBuilding
 {
-    public interface ICommandUsageSectionSettings<TCommand> : IUsageContentBuilder where TCommand : class
+    public interface IContentBuilder
     {
-        void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector, string description = null);
+        void AddContent(params string[] contents);
+        void AddContent(params (string column1, string column2)[] columns);
+        void AddContent(params (string column1, string column2, string column3)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5)[] columns);
+
+        void AddContent(params (string column1, string column2, string column3,
+            string column4, string column5, string column6)[] columns);
     }
 }

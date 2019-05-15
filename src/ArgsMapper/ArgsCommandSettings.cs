@@ -20,8 +20,8 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
+using ArgsMapper.ContentBuilding;
 using ArgsMapper.Models;
-using ArgsMapper.Usage;
 
 namespace ArgsMapper
 {
@@ -43,6 +43,6 @@ namespace ArgsMapper
         /// <summary>
         ///     Command usage builder.
         /// </summary>
-        public ICommandUsageBuilder<TProperty> Usage => new CommandUsageBuilder<TProperty>(Options);
+        public ICommandContentBuilder<TProperty> Usage => new CommandContentBuilder<TProperty>(Options);
     }
 }

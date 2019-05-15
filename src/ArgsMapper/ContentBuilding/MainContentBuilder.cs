@@ -21,52 +21,45 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using ArgsMapper.Models;
-using ArgsMapper.Utilities;
 
-namespace ArgsMapper.Usage
+namespace ArgsMapper.ContentBuilding
 {
-    internal class MainUsageSectionSettings<T> : IMainUsageSectionSettings<T> where T : class
+    internal class MainContentBuilder<T> : IMainContentBuilder<T> where T : class
     {
         private readonly IEnumerable<Command> _commands;
         private readonly IEnumerable<Option> _options;
-        private readonly IUsageRenderer _usageRenderer;
 
-        public MainUsageSectionSettings(IEnumerable<Command> commands, 
-            IEnumerable<Option> options, IUsageRenderer usageRenderer)
+        public MainContentBuilder(IEnumerable<Command> commands, IEnumerable<Option> options)
         {
             _commands = commands;
             _options = options;
-            _usageRenderer = usageRenderer;
         }
 
-        public void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
-            string description = null)
+        private IContentRenderer ContentRenderer => new ContentRenderer(Settings.MaxWidth);
+
+        public IContentBuilderSettings Settings { get; } = new ContentBuilderSettings();
+
+        public void AddSection(string header, Action<IMainContentSectionSettings<T>> sectionSettings)
         {
-            var option = _options.Get(propertySelector);
+            var usageRenderer = new ContentRenderer(Settings.MaxWidth);
+            var settings = new MainContentSectionSettings<T>(_commands, _options, usageRenderer);
 
-            _usageRenderer.AppendOption(option.ToString(), description);
-        }
+            sectionSettings(settings);
 
-        public void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
-            string description = null) where TCommand : class
-        {
-            var command = _commands.Get(propertySelector);
-
-            _usageRenderer.AppendOption(command.ToString(), description);
+            ContentRenderer.AppendSection(header, usageRenderer.ToString());
         }
 
         public void AddContent(params string[] contents)
         {
-            _usageRenderer.AppendContent(contents);
+            ContentRenderer.AppendContent(contents);
         }
 
         public void AddContent(params (string column1, string column2)[] columns)
         {
             foreach (var (column1, column2) in columns)
             {
-                _usageRenderer.AppendContent(column1, column2);
+                ContentRenderer.AppendContent(column1, column2);
             }
         }
 
@@ -74,7 +67,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3) in columns)
             {
-                _usageRenderer.AppendContent(column1, column2, column3);
+                ContentRenderer.AppendContent(column1, column2, column3);
             }
         }
 
@@ -83,7 +76,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4) in columns)
             {
-                _usageRenderer.AppendContent(column1, column2, column3, column4);
+                ContentRenderer.AppendContent(column1, column2, column3, column4);
             }
         }
 
@@ -92,7 +85,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5) in columns)
             {
-                _usageRenderer.AppendContent(column1, column2, column3, column4, column5);
+                ContentRenderer.AppendContent(column1, column2, column3, column4, column5);
             }
         }
 
@@ -101,7 +94,7 @@ namespace ArgsMapper.Usage
         {
             foreach (var (column1, column2, column3, column4, column5, column6) in columns)
             {
-                _usageRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
+                ContentRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
             }
         }
     }

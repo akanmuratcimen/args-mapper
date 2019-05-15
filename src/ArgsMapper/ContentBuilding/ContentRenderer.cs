@@ -21,9 +21,9 @@
 
 using System.Text;
 
-namespace ArgsMapper.Usage
+namespace ArgsMapper.ContentBuilding
 {
-    internal interface IUsageRenderer
+    internal interface IContentRenderer
     {
         void AppendContent(params string[] contents);
         void AppendSection(string header, string sectionString);
@@ -32,12 +32,12 @@ namespace ArgsMapper.Usage
         string ToString();
     }
 
-    internal class UsageRenderer : IUsageRenderer
+    internal class ContentRenderer : IContentRenderer
     {
         private readonly int _maxWidth;
         private readonly StringBuilder _stringBuilder = new StringBuilder();
 
-        public UsageRenderer(int maxWidth)
+        public ContentRenderer(int maxWidth)
         {
             _maxWidth = maxWidth;
         }

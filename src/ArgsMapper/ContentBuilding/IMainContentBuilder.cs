@@ -19,10 +19,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace ArgsMapper.Usage
+using System;
+
+namespace ArgsMapper.ContentBuilding
 {
-    public interface IUsageBuilderSettings
+    public interface IMainContentBuilder<T> : IContentBuilder where T : class
     {
-        int MaxWidth { get; set; }
+        IContentBuilderSettings Settings { get; }
+        void AddSection(string header, Action<IMainContentSectionSettings<T>> sectionSettings);
     }
 }

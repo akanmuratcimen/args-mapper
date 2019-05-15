@@ -22,12 +22,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ArgsMapper.ContentBuilding;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
-using ArgsMapper.Usage;
 using ArgsMapper.Utilities;
 using ArgsMapper.ValueConversion;
 
@@ -49,7 +49,8 @@ namespace ArgsMapper
         internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
         internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
 
-        public IMainUsageBuilder<T> Usage => new MainUsageBuilder<T>(Commands, Options);
+        public IMainContentBuilder<T> Introduction => new MainContentBuilder<T>(Commands, Options);
+        public IMainContentBuilder<T> Usage => new MainContentBuilder<T>(Commands, Options);
 
         public void Execute(string[] args, Action<T> onExecute)
         {

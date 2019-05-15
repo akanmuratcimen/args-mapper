@@ -21,7 +21,7 @@
 
 using Xunit;
 
-namespace ArgsMapper.Tests.UsageTests
+namespace ArgsMapper.Tests.ContentBuilderTests
 {
     public class UsageInitializationTests
     {
