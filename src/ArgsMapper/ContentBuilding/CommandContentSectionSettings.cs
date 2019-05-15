@@ -33,8 +33,7 @@ namespace ArgsMapper.ContentBuilding
         private readonly IEnumerable<Option> _commandOptions;
         private readonly IContentRenderer _contentRenderer;
 
-        public CommandContentSectionSettings(IEnumerable<Option> commandOptions, 
-            IContentRenderer contentRenderer)
+        public CommandContentSectionSettings(IEnumerable<Option> commandOptions, IContentRenderer contentRenderer)
         {
             _commandOptions = commandOptions;
             _contentRenderer = contentRenderer;

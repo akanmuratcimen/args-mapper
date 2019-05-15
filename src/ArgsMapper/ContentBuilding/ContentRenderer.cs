@@ -35,11 +35,12 @@ namespace ArgsMapper.ContentBuilding
     internal class ContentRenderer : IContentRenderer
     {
         private readonly int _maxWidth;
-        private readonly StringBuilder _stringBuilder = new StringBuilder();
+        private readonly StringBuilder _stringBuilder;
 
         public ContentRenderer(int maxWidth)
         {
             _maxWidth = maxWidth;
+            _stringBuilder = new StringBuilder();
         }
 
         public int MaxWidth { get; set; }
