@@ -14,9 +14,6 @@ namespace Basic
                 commandSettings.AddOption(x => x.Password);
             });
 
-            mapper.Introduction.AddContent("sample introduction content.");
-            mapper.Usage.AddContent("sample usage content.");
-
             mapper.Execute(args, OnExecute);
         }
 

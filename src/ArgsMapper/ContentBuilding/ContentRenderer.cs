@@ -19,21 +19,15 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using System.Text;
+using ArgsMapper.Utilities;
 
 namespace ArgsMapper.ContentBuilding
 {
-    internal interface IContentRenderer
-    {
-        void AppendContent(params string[] contents);
-        void AppendSection(string header, string sectionString);
-        void AppendOption(string optionString, string description);
-        void AppendCommand(string commandString, string description);
-        string ToString();
-    }
-
     internal class ContentRenderer : IContentRenderer
     {
+        private const int IndentSize = 2;
         private readonly int _maxWidth;
         private readonly StringBuilder _stringBuilder;
 
@@ -43,8 +37,6 @@ namespace ArgsMapper.ContentBuilding
             _stringBuilder = new StringBuilder();
         }
 
-        public int MaxWidth { get; set; }
-
         public void AppendContent(params string[] contents)
         {
             foreach (var content in contents)
@@ -53,19 +45,89 @@ namespace ArgsMapper.ContentBuilding
             }
         }
 
+        public void AppendTable(params (string column1, string column2)[] columns)
+        {
+            foreach (var (column1, column2) in columns)
+            {
+                _stringBuilder.Append(column1);
+                _stringBuilder.Append(column2);
+                _stringBuilder.AppendNewLine();
+            }
+        }
+
+        public void AppendTable(params (string column1, string column2, string column3)[] columns)
+        {
+            foreach (var (column1, column2, column3) in columns)
+            {
+                _stringBuilder.Append(column1);
+                _stringBuilder.Append(column2);
+                _stringBuilder.Append(column3);
+                _stringBuilder.AppendNewLine();
+            }
+        }
+
+        public void AppendTable(params (string column1, string column2, string column3,
+            string column4)[] columns)
+        {
+            foreach (var (column1, column2, column3, column4) in columns)
+            {
+                _stringBuilder.Append(column1);
+                _stringBuilder.Append(column2);
+                _stringBuilder.Append(column3);
+                _stringBuilder.Append(column4);
+                _stringBuilder.AppendNewLine();
+            }
+        }
+
+        public void AppendTable(params (string column1, string column2, string column3,
+            string column4, string column5)[] columns)
+        {
+            foreach (var (column1, column2, column3, column4, column5) in columns)
+            {
+                _stringBuilder.Append(column1);
+                _stringBuilder.Append(column2);
+                _stringBuilder.Append(column3);
+                _stringBuilder.Append(column4);
+                _stringBuilder.Append(column5);
+                _stringBuilder.AppendNewLine();
+            }
+        }
+
+        public void AppendTable(params (string column1, string column2, string column3,
+            string column4, string column5, string column6)[] columns)
+        {
+            foreach (var (column1, column2, column3, column4, column5, column6) in columns)
+            {
+                _stringBuilder.Append(column1);
+                _stringBuilder.Append(column2);
+                _stringBuilder.Append(column3);
+                _stringBuilder.Append(column4);
+                _stringBuilder.Append(column5);
+                _stringBuilder.Append(column6);
+                _stringBuilder.AppendNewLine();
+            }
+        }
+
         public void AppendSection(string header, string sectionString)
         {
-            _stringBuilder.Append("");
+            _stringBuilder.AppendLine(header);
+
+            foreach (var line in sectionString.Split(Environment.NewLine))
+            {
+                _stringBuilder.Append(' ', IndentSize);
+                _stringBuilder.Append(line);
+                _stringBuilder.AppendNewLine();
+            }
         }
 
         public void AppendOption(string optionString, string description)
         {
-            _stringBuilder.Append("");
+            _stringBuilder.AppendLine($"{optionString,-18} {description,-62}");
         }
 
         public void AppendCommand(string commandString, string description)
         {
-            _stringBuilder.Append("");
+            _stringBuilder.AppendLine($"{commandString,-18} {description,-62}");
         }
 
         public override string ToString()

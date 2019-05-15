@@ -19,22 +19,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace ArgsMapper.ContentBuilding
+using System;
+using System.Text;
+
+namespace ArgsMapper.Utilities
 {
-    public interface IContentBuilder
+    internal static class StringBuilderExtensions
     {
-        string ContentText { get; }
-        void AddContent(params string[] contents);
-        void AddTable(params (string column1, string column2)[] columns);
-        void AddTable(params (string column1, string column2, string column3)[] columns);
-
-        void AddTable(params (string column1, string column2, string column3,
-            string column4)[] columns);
-
-        void AddTable(params (string column1, string column2, string column3,
-            string column4, string column5)[] columns);
-
-        void AddTable(params (string column1, string column2, string column3,
-            string column4, string column5, string column6)[] columns);
+        internal static StringBuilder AppendNewLine(this StringBuilder stringBuilder)
+        {
+            return stringBuilder.Append(Environment.NewLine);
+        }
     }
 }

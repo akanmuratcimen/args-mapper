@@ -21,20 +21,24 @@
 
 namespace ArgsMapper.ContentBuilding
 {
-    public interface IContentBuilder
+    internal interface IContentRenderer
     {
-        string ContentText { get; }
-        void AddContent(params string[] contents);
-        void AddTable(params (string column1, string column2)[] columns);
-        void AddTable(params (string column1, string column2, string column3)[] columns);
+        void AppendContent(params string[] contents);
+        void AppendSection(string header, string sectionString);
+        void AppendOption(string optionString, string description);
+        void AppendCommand(string commandString, string description);
+        void AppendTable(params (string column1, string column2)[] columns);
+        void AppendTable(params (string column1, string column2, string column3)[] columns);
 
-        void AddTable(params (string column1, string column2, string column3,
+        void AppendTable(params (string column1, string column2, string column3,
             string column4)[] columns);
 
-        void AddTable(params (string column1, string column2, string column3,
+        void AppendTable(params (string column1, string column2, string column3,
             string column4, string column5)[] columns);
 
-        void AddTable(params (string column1, string column2, string column3,
+        void AppendTable(params (string column1, string column2, string column3,
             string column4, string column5, string column6)[] columns);
+
+        string ToString();
     }
 }

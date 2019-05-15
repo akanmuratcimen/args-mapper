@@ -28,8 +28,8 @@ namespace ArgsMapper.ContentBuilding
     internal class MainContentBuilder<T> : IMainContentBuilder<T> where T : class
     {
         private readonly IEnumerable<Command> _commands;
-        private readonly IEnumerable<Option> _options;
         private readonly IContentRenderer _contentRenderer;
+        private readonly IEnumerable<Option> _options;
 
         public MainContentBuilder(IEnumerable<Command> commands, IEnumerable<Option> options)
         {
@@ -56,47 +56,32 @@ namespace ArgsMapper.ContentBuilding
             _contentRenderer.AppendContent(contents);
         }
 
-        public void AddContent(params (string column1, string column2)[] columns)
+        public void AddTable(params (string column1, string column2)[] columns)
         {
-            foreach (var (column1, column2) in columns)
-            {
-                _contentRenderer.AppendContent(column1, column2);
-            }
+            _contentRenderer.AppendTable(columns);
         }
 
-        public void AddContent(params (string column1, string column2, string column3)[] columns)
+        public void AddTable(params (string column1, string column2, string column3)[] columns)
         {
-            foreach (var (column1, column2, column3) in columns)
-            {
-                _contentRenderer.AppendContent(column1, column2, column3);
-            }
+            _contentRenderer.AppendTable(columns);
         }
 
-        public void AddContent(params (string column1, string column2, string column3,
+        public void AddTable(params (string column1, string column2, string column3,
             string column4)[] columns)
         {
-            foreach (var (column1, column2, column3, column4) in columns)
-            {
-                _contentRenderer.AppendContent(column1, column2, column3, column4);
-            }
+            _contentRenderer.AppendTable(columns);
         }
 
-        public void AddContent(params (string column1, string column2, string column3,
+        public void AddTable(params (string column1, string column2, string column3,
             string column4, string column5)[] columns)
         {
-            foreach (var (column1, column2, column3, column4, column5) in columns)
-            {
-                _contentRenderer.AppendContent(column1, column2, column3, column4, column5);
-            }
+            _contentRenderer.AppendTable(columns);
         }
 
-        public void AddContent(params (string column1, string column2, string column3,
+        public void AddTable(params (string column1, string column2, string column3,
             string column4, string column5, string column6)[] columns)
         {
-            foreach (var (column1, column2, column3, column4, column5, column6) in columns)
-            {
-                _contentRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
-            }
+            _contentRenderer.AppendTable(columns);
         }
 
         public string ContentText => _contentRenderer.ToString();
