@@ -40,12 +40,12 @@ namespace ArgsMapper.ContentBuilding
 
         public void AddSection(string header, Action<ICommandContentSectionSettings<TCommand>> sectionSettings)
         {
-            var usageScreenRenderer = new ContentRenderer(Settings.MaxWidth);
-            var settings = new CommandContentSectionSettings<TCommand>(_commandOptions, usageScreenRenderer);
+            var contentRenderer = new ContentRenderer(Settings.MaxWidth);
+            var settings = new CommandContentSectionSettings<TCommand>(_commandOptions, contentRenderer);
 
             sectionSettings(settings);
 
-            ContentRenderer.AppendSection(header, usageScreenRenderer.ToString());
+            ContentRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddContent(params string[] contents)
