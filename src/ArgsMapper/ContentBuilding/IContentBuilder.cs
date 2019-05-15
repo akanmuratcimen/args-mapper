@@ -35,5 +35,7 @@ namespace ArgsMapper.ContentBuilding
 
         void AddContent(params (string column1, string column2, string column3,
             string column4, string column5, string column6)[] columns);
+
+        string ContentText { get; }
     }
 }

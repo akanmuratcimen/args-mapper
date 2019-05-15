@@ -35,6 +35,26 @@ namespace ArgsMapper
 {
     public sealed class ArgsMapper<T> where T : class
     {
+        public IMainContentBuilder<T> Introduction;
+        public IMainContentBuilder<T> Usage;
+
+        internal IOptionValidationService OptionValidationService;
+        internal ICommandValidationService CommandValidationService;
+        internal IValueConverterFactory ValueConverterFactory;
+        internal IReflectionService ReflectionService;
+        internal ICommandOptionValidationService CommandOptionValidationService;
+
+        public ArgsMapper()
+        {
+            Introduction = new MainContentBuilder<T>(Commands, Options);
+            Usage = new MainContentBuilder<T>(Commands, Options);
+            OptionValidationService = new OptionValidationService();
+            CommandValidationService = new CommandValidationService();
+            ValueConverterFactory = new ValueConverterFactory();
+            ReflectionService = new ReflectionService(ValueConverterFactory);
+            CommandOptionValidationService = new CommandOptionValidationService();
+        }
+
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();
 
@@ -43,24 +63,45 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        internal IOptionValidationService OptionValidationService => new OptionValidationService();
-        internal ICommandValidationService CommandValidationService => new CommandValidationService();
-        internal IValueConverterFactory ValueConverterFactory => new ValueConverterFactory();
-        internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
-        internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
-
-        public IMainContentBuilder<T> Introduction => new MainContentBuilder<T>(Commands, Options);
-        public IMainContentBuilder<T> Usage => new MainContentBuilder<T>(Commands, Options);
-
         public void Execute(string[] args, Action<T> onExecute)
         {
-            var versionInfo = VersionInfo(args);
-
-            if (versionInfo != null)
+            if (args.IsNullOrEmpty())
             {
-                Settings.DefaultWriter.Write(versionInfo);
+                var introductionContentText = Introduction.ContentText;
 
-                return;
+                if (introductionContentText != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(introductionContentText);
+
+                    return;
+                }
+
+                var usageContentText = Usage.ContentText;
+
+                if (usageContentText != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(usageContentText);
+
+                    return;
+                }
+            }
+            else
+            {
+                var args0 = args[0];
+
+                if (args0.IsHelpOption())
+                {
+                    Settings.DefaultWriter.Write(Usage.ContentText);
+
+                    return;
+                }
+
+                if (args0.IsVersionOption())
+                {
+                    Settings.DefaultWriter.Write(Settings.ApplicationVersion.ToString());
+
+                    return;
+                }
             }
 
             var mapperResult = Map(args);
@@ -90,7 +131,7 @@ namespace ArgsMapper
         /// <returns>Instance of <see cref="ArgsMapperResult{T}" />.</returns>
         internal ArgsMapperResult<T> Map(params string[] args)
         {
-            var result = new ArgsMapperResult<T>(Activator.CreateInstance<T>());
+            var result = new ArgsMapperResult<T>();
 
             try
             {
@@ -102,16 +143,6 @@ namespace ArgsMapper
             }
 
             return result;
-        }
-
-        private string VersionInfo(string[] args)
-        {
-            if (!args.IsNullOrEmpty() && args[0].IsVersionOption())
-            {
-                return Settings.ApplicationVersion.ToString();
-            }
-
-            return null;
         }
     }
 }

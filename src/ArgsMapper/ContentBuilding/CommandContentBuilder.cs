@@ -28,13 +28,13 @@ namespace ArgsMapper.ContentBuilding
     internal class CommandContentBuilder<TCommand> : ICommandContentBuilder<TCommand> where TCommand : class
     {
         private readonly IEnumerable<Option> _commandOptions;
+        private readonly IContentRenderer _contentRenderer;
 
         public CommandContentBuilder(IEnumerable<Option> commandOptions)
         {
             _commandOptions = commandOptions;
+            _contentRenderer = new ContentRenderer(Settings.MaxWidth);
         }
-
-        private IContentRenderer ContentRenderer => new ContentRenderer(Settings.MaxWidth);
 
         public IContentBuilderSettings Settings { get; } = new ContentBuilderSettings();
 
@@ -45,19 +45,19 @@ namespace ArgsMapper.ContentBuilding
 
             sectionSettings(settings);
 
-            ContentRenderer.AppendSection(header, contentRenderer.ToString());
+            _contentRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddContent(params string[] contents)
         {
-            ContentRenderer.AppendContent(contents);
+            _contentRenderer.AppendContent(contents);
         }
 
         public void AddContent(params (string column1, string column2)[] columns)
         {
             foreach (var (column1, column2) in columns)
             {
-                ContentRenderer.AppendContent(column1, column2);
+                _contentRenderer.AppendContent(column1, column2);
             }
         }
 
@@ -65,7 +65,7 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3) in columns)
             {
-                ContentRenderer.AppendContent(column1, column2, column3);
+                _contentRenderer.AppendContent(column1, column2, column3);
             }
         }
 
@@ -74,7 +74,7 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3, column4) in columns)
             {
-                ContentRenderer.AppendContent(column1, column2, column3, column4);
+                _contentRenderer.AppendContent(column1, column2, column3, column4);
             }
         }
 
@@ -83,7 +83,7 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3, column4, column5) in columns)
             {
-                ContentRenderer.AppendContent(column1, column2, column3, column4, column5);
+                _contentRenderer.AppendContent(column1, column2, column3, column4, column5);
             }
         }
 
@@ -92,8 +92,10 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3, column4, column5, column6) in columns)
             {
-                ContentRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
+                _contentRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
             }
         }
+
+        public string ContentText => _contentRenderer.ToString();
     }
 }

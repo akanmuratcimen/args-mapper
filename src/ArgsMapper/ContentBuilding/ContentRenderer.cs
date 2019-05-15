@@ -46,7 +46,10 @@ namespace ArgsMapper.ContentBuilding
 
         public void AppendContent(params string[] contents)
         {
-            _stringBuilder.Append("");
+            foreach (var content in contents)
+            {
+                _stringBuilder.AppendLine(content);
+            }
         }
 
         public void AppendSection(string header, string sectionString)

@@ -95,5 +95,7 @@ namespace ArgsMapper.ContentBuilding
                 _contentRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
             }
         }
+
+        public string ContentText => _contentRenderer.ToString();
     }
 }

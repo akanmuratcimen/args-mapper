@@ -30,10 +30,10 @@ namespace ArgsMapper.ContentBuilding
     internal class MainContentSectionSettings<T> : IMainContentSectionSettings<T> where T : class
     {
         private readonly IEnumerable<Command> _commands;
-        private readonly IEnumerable<Option> _options;
         private readonly IContentRenderer _contentRenderer;
+        private readonly IEnumerable<Option> _options;
 
-        public MainContentSectionSettings(IEnumerable<Command> commands, 
+        public MainContentSectionSettings(IEnumerable<Command> commands,
             IEnumerable<Option> options, IContentRenderer contentRenderer)
         {
             _commands = commands;
@@ -104,5 +104,7 @@ namespace ArgsMapper.ContentBuilding
                 _contentRenderer.AppendContent(column1, column2, column3, column4, column5, column6);
             }
         }
+
+        public string ContentText => _contentRenderer.ToString();
     }
 }
