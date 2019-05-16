@@ -23,6 +23,6 @@ namespace ArgsMapper.ContentBuilding
 {
     internal class ContentBuilderSettings : IContentBuilderSettings
     {
-        public int MaxWidth { get; set; } = 80;
+        public int LineLengthLimit { get; set; } = 80;
     }
 }

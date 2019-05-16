@@ -19,29 +19,26 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Text;
-using ArgsMapper.Utilities;
+using System.Collections.Generic;
 
 namespace ArgsMapper.ContentBuilding
 {
     internal class ContentRenderer : IContentRenderer
     {
-        private const int IndentSize = 2;
-        private readonly int _maxWidth;
-        private readonly StringBuilder _stringBuilder;
+        private readonly IContentFormatter _contentFormatter;
+        private readonly IList<Content> Contents = new List<Content>();
 
-        public ContentRenderer(int maxWidth)
+        public ContentRenderer(int lineLengthLimit)
         {
-            _maxWidth = maxWidth;
-            _stringBuilder = new StringBuilder();
+            _contentFormatter = new ContentFormatter(Contents, lineLengthLimit);
         }
 
         public void AppendContent(params string[] contents)
         {
             foreach (var content in contents)
             {
-                _stringBuilder.AppendLine(content);
+                Contents.Add(new Content(ContentColumnType.Content,
+                    (content, null, null, null, null, null)));
             }
         }
 
@@ -49,9 +46,8 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2) in columns)
             {
-                _stringBuilder.Append(column1);
-                _stringBuilder.Append(column2);
-                _stringBuilder.AppendNewLine();
+                Contents.Add(new Content(ContentColumnType.Content,
+                    (column1, column2, null, null, null, null)));
             }
         }
 
@@ -59,10 +55,8 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3) in columns)
             {
-                _stringBuilder.Append(column1);
-                _stringBuilder.Append(column2);
-                _stringBuilder.Append(column3);
-                _stringBuilder.AppendNewLine();
+                Contents.Add(new Content(ContentColumnType.Content,
+                    (column1, column2, column3, null, null, null)));
             }
         }
 
@@ -71,11 +65,8 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3, column4) in columns)
             {
-                _stringBuilder.Append(column1);
-                _stringBuilder.Append(column2);
-                _stringBuilder.Append(column3);
-                _stringBuilder.Append(column4);
-                _stringBuilder.AppendNewLine();
+                Contents.Add(new Content(ContentColumnType.Content,
+                    (column1, column2, column3, column4, null, null)));
             }
         }
 
@@ -84,12 +75,8 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3, column4, column5) in columns)
             {
-                _stringBuilder.Append(column1);
-                _stringBuilder.Append(column2);
-                _stringBuilder.Append(column3);
-                _stringBuilder.Append(column4);
-                _stringBuilder.Append(column5);
-                _stringBuilder.AppendNewLine();
+                Contents.Add(new Content(ContentColumnType.Content,
+                    (column1, column2, column3, column4, column5, null)));
             }
         }
 
@@ -98,41 +85,29 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var (column1, column2, column3, column4, column5, column6) in columns)
             {
-                _stringBuilder.Append(column1);
-                _stringBuilder.Append(column2);
-                _stringBuilder.Append(column3);
-                _stringBuilder.Append(column4);
-                _stringBuilder.Append(column5);
-                _stringBuilder.Append(column6);
-                _stringBuilder.AppendNewLine();
+                Contents.Add(new Content(ContentColumnType.Content,
+                    (column1, column2, column3, column4, column5, column6)));
             }
         }
 
         public void AppendSection(string header, string sectionString)
         {
-            _stringBuilder.AppendLine(header);
+            Contents.Add(new Content(ContentColumnType.Header,
+                (header, null, null, null, null, null)));
 
-            foreach (var line in sectionString.Split(Environment.NewLine))
-            {
-                _stringBuilder.Append(' ', IndentSize);
-                _stringBuilder.Append(line);
-                _stringBuilder.AppendNewLine();
-            }
+            Contents.Add(new Content(ContentColumnType.Section,
+                (sectionString, null, null, null, null, null)));
         }
 
-        public void AppendOption(string optionString, string description)
+        public void AppendProperty(string name, string description)
         {
-            _stringBuilder.AppendLine($"{optionString,-18} {description,-62}");
-        }
-
-        public void AppendCommand(string commandString, string description)
-        {
-            _stringBuilder.AppendLine($"{commandString,-18} {description,-62}");
+            Contents.Add(new Content(ContentColumnType.Property,
+                (name, description, null, null, null, null)));
         }
 
         public override string ToString()
         {
-            return _stringBuilder.ToString();
+            return _contentFormatter.ToString();
         }
     }
 }

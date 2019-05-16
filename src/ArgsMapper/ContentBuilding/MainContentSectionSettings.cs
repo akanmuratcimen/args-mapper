@@ -46,7 +46,7 @@ namespace ArgsMapper.ContentBuilding
         {
             var option = _options.Get(propertySelector);
 
-            _contentRenderer.AppendOption(option.ToString(), description);
+            _contentRenderer.AppendProperty(option.ToString(), description);
         }
 
         public void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
@@ -54,7 +54,7 @@ namespace ArgsMapper.ContentBuilding
         {
             var command = _commands.Get(propertySelector);
 
-            _contentRenderer.AppendOption(command.ToString(), description);
+            _contentRenderer.AppendProperty(command.ToString(), description);
         }
 
         public void AddContent(params string[] contents)

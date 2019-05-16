@@ -44,7 +44,7 @@ namespace ArgsMapper.ContentBuilding
         {
             var option = _commandOptions.Get(propertySelector);
 
-            _contentRenderer.AppendOption(option.ToString(), description);
+            _contentRenderer.AppendProperty(option.ToString(), description);
         }
 
         public void AddContent(params string[] contents)

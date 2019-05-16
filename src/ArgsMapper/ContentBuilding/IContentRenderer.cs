@@ -25,8 +25,7 @@ namespace ArgsMapper.ContentBuilding
     {
         void AppendContent(params string[] contents);
         void AppendSection(string header, string sectionString);
-        void AppendOption(string optionString, string description);
-        void AppendCommand(string commandString, string description);
+        void AppendProperty(string name, string description);
         void AppendTable(params (string column1, string column2)[] columns);
         void AppendTable(params (string column1, string column2, string column3)[] columns);
 

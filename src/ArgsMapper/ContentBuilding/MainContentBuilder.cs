@@ -36,14 +36,14 @@ namespace ArgsMapper.ContentBuilding
             _commands = commands;
             _options = options;
 
-            _contentRenderer = new ContentRenderer(Settings.MaxWidth);
+            _contentRenderer = new ContentRenderer(Settings.LineLengthLimit);
         }
 
         public IContentBuilderSettings Settings { get; } = new ContentBuilderSettings();
 
         public void AddSection(string header, Action<IMainContentSectionSettings<T>> sectionSettings)
         {
-            var contentRenderer = new ContentRenderer(Settings.MaxWidth);
+            var contentRenderer = new ContentRenderer(Settings.LineLengthLimit);
             var settings = new MainContentSectionSettings<T>(_commands, _options, contentRenderer);
 
             sectionSettings(settings);

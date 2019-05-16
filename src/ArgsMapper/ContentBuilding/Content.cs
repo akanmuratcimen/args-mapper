@@ -21,8 +21,16 @@
 
 namespace ArgsMapper.ContentBuilding
 {
-    public interface IContentBuilderSettings
+    internal class Content
     {
-        int LineLengthLimit { get; set; }
+        internal Content(ContentColumnType contentColumnType,
+            params (string, string, string, string, string, string)[] values)
+        {
+            ContentColumnType = contentColumnType;
+            Values = values;
+        }
+
+        internal ContentColumnType ContentColumnType { get; }
+        internal (string, string, string, string, string, string)[] Values { get; }
     }
 }

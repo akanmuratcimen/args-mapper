@@ -199,12 +199,12 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_Settings_MaxWidth_In_Settings()
+        internal void Usage_AddCommand_Usage_Settings_LineLengthLimit_In_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.Settings.MaxWidth = 80;
+                commandSettings.Usage.Settings.LineLengthLimit = 80;
             });
         }
 
@@ -414,11 +414,11 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
-        internal void Usage_Settings_MaxWidth_In_Settings()
+        internal void Usage_Settings_LineLengthLimit_In_Settings()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
-            mapper.Usage.Settings.MaxWidth = 80;
+            mapper.Usage.Settings.LineLengthLimit = 80;
         }
     }
 }

@@ -21,8 +21,12 @@
 
 namespace ArgsMapper.ContentBuilding
 {
-    public interface IContentBuilderSettings
+    internal enum ContentColumnType
     {
-        int LineLengthLimit { get; set; }
+        Content,
+        Property,
+        Header,
+        Section,
+        Table
     }
 }

@@ -19,10 +19,44 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace ArgsMapper.ContentBuilding
 {
-    public interface IContentBuilderSettings
+    internal interface IContentFormatter
     {
-        int LineLengthLimit { get; set; }
+        string ToString();
+    }
+
+    internal class ContentFormatter : IContentFormatter
+    {
+        private const int IndentSize = 2;
+        private readonly IList<Content> _contents;
+        private readonly int _maxLength;
+        private readonly StringBuilder _stringBuilder;
+
+        public ContentFormatter(IList<Content> contents, int maxLength)
+        {
+            _contents = contents;
+            _maxLength = maxLength;
+            _stringBuilder = new StringBuilder();
+        }
+
+        private int MaxPropertyColumnLength
+        {
+            get
+            {
+                return _contents
+                    .Where(x => x.ContentColumnType == ContentColumnType.Property)
+                    .SelectMany(x => x.Values).DefaultIfEmpty().Max(x => x.Item1.Length);
+            }
+        }
+
+        public override string ToString()
+        {
+            return _stringBuilder.ToString();
+        }
     }
 }
