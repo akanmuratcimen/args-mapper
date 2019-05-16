@@ -53,30 +53,30 @@ namespace ArgsMapper.ContentBuilding
             _contentRenderer.AppendContent(contents);
         }
 
-        public void AddTable(params (string column1, string column2)[] columns)
+        public void AddTable(params (string, string)[] columns)
         {
             _contentRenderer.AppendTable(columns);
         }
 
-        public void AddTable(params (string column1, string column2, string column3)[] columns)
+        public void AddTable(params (string, string, string)[] columns)
         {
             _contentRenderer.AppendTable(columns);
         }
 
-        public void AddTable(params (string column1, string column2, string column3,
-            string column4)[] columns)
+        public void AddTable(params (string, string, string,
+            string)[] columns)
         {
             _contentRenderer.AppendTable(columns);
         }
 
-        public void AddTable(params (string column1, string column2, string column3,
-            string column4, string column5)[] columns)
+        public void AddTable(params (string, string, string,
+            string, string)[] columns)
         {
             _contentRenderer.AppendTable(columns);
         }
 
-        public void AddTable(params (string column1, string column2, string column3,
-            string column4, string column5, string column6)[] columns)
+        public void AddTable(params (string, string, string,
+            string, string, string)[] columns)
         {
             _contentRenderer.AppendTable(columns);
         }

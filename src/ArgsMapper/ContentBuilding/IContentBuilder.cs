@@ -25,16 +25,10 @@ namespace ArgsMapper.ContentBuilding
     {
         string ContentText { get; }
         void AddContent(params string[] contents);
-        void AddTable(params (string column1, string column2)[] columns);
-        void AddTable(params (string column1, string column2, string column3)[] columns);
-
-        void AddTable(params (string column1, string column2, string column3,
-            string column4)[] columns);
-
-        void AddTable(params (string column1, string column2, string column3,
-            string column4, string column5)[] columns);
-
-        void AddTable(params (string column1, string column2, string column3,
-            string column4, string column5, string column6)[] columns);
+        void AddTable(params (string, string)[] columns);
+        void AddTable(params (string, string, string)[] columns);
+        void AddTable(params (string, string, string, string)[] columns);
+        void AddTable(params (string, string, string, string, string )[] columns);
+        void AddTable(params (string, string, string, string, string, string )[] columns);
     }
 }

@@ -19,18 +19,50 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ArgsMapper.ContentBuilding
 {
     internal class Content
     {
-        internal Content(ContentColumnType contentColumnType,
-            params (string, string, string, string, string, string)[] values)
+        internal Content(ContentColumnType columnType, params (string, string, string, string, string, string)[] values)
         {
-            ContentColumnType = contentColumnType;
+            ColumnType = columnType;
             Values = values;
         }
 
-        internal ContentColumnType ContentColumnType { get; }
-        internal (string, string, string, string, string, string)[] Values { get; }
+        internal Content(ContentColumnType columnType, params (string, string)[] values)
+        {
+            ColumnType = columnType;
+            Values = values.Select(x => (x.Item1, x.Item2, (string)null, (string)null, (string)null, (string)null));
+        }
+
+        internal Content(ContentColumnType columnType, params string[] values)
+        {
+            ColumnType = columnType;
+            Values = values.Select(x => (x, (string)null, (string)null, (string)null, (string)null, (string)null));
+        }
+
+        internal Content(ContentColumnType columnType, params (string, string, string)[] values)
+        {
+            ColumnType = columnType;
+            Values = values.Select(x => (x.Item1, x.Item2, x.Item3, (string)null, (string)null, (string)null));
+        }
+
+        internal Content(ContentColumnType columnType, params (string, string, string, string)[] values)
+        {
+            ColumnType = columnType;
+            Values = values.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, (string)null, (string)null));
+        }
+
+        internal Content(ContentColumnType columnType, params (string, string, string, string, string)[] values)
+        {
+            ColumnType = columnType;
+            Values = values.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, (string)null));
+        }
+
+        internal ContentColumnType ColumnType { get; }
+        internal IEnumerable<(string, string, string, string, string, string)> Values { get; }
     }
 }

@@ -35,74 +35,43 @@ namespace ArgsMapper.ContentBuilding
 
         public void AppendContent(params string[] contents)
         {
-            foreach (var content in contents)
-            {
-                Contents.Add(new Content(ContentColumnType.Content,
-                    (content, null, null, null, null, null)));
-            }
+            Contents.Add(new Content(ContentColumnType.Content, contents));
         }
 
-        public void AppendTable(params (string column1, string column2)[] columns)
+        public void AppendTable(params (string, string)[] columns)
         {
-            foreach (var (column1, column2) in columns)
-            {
-                Contents.Add(new Content(ContentColumnType.Content,
-                    (column1, column2, null, null, null, null)));
-            }
+            Contents.Add(new Content(ContentColumnType.Table, columns));
         }
 
-        public void AppendTable(params (string column1, string column2, string column3)[] columns)
+        public void AppendTable(params (string, string, string)[] columns)
         {
-            foreach (var (column1, column2, column3) in columns)
-            {
-                Contents.Add(new Content(ContentColumnType.Content,
-                    (column1, column2, column3, null, null, null)));
-            }
+            Contents.Add(new Content(ContentColumnType.Table, columns));
         }
 
-        public void AppendTable(params (string column1, string column2, string column3,
-            string column4)[] columns)
+        public void AppendTable(params (string, string, string, string)[] columns)
         {
-            foreach (var (column1, column2, column3, column4) in columns)
-            {
-                Contents.Add(new Content(ContentColumnType.Content,
-                    (column1, column2, column3, column4, null, null)));
-            }
+            Contents.Add(new Content(ContentColumnType.Table, columns));
         }
 
-        public void AppendTable(params (string column1, string column2, string column3,
-            string column4, string column5)[] columns)
+        public void AppendTable(params (string, string, string, string, string)[] columns)
         {
-            foreach (var (column1, column2, column3, column4, column5) in columns)
-            {
-                Contents.Add(new Content(ContentColumnType.Content,
-                    (column1, column2, column3, column4, column5, null)));
-            }
+            Contents.Add(new Content(ContentColumnType.Table, columns));
         }
 
-        public void AppendTable(params (string column1, string column2, string column3,
-            string column4, string column5, string column6)[] columns)
+        public void AppendTable(params (string, string, string, string, string, string)[] columns)
         {
-            foreach (var (column1, column2, column3, column4, column5, column6) in columns)
-            {
-                Contents.Add(new Content(ContentColumnType.Content,
-                    (column1, column2, column3, column4, column5, column6)));
-            }
+            Contents.Add(new Content(ContentColumnType.Content, columns));
         }
 
         public void AppendSection(string header, string sectionString)
         {
-            Contents.Add(new Content(ContentColumnType.Header,
-                (header, null, null, null, null, null)));
-
-            Contents.Add(new Content(ContentColumnType.Section,
-                (sectionString, null, null, null, null, null)));
+            Contents.Add(new Content(ContentColumnType.Header, header));
+            Contents.Add(new Content(ContentColumnType.Section, sectionString));
         }
 
         public void AppendProperty(string name, string description)
         {
-            Contents.Add(new Content(ContentColumnType.Property,
-                (name, description, null, null, null, null)));
+            Contents.Add(new Content(ContentColumnType.Property, (name, description)));
         }
 
         public override string ToString()

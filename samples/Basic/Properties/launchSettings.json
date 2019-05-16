@@ -2,7 +2,7 @@
   "profiles": {
     "Basic": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": "add-user --username admin --password 12346"
     }
   }
 }

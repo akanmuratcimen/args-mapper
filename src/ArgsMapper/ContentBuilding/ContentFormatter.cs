@@ -34,13 +34,13 @@ namespace ArgsMapper.ContentBuilding
     {
         private const int IndentSize = 2;
         private readonly IList<Content> _contents;
-        private readonly int _maxLength;
+        private readonly int _lineLengthLimit;
         private readonly StringBuilder _stringBuilder;
 
-        public ContentFormatter(IList<Content> contents, int maxLength)
+        public ContentFormatter(IList<Content> contents, int lineLengthLimit)
         {
             _contents = contents;
-            _maxLength = maxLength;
+            _lineLengthLimit = lineLengthLimit;
             _stringBuilder = new StringBuilder();
         }
 
@@ -49,13 +49,21 @@ namespace ArgsMapper.ContentBuilding
             get
             {
                 return _contents
-                    .Where(x => x.ContentColumnType == ContentColumnType.Property)
+                    .Where(x => x.ColumnType == ContentColumnType.Property)
                     .SelectMany(x => x.Values).DefaultIfEmpty().Max(x => x.Item1.Length);
             }
         }
 
         public override string ToString()
         {
+            foreach (var content in _contents)
+            {
+                foreach (var value in content.Values)
+                {
+                    _stringBuilder.AppendLine(value.Item1);
+                }
+            }
+
             return _stringBuilder.ToString();
         }
     }
