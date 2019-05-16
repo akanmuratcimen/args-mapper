@@ -35,43 +35,43 @@ namespace ArgsMapper.ContentBuilding
 
         public void AppendContent(params string[] contents)
         {
-            Contents.Add(new Content(ContentColumnType.Content, contents));
+            Contents.Add(new Content(ContentType.Text, contents));
         }
 
         public void AppendTable(params (string, string)[] columns)
         {
-            Contents.Add(new Content(ContentColumnType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns));
         }
 
         public void AppendTable(params (string, string, string)[] columns)
         {
-            Contents.Add(new Content(ContentColumnType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns));
         }
 
         public void AppendTable(params (string, string, string, string)[] columns)
         {
-            Contents.Add(new Content(ContentColumnType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns));
         }
 
         public void AppendTable(params (string, string, string, string, string)[] columns)
         {
-            Contents.Add(new Content(ContentColumnType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns));
         }
 
         public void AppendTable(params (string, string, string, string, string, string)[] columns)
         {
-            Contents.Add(new Content(ContentColumnType.Content, columns));
+            Contents.Add(new Content(ContentType.Text, columns));
         }
 
         public void AppendSection(string header, string sectionString)
         {
-            Contents.Add(new Content(ContentColumnType.Header, header));
-            Contents.Add(new Content(ContentColumnType.Section, sectionString));
+            Contents.Add(new Content(ContentType.Header, header));
+            Contents.Add(new Content(ContentType.Section, sectionString));
         }
 
         public void AppendProperty(string name, string description)
         {
-            Contents.Add(new Content(ContentColumnType.Property, (name, description)));
+            Contents.Add(new Content(ContentType.Property, (name, description)));
         }
 
         public override string ToString()

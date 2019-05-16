@@ -20,8 +20,8 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using ContentValues = System.Collections.Generic.IEnumerable<(string, string, string, string, string, string)>;
 
 namespace ArgsMapper.ContentBuilding
 {
@@ -33,6 +33,7 @@ namespace ArgsMapper.ContentBuilding
     internal class ContentFormatter : IContentFormatter
     {
         private const int IndentSize = 2;
+        private const int _minColumnLength = 8;
         private readonly IList<Content> _contents;
         private readonly int _lineLengthLimit;
         private readonly StringBuilder _stringBuilder;
@@ -44,27 +45,54 @@ namespace ArgsMapper.ContentBuilding
             _stringBuilder = new StringBuilder();
         }
 
-        private int MaxPropertyColumnLength
-        {
-            get
-            {
-                return _contents
-                    .Where(x => x.ColumnType == ContentColumnType.Property)
-                    .SelectMany(x => x.Values).DefaultIfEmpty().Max(x => x.Item1.Length);
-            }
-        }
-
         public override string ToString()
         {
             foreach (var content in _contents)
             {
-                foreach (var value in content.Values)
+                var columnSizes = GetColumnSizes(content.Values);
+                var formattedValues = Format(content.Values, columnSizes);
+
+                foreach (var formattedValue in formattedValues)
                 {
-                    _stringBuilder.AppendLine(value.Item1);
+                    _stringBuilder.AppendLine(formattedValue);
                 }
             }
 
             return _stringBuilder.ToString();
+        }
+
+        private static IEnumerable<string> Format(ContentValues values,
+            (int, int, int, int, int, int) columnSizes)
+        {
+            foreach (var (column1Value, column2Value, column3Value,
+                column4Value, column5Value, column6Value) in values)
+            {
+                var (column1Length, column2Length, column3Length,
+                    column4Length, column5Length, column6Length) = columnSizes;
+
+                yield return
+                    $"{PadRight(column1Value, column1Length)}" +
+                    $"{PadRight(column2Value, column2Length)}" +
+                    $"{PadRight(column3Value, column3Length)}" +
+                    $"{PadRight(column4Value, column4Length)}" +
+                    $"{PadRight(column5Value, column5Length)}" +
+                    $"{PadRight(column6Value, column6Length)}";
+            }
+        }
+
+        private static string PadRight(string value, int length)
+        {
+            if (value == null)
+            {
+                return new string(' ', length);
+            }
+
+            return value.PadRight(length);
+        }
+
+        private static (int, int, int, int, int, int) GetColumnSizes(ContentValues values)
+        {
+            return (80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6);
         }
     }
 }

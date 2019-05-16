@@ -26,43 +26,50 @@ namespace ArgsMapper.ContentBuilding
 {
     internal class Content
     {
-        internal Content(ContentColumnType columnType, params (string, string, string, string, string, string)[] values)
+        internal Content(ContentType type, params (string, string, string, string, string, string)[] values)
         {
-            ColumnType = columnType;
+            Type = type;
+            ColumnSize = 6;
             Values = values;
         }
 
-        internal Content(ContentColumnType columnType, params (string, string)[] values)
+        internal Content(ContentType type, params (string, string)[] values)
         {
-            ColumnType = columnType;
+            Type = type;
+            ColumnSize = 2;
             Values = values.Select(x => (x.Item1, x.Item2, (string)null, (string)null, (string)null, (string)null));
         }
 
-        internal Content(ContentColumnType columnType, params string[] values)
+        internal Content(ContentType type, params string[] values)
         {
-            ColumnType = columnType;
+            Type = type;
+            ColumnSize = 1;
             Values = values.Select(x => (x, (string)null, (string)null, (string)null, (string)null, (string)null));
         }
 
-        internal Content(ContentColumnType columnType, params (string, string, string)[] values)
+        internal Content(ContentType type, params (string, string, string)[] values)
         {
-            ColumnType = columnType;
+            Type = type;
+            ColumnSize = 3;
             Values = values.Select(x => (x.Item1, x.Item2, x.Item3, (string)null, (string)null, (string)null));
         }
 
-        internal Content(ContentColumnType columnType, params (string, string, string, string)[] values)
+        internal Content(ContentType type, params (string, string, string, string)[] values)
         {
-            ColumnType = columnType;
+            Type = type;
+            ColumnSize = 4;
             Values = values.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, (string)null, (string)null));
         }
 
-        internal Content(ContentColumnType columnType, params (string, string, string, string, string)[] values)
+        internal Content(ContentType type, params (string, string, string, string, string)[] values)
         {
-            ColumnType = columnType;
+            Type = type;
+            ColumnSize = 5;
             Values = values.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, (string)null));
         }
 
-        internal ContentColumnType ColumnType { get; }
+        internal ContentType Type { get; }
         internal IEnumerable<(string, string, string, string, string, string)> Values { get; }
+        internal int ColumnSize { get; }
     }
 }

@@ -21,9 +21,9 @@
 
 namespace ArgsMapper.ContentBuilding
 {
-    internal enum ContentColumnType
+    internal enum ContentType
     {
-        Content,
+        Text,
         Property,
         Header,
         Section,
