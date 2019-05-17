@@ -26,6 +26,64 @@ namespace ArgsMapper.Tests.ContentBuilderTests
     public class ContentBuilderInitializationTests
     {
         [Fact]
+        internal void Usage_AddCommand_Usage_AddContent()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddContent("content");
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddContent_Multiple()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddContent("content", "content");
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddContent()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddContent("content");
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddContent_Multiple()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddContent("content", "content");
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddOption_In_Settings()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddOption(x => x.Option);
+                });
+            });
+        }
+
+        [Fact]
         internal void Usage_AddCommand_Usage_AddSection_AddTable_2_Tuple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
@@ -161,136 +219,126 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddContent_Multiple()
+        internal void Usage_AddCommand_Usage_AddTable_2_Tuple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.AddSection("header", section => {
-                    section.AddContent("content", "content");
-                });
+                commandSettings.Usage.AddTable(("column1", "column2"));
             });
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddContent()
+        internal void Usage_AddCommand_Usage_AddTable_3_Tuple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.AddSection("header", section => {
-                    section.AddContent("content");
-                });
+                commandSettings.Usage.AddTable(("column1", "column2", "column3"));
             });
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddOption_In_Settings()
+        internal void Usage_AddCommand_Usage_AddTable_4_Tuple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddOption(x => x.Option);
-
-                commandSettings.Usage.AddSection("header", section => {
-                    section.AddOption(x => x.Option);
-                });
+                commandSettings.Usage.AddTable(("column1", "column2", "column3", "column4"));
             });
         }
 
         [Fact]
-        internal void Usage_AddContent_2_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_5_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(("column1", "column2"));
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(("column1", "column2", "column3", "column4", "column5"));
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_3_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_6_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(("column1", "column2", "column3"));
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(("column1", "column2", "column3", "column4", "column5", "column6"));
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_4_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_Multiple_2_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(("column1", "column2", "column3", "column4"));
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(
+                    ("column1", "column2"),
+                    ("value1", "value2")
+                );
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_5_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_Multiple_3_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(("column1", "column2", "column3", "column4", "column5"));
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(
+                    ("column1", "column2", "column3"),
+                    ("value1", "value2", "value3")
+                );
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_6_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_Multiple_4_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(("column1", "column2", "column3", "column4", "column5", "column6"));
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(
+                    ("column1", "column2", "column3", "column4"),
+                    ("value1", "value2", "value3", "value4")
+                );
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_Multiple_2_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_Multiple_5_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(
-                ("column1", "column2"),
-                ("column1", "column2")
-            );
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(
+                    ("column1", "column2", "column3", "column4", "column5"),
+                    ("value1", "value2", "value3", "value4", "value5")
+                );
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_Multiple_3_Tuple()
+        internal void Usage_AddCommand_Usage_AddTable_Multiple_6_Tuple()
         {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(
-                ("column1", "column2", "column3"),
-                ("column1", "column2", "column3")
-            );
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddTable(
+                    ("column1", "column2", "column3", "column4", "column5", "column6"),
+                    ("value1", "value2", "value3", "value4", "value5", "value6")
+                );
+            });
         }
 
         [Fact]
-        internal void Usage_AddContent_Multiple_4_Tuple()
+        internal void Usage_AddContent()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
-            mapper.Usage.AddTable(
-                ("column1", "column2", "column3", "column4"),
-                ("column1", "column2", "column3", "column4")
-            );
-        }
-
-        [Fact]
-        internal void Usage_AddContent_Multiple_5_Tuple()
-        {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.Usage.AddTable(
-                ("column1", "column2", "column3", "column4", "column5"),
-                ("column1", "column2", "column3", "column4", "column5")
-            );
-        }
-
-        [Fact]
-        internal void Usage_AddContent_Multiple_6_Tuple()
-        {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.Usage.AddTable(
-                ("column1", "column2", "column3", "column4", "column5", "column6"),
-                ("column1", "column2", "column3", "column4", "column5", "column6")
-            );
+            mapper.Usage.AddContent("content");
         }
 
         [Fact]
@@ -302,14 +350,6 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
-        internal void Usage_AddContent_String()
-        {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.Usage.AddContent("content");
-        }
-
-        [Fact]
         internal void Usage_AddSection_AddCommand_In_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
@@ -318,6 +358,16 @@ namespace ArgsMapper.Tests.ContentBuilderTests
 
             mapper.Usage.AddSection("header", section => {
                 section.AddCommand(x => x.Command);
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddContent()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddContent("content");
             });
         }
 
@@ -372,22 +422,12 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_Multiple_String()
+        internal void Usage_AddSection_AddContent_Multiple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
             mapper.Usage.AddSection("header", section => {
                 section.AddContent("content", "content");
-            });
-        }
-
-        [Fact]
-        internal void Usage_AddSection_AddContent_String()
-        {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.Usage.AddSection("header", section => {
-                section.AddContent("content");
             });
         }
 
@@ -401,6 +441,101 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             mapper.Usage.AddSection("header", section => {
                 section.AddOption(x => x.Option);
             });
+        }
+
+        [Fact]
+        internal void Usage_AddTable_2_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(("column1", "column2"));
+        }
+
+        [Fact]
+        internal void Usage_AddTable_3_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(("column1", "column2", "column3"));
+        }
+
+        [Fact]
+        internal void Usage_AddTable_4_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(("column1", "column2", "column3", "column4"));
+        }
+
+        [Fact]
+        internal void Usage_AddTable_5_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(("column1", "column2", "column3", "column4", "column5"));
+        }
+
+        [Fact]
+        internal void Usage_AddTable_6_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(("column1", "column2", "column3", "column4", "column5", "column6"));
+        }
+
+        [Fact]
+        internal void Usage_AddTable_Multiple_2_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(
+                ("column1", "column2"),
+                ("value1", "value2")
+            );
+        }
+
+        [Fact]
+        internal void Usage_AddTable_Multiple_3_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(
+                ("column1", "column2", "column3"),
+                ("value1", "value2", "value3")
+            );
+        }
+
+        [Fact]
+        internal void Usage_AddTable_Multiple_4_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(
+                ("column1", "column2", "column3", "column4"),
+                ("value1", "value2", "value3", "value4")
+            );
+        }
+
+        [Fact]
+        internal void Usage_AddTable_Multiple_5_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(
+                ("column1", "column2", "column3", "column4", "column5"),
+                ("value1", "value2", "value3", "value4", "value5")
+            );
+        }
+
+        [Fact]
+        internal void Usage_AddTable_Multiple_6_Tuple()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddTable(
+                ("column1", "column2", "column3", "column4", "column5", "column6"),
+                ("value1", "value2", "value3", "value4", "value5", "value6")
+            );
         }
     }
 }
