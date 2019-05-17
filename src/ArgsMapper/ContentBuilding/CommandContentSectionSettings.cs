@@ -52,29 +52,34 @@ namespace ArgsMapper.ContentBuilding
             _contentRenderer.AppendContent(contents);
         }
 
-        public void AddTable(params (string, string)[] columns)
+        public void AddTable((string, string) columns,
+            params (string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns);
+            _contentRenderer.AppendTable(columns, rows);
         }
 
-        public void AddTable(params (string, string, string)[] columns)
+        public void AddTable((string, string, string) columns,
+            params (string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns);
+            _contentRenderer.AppendTable(columns, rows);
         }
 
-        public void AddTable(params (string, string, string, string)[] columns)
+        public void AddTable((string, string, string, string) columns,
+            params (string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns);
+            _contentRenderer.AppendTable(columns, rows);
         }
 
-        public void AddTable(params (string, string, string, string, string)[] columns)
+        public void AddTable((string, string, string, string, string) columns,
+            params (string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns);
+            _contentRenderer.AppendTable(columns, rows);
         }
 
-        public void AddTable(params (string, string, string, string, string, string)[] columns)
+        public void AddTable((string, string, string, string, string, string) columns,
+            params (string, string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns);
+            _contentRenderer.AppendTable(columns, rows);
         }
 
         public string ContentText => _contentRenderer.ToString();

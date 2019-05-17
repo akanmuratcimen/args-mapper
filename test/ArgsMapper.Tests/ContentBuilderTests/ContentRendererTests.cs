@@ -69,7 +69,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendTable(("value 1", "value 2", "value 3", "value 4", "value 5"));
+            renderer.AppendTable(
+                ("column 1", "column 2", "column 3", "column 4", "column 5"),
+                ("value 1", "value 2", "value 3", "value 4", "value 5")
+            );
 
             // Act
             var contentText = renderer.ToString();
@@ -77,9 +80,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Assert
             var lines = contentText.ToLines();
 
-            Assert.Single(lines);
+            Assert.Equal(2, lines.Length);
 
-            Assert.Equal("value 1    value 2    value 3    value 4    value 5", lines[0]);
+            Assert.Equal("column 1    column 2    column 3    column 4    column 5", lines[0]);
+            Assert.Equal("value 1     value 2     value 3     value 4     value 5", lines[1]);
         }
 
         [Fact]
@@ -88,7 +92,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendTable(("value 1", "value 2", "value 3", "value 4"));
+            renderer.AppendTable(
+                ("column 1", "column 2", "column 3", "column 4"),
+                ("value 1", "value 2", "value 3", "value 4")
+            );
 
             // Act
             var contentText = renderer.ToString();
@@ -96,9 +103,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Assert
             var lines = contentText.ToLines();
 
-            Assert.Single(lines);
+            Assert.Equal(2, lines.Length);
 
-            Assert.Equal("value 1    value 2    value 3    value 4", lines[0]);
+            Assert.Equal("column 1    column 2    column 3    column 4", lines[0]);
+            Assert.Equal("value 1     value 2     value 3     value 4", lines[1]);
         }
 
         [Fact]
@@ -107,7 +115,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendTable(("value 1", "value 2", "value 3", "value 4", "value 5", "value 6"));
+            renderer.AppendTable(
+                ("column 1", "column 2", "column 3", "column 4", "column 5", "column 6"),
+                ("value 1", "value 2", "value 3", "value 4", "value 5", "value 6")
+            );
 
             // Act
             var contentText = renderer.ToString();
@@ -115,9 +126,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Assert
             var lines = contentText.ToLines();
 
-            Assert.Single(lines);
+            Assert.Equal(2, lines.Length);
 
-            Assert.Equal("value 1    value 2    value 3    value 4    value 5    value 6", lines[0]);
+            Assert.Equal("column 1    column 2    column 3    column 4    column 5    column 6", lines[0]);
+            Assert.Equal("value 1     value 2     value 3     value 4     value 5     value 6", lines[1]);
         }
 
         [Fact]
@@ -126,7 +138,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendTable(("value 1", "value 2", "value 3"));
+            renderer.AppendTable(
+                ("column 1", "column 2", "column 3"),
+                ("value 1", "value 2", "value 3")
+            );
 
             // Act
             var contentText = renderer.ToString();
@@ -134,9 +149,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Assert
             var lines = contentText.ToLines();
 
-            Assert.Single(lines);
+            Assert.Equal(2, lines.Length);
 
-            Assert.Equal("value 1    value 2    value 3", lines[0]);
+            Assert.Equal("column 1    column 2    column 3", lines[0]);
+            Assert.Equal("value 1     value 2     value 3", lines[1]);
         }
 
         [Fact]
@@ -145,7 +161,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendTable(("value 1", "value 2"));
+            renderer.AppendTable(
+                ("column 1", "column 2"),
+                ("value 1", "value 2")
+            );
 
             // Act
             var contentText = renderer.ToString();
@@ -153,9 +172,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Assert
             var lines = contentText.ToLines();
 
-            Assert.Single(lines);
+            Assert.Equal(2, lines.Length);
 
-            Assert.Equal("value 1    value 2", lines[0]);
+            Assert.Equal("column 1    column 2", lines[0]);
+            Assert.Equal("value 1     value 2", lines[1]);
         }
     }
 }

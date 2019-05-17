@@ -53,34 +53,36 @@ namespace ArgsMapper.ContentBuilding
             _contentRenderer.AppendContent(contents);
         }
 
-        public void AddTable(params (string, string)[] columns)
-        {
-            _contentRenderer.AppendTable(columns);
-        }
-
-        public void AddTable(params (string, string, string)[] columns)
-        {
-            _contentRenderer.AppendTable(columns);
-        }
-
-        public void AddTable(params (string, string, string,
-            string)[] columns)
-        {
-            _contentRenderer.AppendTable(columns);
-        }
-
-        public void AddTable(params (string, string, string,
-            string, string)[] columns)
-        {
-            _contentRenderer.AppendTable(columns);
-        }
-
-        public void AddTable(params (string, string, string,
-            string, string, string)[] columns)
-        {
-            _contentRenderer.AppendTable(columns);
-        }
-
         public string ContentText => _contentRenderer.ToString();
+
+        public void AddTable((string, string) columns,
+            params (string, string)[] rows)
+        {
+            _contentRenderer.AppendTable(columns, rows);
+        }
+
+        public void AddTable((string, string, string) columns,
+            params (string, string, string)[] rows)
+        {
+            _contentRenderer.AppendTable(columns, rows);
+        }
+
+        public void AddTable((string, string, string, string) columns,
+            params (string, string, string, string)[] rows)
+        {
+            _contentRenderer.AppendTable(columns, rows);
+        }
+
+        public void AddTable((string, string, string, string, string) columns,
+            params (string, string, string, string, string)[] rows)
+        {
+            _contentRenderer.AppendTable(columns, rows);
+        }
+
+        public void AddTable((string, string, string, string, string, string) columns,
+            params (string, string, string, string, string, string)[] rows)
+        {
+            _contentRenderer.AppendTable(columns, rows);
+        }
     }
 }

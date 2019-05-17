@@ -19,6 +19,7 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 using ArgsMapper.Utilities;
@@ -32,6 +33,7 @@ namespace ArgsMapper.ContentBuilding
 
     internal class ContentFormatter : IContentFormatter
     {
+        private const int TableColumnPadding = 4;
         private readonly IList<Content> _contents;
         private readonly int _lineLengthLimit;
         private readonly StringBuilder _stringBuilder;
@@ -47,8 +49,8 @@ namespace ArgsMapper.ContentBuilding
         {
             foreach (var content in _contents)
             {
-                var columnSizes = GetColumnSizes(content.Values);
-                var formattedValues = Format(content.Values, columnSizes);
+                var columnLengths = GetColumnLengths(content.Values, TableColumnPadding);
+                var formattedValues = Format(content.Values, columnLengths);
 
                 foreach (var formattedValue in formattedValues)
                 {
@@ -59,35 +61,57 @@ namespace ArgsMapper.ContentBuilding
             return _stringBuilder.TrimEnd().ToString();
         }
 
-        private static IEnumerable<string> Format(IEnumerable<IReadOnlyList<string>> contents,
+        private static IEnumerable<string> Format(IEnumerable<IReadOnlyList<string>> values,
             IReadOnlyList<int> columnSizes)
         {
-            foreach (var content in contents)
+            foreach (var row in values)
             {
                 var stringBuilder = new StringBuilder();
 
-                for (var i = 0; i < content.Count; i++)
+                for (var i = 0; i < row.Count; i++)
                 {
-                    stringBuilder.Append(PadRight(content[i], columnSizes[i]));
+                    stringBuilder.Append(PadRight(row[i], columnSizes[i]));
                 }
 
                 yield return stringBuilder.ToString();
             }
         }
 
-        private static string PadRight(string value, int length)
+        internal static IReadOnlyList<int> GetColumnLengths(IEnumerable<IReadOnlyList<string>> values, int padding)
         {
-            if (value == null)
+            int[] lengths = null;
+
+            foreach (var row in values)
             {
-                return new string(' ', length);
+                lengths = lengths ?? new int[row.Count];
+
+                for (var i = 0; i < row.Count; i++)
+                {
+                    if (row[i] == null)
+                    {
+                        continue;
+                    }
+
+                    lengths[i] = Math.Max(row[i].Length, lengths[i]);
+                }
             }
 
-            return value.PadRight(length);
+            if (lengths == null)
+            {
+                return null;
+            }
+
+            for (var i = 0; i < lengths.Length - 1; i++)
+            {
+                lengths[i] += padding;
+            }
+
+            return lengths;
         }
 
-        private static IReadOnlyList<int> GetColumnSizes(IEnumerable<IReadOnlyList<string>> contents)
+        private static string PadRight(string value, int length)
         {
-            return new[] { 80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6 };
+            return value == null ? new string(' ', length) : value.PadRight(length);
         }
     }
 }

@@ -26,11 +26,22 @@ namespace ArgsMapper.ContentBuilding
         void AppendContent(params string[] contents);
         void AppendSection(string header, string sectionString);
         void AppendProperty(string name, string description);
-        void AppendTable(params (string, string)[] columns);
-        void AppendTable(params (string, string, string)[] columns);
-        void AppendTable(params (string, string, string, string)[] columns);
-        void AppendTable(params (string, string, string, string, string)[] columns);
-        void AppendTable(params (string, string, string, string, string, string)[] columns);
+
+        void AppendTable((string, string) columns,
+            params (string, string)[] rows);
+
+        void AppendTable((string, string, string) columns,
+            params (string, string, string)[] rows);
+
+        void AppendTable((string, string, string, string) columns,
+            params (string, string, string, string)[] rows);
+
+        void AppendTable((string, string, string, string, string)
+            columns, params (string, string, string, string, string)[] rows);
+
+        void AppendTable((string, string, string, string, string, string)
+            columns, params (string, string, string, string, string, string)[] rows);
+
         string ToString();
     }
 }

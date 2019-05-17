@@ -20,6 +20,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
+using ArgsMapper.Utilities;
 
 namespace ArgsMapper.ContentBuilding
 {
@@ -38,29 +39,34 @@ namespace ArgsMapper.ContentBuilding
             Contents.Add(new Content(ContentType.Text, contents));
         }
 
-        public void AppendTable(params (string, string)[] columns)
+        public void AppendTable((string, string) columns,
+            params (string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
         }
 
-        public void AppendTable(params (string, string, string)[] columns)
+        public void AppendTable((string, string, string) columns,
+            params (string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
         }
 
-        public void AppendTable(params (string, string, string, string)[] columns)
+        public void AppendTable((string, string, string, string) columns,
+            params (string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
         }
 
-        public void AppendTable(params (string, string, string, string, string)[] columns)
+        public void AppendTable((string, string, string, string, string) columns,
+            params (string, string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
         }
 
-        public void AppendTable(params (string, string, string, string, string, string)[] columns)
+        public void AppendTable((string, string, string, string, string, string) columns,
+            params (string, string, string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns));
+            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
         }
 
         public void AppendSection(string header, string sectionString)

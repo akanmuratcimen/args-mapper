@@ -37,5 +37,16 @@ namespace ArgsMapper.Utilities
 
             dictionary.Add(key, values);
         }
+
+        internal static T[] Merge<T>(this T x, T[] y)
+        {
+            var result = new T[1 + y.Length];
+
+            result[0] = x;
+
+            y.CopyTo(result, 1);
+
+            return result;
+        }
     }
 }
