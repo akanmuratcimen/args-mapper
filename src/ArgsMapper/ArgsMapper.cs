@@ -35,14 +35,13 @@ namespace ArgsMapper
 {
     public sealed class ArgsMapper<T> where T : class
     {
-        public IMainContentBuilder<T> Introduction;
-        public IMainContentBuilder<T> Usage;
-
-        internal IOptionValidationService OptionValidationService;
-        internal ICommandValidationService CommandValidationService;
-        internal IValueConverterFactory ValueConverterFactory;
-        internal IReflectionService ReflectionService;
         internal ICommandOptionValidationService CommandOptionValidationService;
+        internal ICommandValidationService CommandValidationService;
+        public IMainContentBuilder<T> Introduction;
+        internal IOptionValidationService OptionValidationService;
+        internal IReflectionService ReflectionService;
+        public IMainContentBuilder<T> Usage;
+        internal IValueConverterFactory ValueConverterFactory;
 
         public ArgsMapper()
         {
@@ -143,6 +142,11 @@ namespace ArgsMapper
             }
 
             return result;
+        }
+
+        ~ArgsMapper()
+        {
+            Settings.DefaultWriter.Dispose();
         }
     }
 }

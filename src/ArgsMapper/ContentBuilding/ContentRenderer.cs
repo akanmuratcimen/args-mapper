@@ -28,7 +28,7 @@ namespace ArgsMapper.ContentBuilding
         private readonly IContentFormatter _contentFormatter;
         private readonly IList<Content> Contents = new List<Content>();
 
-        public ContentRenderer(int lineLengthLimit)
+        public ContentRenderer(int lineLengthLimit = Constants.DefaultContentBuilderLineLengthLimit)
         {
             _contentFormatter = new ContentFormatter(Contents, lineLengthLimit);
         }
@@ -60,7 +60,7 @@ namespace ArgsMapper.ContentBuilding
 
         public void AppendTable(params (string, string, string, string, string, string)[] columns)
         {
-            Contents.Add(new Content(ContentType.Text, columns));
+            Contents.Add(new Content(ContentType.Table, columns));
         }
 
         public void AppendSection(string header, string sectionString)

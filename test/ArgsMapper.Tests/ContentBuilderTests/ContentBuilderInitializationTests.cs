@@ -23,7 +23,7 @@ using Xunit;
 
 namespace ArgsMapper.Tests.ContentBuilderTests
 {
-    public class UsageInitializationTests
+    public class ContentBuilderInitializationTests
     {
         [Fact]
         internal void Usage_AddCommand_Usage_AddSection_AddTable_2_Tuple()

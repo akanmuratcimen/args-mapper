@@ -21,7 +21,7 @@
 
 using System.Collections.Generic;
 using System.Text;
-using ContentValues = System.Collections.Generic.IEnumerable<(string, string, string, string, string, string)>;
+using ArgsMapper.Utilities;
 
 namespace ArgsMapper.ContentBuilding
 {
@@ -32,8 +32,6 @@ namespace ArgsMapper.ContentBuilding
 
     internal class ContentFormatter : IContentFormatter
     {
-        private const int IndentSize = 2;
-        private const int _minColumnLength = 8;
         private readonly IList<Content> _contents;
         private readonly int _lineLengthLimit;
         private readonly StringBuilder _stringBuilder;
@@ -58,25 +56,22 @@ namespace ArgsMapper.ContentBuilding
                 }
             }
 
-            return _stringBuilder.ToString();
+            return _stringBuilder.TrimEnd().ToString();
         }
 
-        private static IEnumerable<string> Format(ContentValues values,
-            (int, int, int, int, int, int) columnSizes)
+        private static IEnumerable<string> Format(IEnumerable<IReadOnlyList<string>> contents,
+            IReadOnlyList<int> columnSizes)
         {
-            foreach (var (column1Value, column2Value, column3Value,
-                column4Value, column5Value, column6Value) in values)
+            foreach (var content in contents)
             {
-                var (column1Length, column2Length, column3Length,
-                    column4Length, column5Length, column6Length) = columnSizes;
+                var stringBuilder = new StringBuilder();
 
-                yield return
-                    $"{PadRight(column1Value, column1Length)}" +
-                    $"{PadRight(column2Value, column2Length)}" +
-                    $"{PadRight(column3Value, column3Length)}" +
-                    $"{PadRight(column4Value, column4Length)}" +
-                    $"{PadRight(column5Value, column5Length)}" +
-                    $"{PadRight(column6Value, column6Length)}";
+                for (var i = 0; i < content.Count; i++)
+                {
+                    stringBuilder.Append(PadRight(content[i], columnSizes[i]));
+                }
+
+                yield return stringBuilder.ToString();
             }
         }
 
@@ -90,9 +85,9 @@ namespace ArgsMapper.ContentBuilding
             return value.PadRight(length);
         }
 
-        private static (int, int, int, int, int, int) GetColumnSizes(ContentValues values)
+        private static IReadOnlyList<int> GetColumnSizes(IEnumerable<IReadOnlyList<string>> contents)
         {
-            return (80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6);
+            return new[] { 80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6, 80 / 6 };
         }
     }
 }

@@ -20,40 +20,14 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Text;
 
-namespace ArgsMapper.Utilities
+namespace ArgsMapper.Tests.Helpers
 {
-    internal static class StringBuilderExtensions
+    internal static class StringExtensions
     {
-        internal static StringBuilder AppendNewLine(this StringBuilder stringBuilder)
+        public static string[] ToLines(this string value)
         {
-            return stringBuilder.Append(Environment.NewLine);
-        }
-
-        internal static StringBuilder TrimEnd(this StringBuilder stringBuilder)
-        {
-            if (stringBuilder == null || stringBuilder.Length == 0)
-            {
-                return stringBuilder;
-            }
-
-            var i = stringBuilder.Length - 1;
-
-            for (; i >= 0; i--)
-            {
-                if (!char.IsWhiteSpace(stringBuilder[i]))
-                {
-                    break;
-                }
-            }
-
-            if (i < stringBuilder.Length - 1)
-            {
-                stringBuilder.Length = i + 1;
-            }
-
-            return stringBuilder;
+            return value.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
         }
     }
 }
