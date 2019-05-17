@@ -25,7 +25,6 @@ namespace ArgsMapper.ContentBuilding
 {
     public interface IMainContentBuilder<T> : IContentBuilder where T : class
     {
-        IContentBuilderSettings Settings { get; }
         void AddSection(string header, Action<IMainContentSectionSettings<T>> sectionSettings);
     }
 }

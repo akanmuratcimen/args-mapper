@@ -35,13 +35,11 @@ namespace ArgsMapper.ContentBuilding
     {
         private const int TableColumnPadding = 4;
         private readonly IList<Content> _contents;
-        private readonly int _lineLengthLimit;
         private readonly StringBuilder _stringBuilder;
 
-        public ContentFormatter(IList<Content> contents, int lineLengthLimit)
+        public ContentFormatter(IList<Content> contents)
         {
             _contents = contents;
-            _lineLengthLimit = lineLengthLimit;
             _stringBuilder = new StringBuilder();
         }
 

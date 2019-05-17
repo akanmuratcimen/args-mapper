@@ -33,14 +33,12 @@ namespace ArgsMapper.ContentBuilding
         public CommandContentBuilder(IEnumerable<Option> commandOptions)
         {
             _commandOptions = commandOptions;
-            _contentRenderer = new ContentRenderer(Settings.LineLengthLimit);
+            _contentRenderer = new ContentRenderer();
         }
-
-        public IContentBuilderSettings Settings { get; } = new ContentBuilderSettings();
 
         public void AddSection(string header, Action<ICommandContentSectionSettings<TCommand>> sectionSettings)
         {
-            var contentRenderer = new ContentRenderer(Settings.LineLengthLimit);
+            var contentRenderer = new ContentRenderer();
             var settings = new CommandContentSectionSettings<TCommand>(_commandOptions, contentRenderer);
 
             sectionSettings(settings);

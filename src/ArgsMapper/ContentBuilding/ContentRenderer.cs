@@ -29,9 +29,9 @@ namespace ArgsMapper.ContentBuilding
         private readonly IContentFormatter _contentFormatter;
         private readonly IList<Content> Contents = new List<Content>();
 
-        public ContentRenderer(int lineLengthLimit = Constants.DefaultContentBuilderLineLengthLimit)
+        public ContentRenderer()
         {
-            _contentFormatter = new ContentFormatter(Contents, lineLengthLimit);
+            _contentFormatter = new ContentFormatter(Contents);
         }
 
         public void AppendContent(params string[] contents)

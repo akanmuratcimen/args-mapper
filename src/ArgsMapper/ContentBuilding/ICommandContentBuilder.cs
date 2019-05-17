@@ -25,7 +25,6 @@ namespace ArgsMapper.ContentBuilding
 {
     public interface ICommandContentBuilder<TCommand> : IContentBuilder where TCommand : class
     {
-        IContentBuilderSettings Settings { get; }
         void AddSection(string header, Action<ICommandContentSectionSettings<TCommand>> sectionSettings);
     }
 }

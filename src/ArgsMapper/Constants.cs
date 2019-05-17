@@ -36,8 +36,6 @@ namespace ArgsMapper
         internal static readonly char[] VersionOptionShortNames = { 'v' };
         internal static readonly string[] VersionOptionLongNames = { "version" };
 
-        internal const int DefaultContentBuilderLineLengthLimit = 80;
-
         internal static IEnumerable<char> ReservedOptionShortNames
         {
             get

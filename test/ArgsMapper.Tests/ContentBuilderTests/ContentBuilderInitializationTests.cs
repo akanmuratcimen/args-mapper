@@ -199,16 +199,6 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_Settings_LineLengthLimit_In_Settings()
-        {
-            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
-
-            mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.Settings.LineLengthLimit = 80;
-            });
-        }
-
-        [Fact]
         internal void Usage_AddContent_2_Tuple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
@@ -411,14 +401,6 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             mapper.Usage.AddSection("header", section => {
                 section.AddOption(x => x.Option);
             });
-        }
-
-        [Fact]
-        internal void Usage_Settings_LineLengthLimit_In_Settings()
-        {
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.Usage.Settings.LineLengthLimit = 80;
         }
     }
 }
