@@ -68,7 +68,7 @@ namespace ArgsMapper.ContentBuilding
 
                 for (var i = 0; i < row.Count; i++)
                 {
-                    stringBuilder.Append(PadRight(row[i], columnSizes[i]));
+                    stringBuilder.AppendFormat($"{{0,{columnSizes[i] * -1}}}", row[i]);
                 }
 
                 yield return stringBuilder.ToString();
@@ -105,11 +105,6 @@ namespace ArgsMapper.ContentBuilding
             }
 
             return lengths;
-        }
-
-        private static string PadRight(string value, int length)
-        {
-            return value == null ? new string(' ', length) : value.PadRight(length);
         }
     }
 }

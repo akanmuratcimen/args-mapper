@@ -19,6 +19,7 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using ArgsMapper.ContentBuilding;
 using ArgsMapper.Tests.Helpers;
 using Xunit;
@@ -176,6 +177,30 @@ namespace ArgsMapper.Tests.ContentBuilderTests
 
             Assert.Equal("column 1    column 2", lines[0]);
             Assert.Equal("value 1     value 2", lines[1]);
+        }
+
+        [Fact]
+        internal void Render_Section()
+        {
+            // Arrange
+            var renderer = new ContentRenderer();
+
+            renderer.AppendSection(
+                "header",
+                $"section content line 1{Environment.NewLine}section content line 2"
+            );
+
+            // Act
+            var contentText = renderer.ToString();
+
+            // Assert
+            var lines = contentText.ToLines();
+
+            Assert.Equal(3, lines.Length);
+
+            Assert.Equal("header", lines[0]);
+            Assert.Equal("  section content line 1", lines[1]);
+            Assert.Equal("  section content line 2", lines[2]);
         }
     }
 }
