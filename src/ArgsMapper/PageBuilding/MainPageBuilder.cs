@@ -49,7 +49,7 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
-        public void AddContent(params string[] contents)
+        public void AddText(params string[] contents)
         {
             _pageRenderer.AppendContent(PageContentFormattingStyle.None, contents);
         }
@@ -84,6 +84,6 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
-        public string ContentText => _pageRenderer.ToString();
+        public string Content => _pageRenderer.ToString();
     }
 }

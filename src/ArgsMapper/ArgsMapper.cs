@@ -66,7 +66,7 @@ namespace ArgsMapper
         {
             if (args.IsNullOrEmpty())
             {
-                var introductionContentText = Introduction.ContentText;
+                var introductionContentText = Introduction.Content;
 
                 if (introductionContentText != string.Empty)
                 {
@@ -75,7 +75,7 @@ namespace ArgsMapper
                     return;
                 }
 
-                var usageContentText = Usage.ContentText;
+                var usageContentText = Usage.Content;
 
                 if (usageContentText != string.Empty)
                 {
@@ -90,7 +90,7 @@ namespace ArgsMapper
 
                 if (args0.IsHelpOption())
                 {
-                    Settings.DefaultWriter.Write(Usage.ContentText);
+                    Settings.DefaultWriter.Write(Usage.Content);
 
                     return;
                 }

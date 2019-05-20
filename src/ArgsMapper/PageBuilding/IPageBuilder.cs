@@ -23,8 +23,8 @@ namespace ArgsMapper.PageBuilding
 {
     public interface IPageBuilder
     {
-        string ContentText { get; }
-        void AddContent(params string[] contents);
+        string Content { get; }
+        void AddText(params string[] contents);
 
         void AddTable((string, string) columns,
             params (string, string)[] rows);

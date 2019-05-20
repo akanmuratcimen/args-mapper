@@ -57,7 +57,7 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendProperty(PageContentFormattingStyle.Indent, command.ToString(), description);
         }
 
-        public void AddContent(params string[] contents)
+        public void AddText(params string[] contents)
         {
             _pageRenderer.AppendContent(PageContentFormattingStyle.Indent, contents);
         }
@@ -92,6 +92,6 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendTable(PageContentFormattingStyle.Indent, columns, rows);
         }
 
-        public string ContentText => _pageRenderer.ToString();
+        public string Content => _pageRenderer.ToString();
     }
 }

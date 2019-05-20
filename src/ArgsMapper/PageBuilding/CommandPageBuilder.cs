@@ -46,12 +46,12 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
-        public void AddContent(params string[] contents)
+        public void AddText(params string[] contents)
         {
             _pageRenderer.AppendContent(PageContentFormattingStyle.None, contents);
         }
 
-        public string ContentText => _pageRenderer.ToString();
+        public string Content => _pageRenderer.ToString();
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)

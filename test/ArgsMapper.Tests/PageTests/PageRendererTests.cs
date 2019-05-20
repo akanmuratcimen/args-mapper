@@ -44,6 +44,27 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
+        internal void Render_Content_Multiple_Append()
+        {
+            // Arrange
+            var renderer = new PageRenderer();
+
+            renderer.AppendContent(PageContentFormattingStyle.None, "content line 1");
+            renderer.AppendContent(PageContentFormattingStyle.None, "content line 2");
+
+            // Act
+            var contentText = renderer.ToString();
+
+            // Assert
+            var lines = contentText.ToLines();
+
+            Assert.Equal(2, lines.Length);
+
+            Assert.Equal("content line 1", lines[0]);
+            Assert.Equal("content line 2", lines[1]);
+        }
+
+        [Fact]
         internal void Render_Content_Indent()
         {
             // Arrange

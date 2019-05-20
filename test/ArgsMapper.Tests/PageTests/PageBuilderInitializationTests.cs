@@ -26,45 +26,45 @@ namespace ArgsMapper.Tests.PageTests
     public class PageBuilderInitializationTests
     {
         [Fact]
-        internal void Usage_AddCommand_Usage_AddContent()
+        internal void Usage_AddCommand_Usage_AddText()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.AddContent("content");
+                commandSettings.Usage.AddText("content");
             });
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddContent_Multiple()
+        internal void Usage_AddCommand_Usage_AddText_Multiple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.Usage.AddContent("content", "content");
+                commandSettings.Usage.AddText("content", "content");
             });
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddContent()
+        internal void Usage_AddCommand_Usage_AddSection_AddText()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
                 commandSettings.Usage.AddSection("header", section => {
-                    section.AddContent("content");
+                    section.AddText("content");
                 });
             });
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddContent_Multiple()
+        internal void Usage_AddCommand_Usage_AddSection_AddText_Multiple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
                 commandSettings.Usage.AddSection("header", section => {
-                    section.AddContent("content", "content");
+                    section.AddText("content", "content");
                 });
             });
         }
@@ -334,19 +334,19 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddContent()
+        internal void Usage_AddText()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
-            mapper.Usage.AddContent("content");
+            mapper.Usage.AddText("content");
         }
 
         [Fact]
-        internal void Usage_AddContent_Multiple_String()
+        internal void Usage_AddText_Multiple_String()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
-            mapper.Usage.AddContent("content", "content");
+            mapper.Usage.AddText("content", "content");
         }
 
         [Fact]
@@ -362,17 +362,17 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent()
+        internal void Usage_AddSection_AddText()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
             mapper.Usage.AddSection("header", section => {
-                section.AddContent("content");
+                section.AddText("content");
             });
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_2_Tuple()
+        internal void Usage_AddSection_AddText_2_Tuple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
@@ -382,7 +382,7 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_3_Tuple()
+        internal void Usage_AddSection_AddText_3_Tuple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
@@ -392,7 +392,7 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_4_Tuple()
+        internal void Usage_AddSection_AddText_4_Tuple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
@@ -402,7 +402,7 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_5_Tuple()
+        internal void Usage_AddSection_AddText_5_Tuple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
@@ -412,7 +412,7 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_6_Tuple()
+        internal void Usage_AddSection_AddText_6_Tuple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
@@ -422,12 +422,12 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddContent_Multiple()
+        internal void Usage_AddSection_AddText_Multiple()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
             mapper.Usage.AddSection("header", section => {
-                section.AddContent("content", "content");
+                section.AddText("content", "content");
             });
         }
 
