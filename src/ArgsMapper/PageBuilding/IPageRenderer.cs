@@ -23,7 +23,7 @@ namespace ArgsMapper.PageBuilding
 {
     internal interface IPageRenderer
     {
-        void AppendContent(PageContentFormattingStyle style, params string[] contents);
+        void AppendText(PageContentFormattingStyle style, params string[] contents);
         void AppendSection(string header, string sectionString);
         void AppendProperty(PageContentFormattingStyle style, string name, string description);
 

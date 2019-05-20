@@ -59,7 +59,7 @@ namespace ArgsMapper.PageBuilding
 
         public void AddText(params string[] contents)
         {
-            _pageRenderer.AppendContent(PageContentFormattingStyle.Indent, contents);
+            _pageRenderer.AppendText(PageContentFormattingStyle.Indent, contents);
         }
 
         public void AddTable((string, string) columns,

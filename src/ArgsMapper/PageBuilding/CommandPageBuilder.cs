@@ -48,7 +48,7 @@ namespace ArgsMapper.PageBuilding
 
         public void AddText(params string[] contents)
         {
-            _pageRenderer.AppendContent(PageContentFormattingStyle.None, contents);
+            _pageRenderer.AppendText(PageContentFormattingStyle.None, contents);
         }
 
         public string Content => _pageRenderer.ToString();

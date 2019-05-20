@@ -34,7 +34,7 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendContent(PageContentFormattingStyle.None, "content line");
+            renderer.AppendText(PageContentFormattingStyle.None, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -49,8 +49,8 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendContent(PageContentFormattingStyle.None, "content line 1");
-            renderer.AppendContent(PageContentFormattingStyle.None, "content line 2");
+            renderer.AppendText(PageContentFormattingStyle.None, "content line 1");
+            renderer.AppendText(PageContentFormattingStyle.None, "content line 2");
 
             // Act
             var contentText = renderer.ToString();
@@ -70,7 +70,7 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendContent(PageContentFormattingStyle.Indent, "content line");
+            renderer.AppendText(PageContentFormattingStyle.Indent, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -85,8 +85,8 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendContent(PageContentFormattingStyle.None, "content line 1");
-            renderer.AppendContent(PageContentFormattingStyle.None, "content line 2");
+            renderer.AppendText(PageContentFormattingStyle.None, "content line 1");
+            renderer.AppendText(PageContentFormattingStyle.None, "content line 2");
 
             // Act
             var contentText = renderer.ToString();

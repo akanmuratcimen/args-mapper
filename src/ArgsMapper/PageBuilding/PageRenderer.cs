@@ -34,7 +34,7 @@ namespace ArgsMapper.PageBuilding
             _pageContentFormatter = new PageContentFormatter(Contents);
         }
 
-        public void AppendContent(PageContentFormattingStyle style,
+        public void AppendText(PageContentFormattingStyle style,
             params string[] contents)
         {
             Contents.Add(new PageContent(style, contents));
