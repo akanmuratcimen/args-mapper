@@ -84,6 +84,20 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddOption_With_Description_In_Settings()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddOption(x => x.Option, "option description");
+                });
+            });
+        }
+
+        [Fact]
         internal void Usage_AddCommand_Usage_AddSection_AddTable_2_Tuple()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
@@ -440,6 +454,18 @@ namespace ArgsMapper.Tests.PageTests
 
             mapper.Usage.AddSection("header", section => {
                 section.AddOption(x => x.Option);
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddOption_With_Description_In_Settings()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddOption(x => x.Option, "option description");
             });
         }
 
