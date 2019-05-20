@@ -19,11 +19,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace ArgsMapper.ContentBuilding
+using System;
+using System.Linq.Expressions;
+
+namespace ArgsMapper.PageBuilding
 {
-    internal enum FormattingStyle
+    public interface IMainPageSectionSettings<T> : IPageBuilder where T : class
     {
-        None,
-        Indent
+        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector, string description = null);
+
+        void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
+            string description = null) where TCommand : class;
     }
 }

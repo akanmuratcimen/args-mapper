@@ -20,12 +20,12 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using ArgsMapper.ContentBuilding;
+using ArgsMapper.PageBuilding;
 using Xunit;
 
-namespace ArgsMapper.Tests.ContentBuilderTests
+namespace ArgsMapper.Tests.PageTests
 {
-    public class ContentFormatterTests
+    public class PageContentFormatterTests
     {
         public static IEnumerable<object[]> Values
         {
@@ -115,7 +115,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         [MemberData(nameof(Values))]
         internal void Render_GetColumnLengths(string[][] values, int[] columnLengths, int padding)
         {
-            Assert.Equal(columnLengths, ContentFormatter.GetColumnLengths(values, padding));
+            Assert.Equal(columnLengths, PageContentFormatter.GetColumnLengths(values, padding));
         }
     }
 }

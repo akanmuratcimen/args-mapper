@@ -21,10 +21,10 @@
 
 using System;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    public interface IMainContentBuilder<T> : IContentBuilder where T : class
+    public interface IMainPageBuilder<T> : IPageBuilder where T : class
     {
-        void AddSection(string header, Action<IMainContentSectionSettings<T>> sectionSettings);
+        void AddSection(string header, Action<IMainPageSectionSettings<T>> sectionSettings);
     }
 }

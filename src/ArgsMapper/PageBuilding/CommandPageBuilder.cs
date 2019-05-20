@@ -23,64 +23,64 @@ using System;
 using System.Collections.Generic;
 using ArgsMapper.Models;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal class CommandContentBuilder<TCommand> : ICommandContentBuilder<TCommand> where TCommand : class
+    internal class CommandPageBuilder<TCommand> : ICommandPageBuilder<TCommand> where TCommand : class
     {
         private readonly IEnumerable<Option> _commandOptions;
-        private readonly IContentRenderer _contentRenderer;
+        private readonly IPageRenderer _pageRenderer;
 
-        public CommandContentBuilder(IEnumerable<Option> commandOptions)
+        public CommandPageBuilder(IEnumerable<Option> commandOptions)
         {
             _commandOptions = commandOptions;
-            _contentRenderer = new ContentRenderer();
+            _pageRenderer = new PageRenderer();
         }
 
-        public void AddSection(string header, Action<ICommandContentSectionSettings<TCommand>> sectionSettings)
+        public void AddSection(string header, Action<ICommandPageSectionSettings<TCommand>> sectionSettings)
         {
-            var contentRenderer = new ContentRenderer();
-            var settings = new CommandContentSectionSettings<TCommand>(_commandOptions, contentRenderer);
+            var contentRenderer = new PageRenderer();
+            var settings = new CommandPageSectionSettings<TCommand>(_commandOptions, contentRenderer);
 
             sectionSettings(settings);
 
-            _contentRenderer.AppendSection(header, contentRenderer.ToString());
+            _pageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddContent(params string[] contents)
         {
-            _contentRenderer.AppendContent(FormattingStyle.None, contents);
+            _pageRenderer.AppendContent(PageContentFormattingStyle.None, contents);
         }
 
-        public string ContentText => _contentRenderer.ToString();
+        public string ContentText => _pageRenderer.ToString();
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
     }
 }

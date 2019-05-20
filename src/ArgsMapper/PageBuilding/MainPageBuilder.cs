@@ -21,77 +21,69 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using ArgsMapper.Models;
-using ArgsMapper.Utilities;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal class MainContentSectionSettings<T> : IMainContentSectionSettings<T> where T : class
+    internal class MainPageBuilder<T> : IMainPageBuilder<T> where T : class
     {
         private readonly IEnumerable<Command> _commands;
-        private readonly IContentRenderer _contentRenderer;
+        private readonly IPageRenderer _pageRenderer;
         private readonly IEnumerable<Option> _options;
 
-        public MainContentSectionSettings(IEnumerable<Command> commands,
-            IEnumerable<Option> options, IContentRenderer contentRenderer)
+        public MainPageBuilder(IEnumerable<Command> commands, IEnumerable<Option> options)
         {
             _commands = commands;
             _options = options;
-            _contentRenderer = contentRenderer;
+
+            _pageRenderer = new PageRenderer();
         }
 
-        public void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
-            string description = null)
+        public void AddSection(string header, Action<IMainPageSectionSettings<T>> sectionSettings)
         {
-            var option = _options.Get(propertySelector);
+            var contentRenderer = new PageRenderer();
+            var settings = new MainPageSectionSettings<T>(_commands, _options, contentRenderer);
 
-            _contentRenderer.AppendProperty(FormattingStyle.Indent, option.ToString(), description);
-        }
+            sectionSettings(settings);
 
-        public void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
-            string description = null) where TCommand : class
-        {
-            var command = _commands.Get(propertySelector);
-
-            _contentRenderer.AppendProperty(FormattingStyle.Indent, command.ToString(), description);
+            _pageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddContent(params string[] contents)
         {
-            _contentRenderer.AppendContent(FormattingStyle.Indent, contents);
+            _pageRenderer.AppendContent(PageContentFormattingStyle.None, contents);
         }
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
         }
 
-        public string ContentText => _contentRenderer.ToString();
+        public string ContentText => _pageRenderer.ToString();
     }
 }

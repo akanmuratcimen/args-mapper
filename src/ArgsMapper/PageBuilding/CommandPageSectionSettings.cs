@@ -21,69 +21,67 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal class MainContentBuilder<T> : IMainContentBuilder<T> where T : class
+    internal class CommandPageSectionSettings<TCommand> : ICommandPageSectionSettings<TCommand>
+        where TCommand : class
     {
-        private readonly IEnumerable<Command> _commands;
-        private readonly IContentRenderer _contentRenderer;
-        private readonly IEnumerable<Option> _options;
+        private readonly IEnumerable<Option> _commandOptions;
+        private readonly IPageRenderer _pageRenderer;
 
-        public MainContentBuilder(IEnumerable<Command> commands, IEnumerable<Option> options)
+        public CommandPageSectionSettings(IEnumerable<Option> commandOptions, IPageRenderer pageRenderer)
         {
-            _commands = commands;
-            _options = options;
-
-            _contentRenderer = new ContentRenderer();
+            _commandOptions = commandOptions;
+            _pageRenderer = pageRenderer;
         }
 
-        public void AddSection(string header, Action<IMainContentSectionSettings<T>> sectionSettings)
+        public void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
+            string description = null)
         {
-            var contentRenderer = new ContentRenderer();
-            var settings = new MainContentSectionSettings<T>(_commands, _options, contentRenderer);
+            var option = _commandOptions.Get(propertySelector);
 
-            sectionSettings(settings);
-
-            _contentRenderer.AppendSection(header, contentRenderer.ToString());
+            _pageRenderer.AppendProperty(PageContentFormattingStyle.Indent, option.ToString(), description);
         }
 
         public void AddContent(params string[] contents)
         {
-            _contentRenderer.AppendContent(FormattingStyle.None, contents);
+            _pageRenderer.AppendContent(PageContentFormattingStyle.Indent, contents);
         }
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentFormattingStyle.Indent, columns, rows);
         }
 
-        public string ContentText => _contentRenderer.ToString();
+        public string ContentText => _pageRenderer.ToString();
     }
 }

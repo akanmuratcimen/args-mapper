@@ -22,47 +22,47 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal class Content
+    internal class PageContent
     {
-        internal Content(FormattingStyle style, params string[] values)
+        internal PageContent(PageContentFormattingStyle style, params string[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x });
         }
 
-        internal Content(FormattingStyle style, params (string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, params (string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2 });
         }
 
-        internal Content(FormattingStyle style, params (string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, params (string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3 });
         }
 
-        internal Content(FormattingStyle style, params (string, string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, params (string, string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4 });
         }
 
-        internal Content(FormattingStyle style, params (string, string, string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, params (string, string, string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 });
         }
 
-        internal Content(FormattingStyle style, params (string, string, string, string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, params (string, string, string, string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6 });
         }
 
-        internal FormattingStyle Style { get; }
+        internal PageContentFormattingStyle Style { get; }
         internal IEnumerable<IReadOnlyList<string>> Values { get; }
     }
 }

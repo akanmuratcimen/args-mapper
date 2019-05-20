@@ -20,21 +20,21 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using ArgsMapper.ContentBuilding;
+using ArgsMapper.PageBuilding;
 using ArgsMapper.Tests.Helpers;
 using Xunit;
 
-namespace ArgsMapper.Tests.ContentBuilderTests
+namespace ArgsMapper.Tests.PageTests
 {
-    public class ContentRendererTests
+    public class PageRendererTests
     {
         [Fact]
         internal void Render_Content()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
-            renderer.AppendContent(FormattingStyle.None, "content line");
+            renderer.AppendContent(PageContentFormattingStyle.None, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -47,9 +47,9 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Content_Indent()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
-            renderer.AppendContent(FormattingStyle.Indent, "content line");
+            renderer.AppendContent(PageContentFormattingStyle.Indent, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -62,10 +62,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Multiple_Content()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
-            renderer.AppendContent(FormattingStyle.None, "content line 1");
-            renderer.AppendContent(FormattingStyle.None, "content line 2");
+            renderer.AppendContent(PageContentFormattingStyle.None, "content line 1");
+            renderer.AppendContent(PageContentFormattingStyle.None, "content line 2");
 
             // Act
             var contentText = renderer.ToString();
@@ -83,10 +83,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Multiple_Five_Columns_Table()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.None,
+                PageContentFormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4", "column 5"),
                 ("value 1", "value 2", "value 3", "value 4", "value 5")
             );
@@ -107,10 +107,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Multiple_Four_Columns_Table()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.None,
+                PageContentFormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4"),
                 ("value 1", "value 2", "value 3", "value 4")
             );
@@ -131,10 +131,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Multiple_Six_Columns_Table()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.None,
+                PageContentFormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4", "column 5", "column 6"),
                 ("value 1", "value 2", "value 3", "value 4", "value 5", "value 6")
             );
@@ -155,10 +155,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Multiple_Three_Columns_Table()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.None,
+                PageContentFormattingStyle.None,
                 ("column 1", "column 2", "column 3"),
                 ("value 1", "value 2", "value 3")
             );
@@ -179,10 +179,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Multiple_Two_Columns_Table()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.None,
+                PageContentFormattingStyle.None,
                 ("column 1", "column 2"),
                 ("value 1", "value 2")
             );
@@ -203,7 +203,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Section()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendSection(
                 "header",
@@ -227,10 +227,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Table_Indent()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.Indent,
+                PageContentFormattingStyle.Indent,
                 ("column 1", "column 2"),
                 ("value 1", "value 2")
             );
@@ -251,10 +251,10 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         internal void Render_Table_Multiple_Indent()
         {
             // Arrange
-            var renderer = new ContentRenderer();
+            var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                FormattingStyle.Indent,
+                PageContentFormattingStyle.Indent,
                 ("column 1", "column 2"),
                 ("value 1", "value 2"),
                 ("value 3", "value 4")

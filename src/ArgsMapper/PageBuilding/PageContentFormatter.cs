@@ -24,21 +24,21 @@ using System.Collections.Generic;
 using System.Text;
 using ArgsMapper.Utilities;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal interface IContentFormatter
+    internal interface IPageContentFormatter
     {
         string ToString();
     }
 
-    internal class ContentFormatter : IContentFormatter
+    internal class PageContentFormatter : IPageContentFormatter
     {
         private const int TableColumnPadding = 4;
         private const string Indent = "  ";
-        private readonly IList<Content> _contents;
+        private readonly IList<PageContent> _contents;
         private readonly StringBuilder _stringBuilder;
 
-        public ContentFormatter(IList<Content> contents)
+        public PageContentFormatter(IList<PageContent> contents)
         {
             _contents = contents;
             _stringBuilder = new StringBuilder();
@@ -60,7 +60,7 @@ namespace ArgsMapper.ContentBuilding
             return _stringBuilder.TrimEnd().ToString();
         }
 
-        private static IEnumerable<string> Format(FormattingStyle style,
+        private static IEnumerable<string> Format(PageContentFormattingStyle style,
             IEnumerable<IReadOnlyList<string>> values, IReadOnlyList<int> columnSizes)
         {
             foreach (var row in values)
@@ -69,7 +69,7 @@ namespace ArgsMapper.ContentBuilding
 
                 switch (style)
                 {
-                    case FormattingStyle.Indent:
+                    case PageContentFormattingStyle.Indent:
                         stringBuilder.Append(Indent);
 
                         break;

@@ -19,27 +19,27 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal interface IContentRenderer
+    internal interface IPageRenderer
     {
-        void AppendContent(FormattingStyle style, params string[] contents);
+        void AppendContent(PageContentFormattingStyle style, params string[] contents);
         void AppendSection(string header, string sectionString);
-        void AppendProperty(FormattingStyle style, string name, string description);
+        void AppendProperty(PageContentFormattingStyle style, string name, string description);
 
-        void AppendTable(FormattingStyle style, (string, string) columns,
+        void AppendTable(PageContentFormattingStyle style, (string, string) columns,
             params (string, string)[] rows);
 
-        void AppendTable(FormattingStyle style, (string, string, string) columns,
+        void AppendTable(PageContentFormattingStyle style, (string, string, string) columns,
             params (string, string, string)[] rows);
 
-        void AppendTable(FormattingStyle style, (string, string, string, string) columns,
+        void AppendTable(PageContentFormattingStyle style, (string, string, string, string) columns,
             params (string, string, string, string)[] rows);
 
-        void AppendTable(FormattingStyle style, (string, string, string, string, string)
+        void AppendTable(PageContentFormattingStyle style, (string, string, string, string, string)
             columns, params (string, string, string, string, string)[] rows);
 
-        void AppendTable(FormattingStyle style, (string, string, string, string, string, string)
+        void AppendTable(PageContentFormattingStyle style, (string, string, string, string, string, string)
             columns, params (string, string, string, string, string, string)[] rows);
 
         string ToString();

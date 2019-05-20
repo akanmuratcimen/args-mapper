@@ -22,12 +22,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ArgsMapper.ContentBuilding;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
+using ArgsMapper.PageBuilding;
 using ArgsMapper.Utilities;
 using ArgsMapper.ValueConversion;
 
@@ -37,16 +37,16 @@ namespace ArgsMapper
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
-        public IMainContentBuilder<T> Introduction;
+        public IMainPageBuilder<T> Introduction;
         internal IOptionValidationService OptionValidationService;
         internal IReflectionService ReflectionService;
-        public IMainContentBuilder<T> Usage;
+        public IMainPageBuilder<T> Usage;
         internal IValueConverterFactory ValueConverterFactory;
 
         public ArgsMapper()
         {
-            Introduction = new MainContentBuilder<T>(Commands, Options);
-            Usage = new MainContentBuilder<T>(Commands, Options);
+            Introduction = new MainPageBuilder<T>(Commands, Options);
+            Usage = new MainPageBuilder<T>(Commands, Options);
             OptionValidationService = new OptionValidationService();
             CommandValidationService = new CommandValidationService();
             ValueConverterFactory = new ValueConverterFactory();

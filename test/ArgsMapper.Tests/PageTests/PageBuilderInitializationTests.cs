@@ -21,9 +21,9 @@
 
 using Xunit;
 
-namespace ArgsMapper.Tests.ContentBuilderTests
+namespace ArgsMapper.Tests.PageTests
 {
-    public class ContentBuilderInitializationTests
+    public class PageBuilderInitializationTests
     {
         [Fact]
         internal void Usage_AddCommand_Usage_AddContent()

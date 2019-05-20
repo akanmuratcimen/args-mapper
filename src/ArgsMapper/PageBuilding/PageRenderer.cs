@@ -22,73 +22,73 @@
 using System.Collections.Generic;
 using ArgsMapper.Utilities;
 
-namespace ArgsMapper.ContentBuilding
+namespace ArgsMapper.PageBuilding
 {
-    internal class ContentRenderer : IContentRenderer
+    internal class PageRenderer : IPageRenderer
     {
-        private readonly IContentFormatter _contentFormatter;
-        private readonly IList<Content> Contents = new List<Content>();
+        private readonly IPageContentFormatter _pageContentFormatter;
+        private readonly IList<PageContent> Contents = new List<PageContent>();
 
-        public ContentRenderer()
+        public PageRenderer()
         {
-            _contentFormatter = new ContentFormatter(Contents);
+            _pageContentFormatter = new PageContentFormatter(Contents);
         }
 
-        public void AppendContent(FormattingStyle style,
+        public void AppendContent(PageContentFormattingStyle style,
             params string[] contents)
         {
-            Contents.Add(new Content(style, contents));
+            Contents.Add(new PageContent(style, contents));
         }
 
-        public void AppendTable(FormattingStyle style,
+        public void AppendTable(PageContentFormattingStyle style,
             (string, string) columns,
             params (string, string)[] rows)
         {
-            Contents.Add(new Content(style, columns.Merge(rows)));
+            Contents.Add(new PageContent(style, columns.Merge(rows)));
         }
 
-        public void AppendTable(FormattingStyle style,
+        public void AppendTable(PageContentFormattingStyle style,
             (string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            Contents.Add(new Content(style, columns.Merge(rows)));
+            Contents.Add(new PageContent(style, columns.Merge(rows)));
         }
 
-        public void AppendTable(FormattingStyle style,
+        public void AppendTable(PageContentFormattingStyle style,
             (string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(style, columns.Merge(rows)));
+            Contents.Add(new PageContent(style, columns.Merge(rows)));
         }
 
-        public void AppendTable(FormattingStyle style,
+        public void AppendTable(PageContentFormattingStyle style,
             (string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(style, columns.Merge(rows)));
+            Contents.Add(new PageContent(style, columns.Merge(rows)));
         }
 
-        public void AppendTable(FormattingStyle style,
+        public void AppendTable(PageContentFormattingStyle style,
             (string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(style, columns.Merge(rows)));
+            Contents.Add(new PageContent(style, columns.Merge(rows)));
         }
 
-        public void AppendProperty(FormattingStyle style, string name, string description)
+        public void AppendProperty(PageContentFormattingStyle style, string name, string description)
         {
-            Contents.Add(new Content(style, (name, description)));
+            Contents.Add(new PageContent(style, (name, description)));
         }
 
         public override string ToString()
         {
-            return _contentFormatter.ToString();
+            return _pageContentFormatter.ToString();
         }
 
         public void AppendSection(string header, string sectionString)
         {
-            Contents.Add(new Content(FormattingStyle.None, header));
-            Contents.Add(new Content(FormattingStyle.None, sectionString));
+            Contents.Add(new PageContent(PageContentFormattingStyle.None, header));
+            Contents.Add(new PageContent(PageContentFormattingStyle.None, sectionString));
         }
     }
 }
