@@ -26,37 +26,43 @@ namespace ArgsMapper.PageBuilding
 {
     internal class PageContent
     {
-        internal PageContent(PageContentFormattingStyle style, params string[] values)
+        internal PageContent(PageContentFormattingStyle style, 
+            params string[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x });
         }
 
-        internal PageContent(PageContentFormattingStyle style, params (string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, 
+            params (string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2 });
         }
 
-        internal PageContent(PageContentFormattingStyle style, params (string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, 
+            params (string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3 });
         }
 
-        internal PageContent(PageContentFormattingStyle style, params (string, string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, 
+            params (string, string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4 });
         }
 
-        internal PageContent(PageContentFormattingStyle style, params (string, string, string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, 
+            params (string, string, string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 });
         }
 
-        internal PageContent(PageContentFormattingStyle style, params (string, string, string, string, string, string)[] values)
+        internal PageContent(PageContentFormattingStyle style, 
+            params (string, string, string, string, string, string)[] values)
         {
             Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6 });

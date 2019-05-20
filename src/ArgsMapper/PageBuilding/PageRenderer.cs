@@ -75,7 +75,8 @@ namespace ArgsMapper.PageBuilding
             Contents.Add(new PageContent(style, columns.Merge(rows)));
         }
 
-        public void AppendProperty(PageContentFormattingStyle style, string name, string description)
+        public void AppendProperty(PageContentFormattingStyle style, 
+            string name, string description)
         {
             Contents.Add(new PageContent(style, (name, description)));
         }

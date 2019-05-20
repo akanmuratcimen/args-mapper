@@ -34,7 +34,7 @@ namespace ArgsMapper.PageBuilding
     internal class PageContentFormatter : IPageContentFormatter
     {
         private const int TableColumnPadding = 4;
-        private const string Indent = "  ";
+        private const int IndentSize = 2;
         private readonly IList<PageContent> _contents;
         private readonly StringBuilder _stringBuilder;
 
@@ -61,7 +61,7 @@ namespace ArgsMapper.PageBuilding
         }
 
         private static IEnumerable<string> Format(PageContentFormattingStyle style,
-            IEnumerable<IReadOnlyList<string>> values, IReadOnlyList<int> columnSizes)
+            IEnumerable<IReadOnlyList<string>> values, IReadOnlyList<int> columnLengths)
         {
             foreach (var row in values)
             {
@@ -70,7 +70,7 @@ namespace ArgsMapper.PageBuilding
                 switch (style)
                 {
                     case PageContentFormattingStyle.Indent:
-                        stringBuilder.Append(Indent);
+                        stringBuilder.Append(' ', IndentSize);
 
                         break;
                 }
@@ -84,7 +84,7 @@ namespace ArgsMapper.PageBuilding
                         continue;
                     }
 
-                    stringBuilder.AppendFormat($"{{0,{columnSizes[i] * -1}}}", row[i]);
+                    stringBuilder.AppendFormat($"{{0,{columnLengths[i] * -1}}}", row[i]);
                 }
 
                 yield return stringBuilder.ToString();
