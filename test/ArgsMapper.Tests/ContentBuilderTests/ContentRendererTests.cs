@@ -34,7 +34,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendContent("content line");
+            renderer.AppendContent(FormattingStyle.None, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -44,13 +44,28 @@ namespace ArgsMapper.Tests.ContentBuilderTests
         }
 
         [Fact]
+        internal void Render_Content_Indent()
+        {
+            // Arrange
+            var renderer = new ContentRenderer();
+
+            renderer.AppendContent(FormattingStyle.Indent, "content line");
+
+            // Act
+            var contentText = renderer.ToString();
+
+            // Assert
+            Assert.Equal("  content line", contentText);
+        }
+
+        [Fact]
         internal void Render_Multiple_Content()
         {
             // Arrange
             var renderer = new ContentRenderer();
 
-            renderer.AppendContent("content line 1");
-            renderer.AppendContent("content line 2");
+            renderer.AppendContent(FormattingStyle.None, "content line 1");
+            renderer.AppendContent(FormattingStyle.None, "content line 2");
 
             // Act
             var contentText = renderer.ToString();
@@ -71,6 +86,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             var renderer = new ContentRenderer();
 
             renderer.AppendTable(
+                FormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4", "column 5"),
                 ("value 1", "value 2", "value 3", "value 4", "value 5")
             );
@@ -94,6 +110,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             var renderer = new ContentRenderer();
 
             renderer.AppendTable(
+                FormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4"),
                 ("value 1", "value 2", "value 3", "value 4")
             );
@@ -117,6 +134,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             var renderer = new ContentRenderer();
 
             renderer.AppendTable(
+                FormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4", "column 5", "column 6"),
                 ("value 1", "value 2", "value 3", "value 4", "value 5", "value 6")
             );
@@ -140,6 +158,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             var renderer = new ContentRenderer();
 
             renderer.AppendTable(
+                FormattingStyle.None,
                 ("column 1", "column 2", "column 3"),
                 ("value 1", "value 2", "value 3")
             );
@@ -163,6 +182,7 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             var renderer = new ContentRenderer();
 
             renderer.AppendTable(
+                FormattingStyle.None,
                 ("column 1", "column 2"),
                 ("value 1", "value 2")
             );
@@ -199,8 +219,58 @@ namespace ArgsMapper.Tests.ContentBuilderTests
             Assert.Equal(3, lines.Length);
 
             Assert.Equal("header", lines[0]);
-            Assert.Equal("  section content line 1", lines[1]);
-            Assert.Equal("  section content line 2", lines[2]);
+            Assert.Equal("section content line 1", lines[1]);
+            Assert.Equal("section content line 2", lines[2]);
+        }
+
+        [Fact]
+        internal void Render_Table_Indent()
+        {
+            // Arrange
+            var renderer = new ContentRenderer();
+
+            renderer.AppendTable(
+                FormattingStyle.Indent,
+                ("column 1", "column 2"),
+                ("value 1", "value 2")
+            );
+
+            // Act
+            var contentText = renderer.ToString();
+
+            // Assert
+            var lines = contentText.ToLines();
+
+            Assert.Equal(2, lines.Length);
+
+            Assert.Equal("  column 1    column 2", lines[0]);
+            Assert.Equal("  value 1     value 2", lines[1]);
+        }
+
+        [Fact]
+        internal void Render_Table_Multiple_Indent()
+        {
+            // Arrange
+            var renderer = new ContentRenderer();
+
+            renderer.AppendTable(
+                FormattingStyle.Indent,
+                ("column 1", "column 2"),
+                ("value 1", "value 2"),
+                ("value 3", "value 4")
+            );
+
+            // Act
+            var contentText = renderer.ToString();
+
+            // Assert
+            var lines = contentText.ToLines();
+
+            Assert.Equal(3, lines.Length);
+
+            Assert.Equal("  column 1    column 2", lines[0]);
+            Assert.Equal("  value 1     value 2", lines[1]);
+            Assert.Equal("  value 3     value 4", lines[2]);
         }
     }
 }

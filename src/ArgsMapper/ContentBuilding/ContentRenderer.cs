@@ -34,55 +34,61 @@ namespace ArgsMapper.ContentBuilding
             _contentFormatter = new ContentFormatter(Contents);
         }
 
-        public void AppendContent(params string[] contents)
+        public void AppendContent(FormattingStyle style,
+            params string[] contents)
         {
-            Contents.Add(new Content(ContentType.Text, contents));
+            Contents.Add(new Content(style, contents));
         }
 
-        public void AppendTable((string, string) columns,
+        public void AppendTable(FormattingStyle style,
+            (string, string) columns,
             params (string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
+            Contents.Add(new Content(style, columns.Merge(rows)));
         }
 
-        public void AppendTable((string, string, string) columns,
+        public void AppendTable(FormattingStyle style,
+            (string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
+            Contents.Add(new Content(style, columns.Merge(rows)));
         }
 
-        public void AppendTable((string, string, string, string) columns,
+        public void AppendTable(FormattingStyle style,
+            (string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
+            Contents.Add(new Content(style, columns.Merge(rows)));
         }
 
-        public void AppendTable((string, string, string, string, string) columns,
+        public void AppendTable(FormattingStyle style,
+            (string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
+            Contents.Add(new Content(style, columns.Merge(rows)));
         }
 
-        public void AppendTable((string, string, string, string, string, string) columns,
+        public void AppendTable(FormattingStyle style,
+            (string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            Contents.Add(new Content(ContentType.Table, columns.Merge(rows)));
+            Contents.Add(new Content(style, columns.Merge(rows)));
         }
 
-        public void AppendSection(string header, string sectionString)
+        public void AppendProperty(FormattingStyle style, string name, string description)
         {
-            Contents.Add(new Content(ContentType.Header, header));
-            Contents.Add(new Content(ContentType.Section, sectionString));
-        }
-
-        public void AppendProperty(string name, string description)
-        {
-            Contents.Add(new Content(ContentType.Property, (name, description)));
+            Contents.Add(new Content(style, (name, description)));
         }
 
         public override string ToString()
         {
             return _contentFormatter.ToString();
+        }
+
+        public void AppendSection(string header, string sectionString)
+        {
+            Contents.Add(new Content(FormattingStyle.None, header));
+            Contents.Add(new Content(FormattingStyle.None, sectionString));
         }
     }
 }

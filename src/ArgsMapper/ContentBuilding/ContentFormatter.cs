@@ -34,6 +34,7 @@ namespace ArgsMapper.ContentBuilding
     internal class ContentFormatter : IContentFormatter
     {
         private const int TableColumnPadding = 4;
+        private const string Indent = "  ";
         private readonly IList<Content> _contents;
         private readonly StringBuilder _stringBuilder;
 
@@ -48,7 +49,7 @@ namespace ArgsMapper.ContentBuilding
             foreach (var content in _contents)
             {
                 var columnLengths = GetColumnLengths(content.Values, TableColumnPadding);
-                var formattedValues = Format(content.Values, columnLengths);
+                var formattedValues = Format(content.Style, content.Values, columnLengths);
 
                 foreach (var formattedValue in formattedValues)
                 {
@@ -59,15 +60,30 @@ namespace ArgsMapper.ContentBuilding
             return _stringBuilder.TrimEnd().ToString();
         }
 
-        private static IEnumerable<string> Format(IEnumerable<IReadOnlyList<string>> values,
-            IReadOnlyList<int> columnSizes)
+        private static IEnumerable<string> Format(FormattingStyle style,
+            IEnumerable<IReadOnlyList<string>> values, IReadOnlyList<int> columnSizes)
         {
             foreach (var row in values)
             {
                 var stringBuilder = new StringBuilder();
 
+                switch (style)
+                {
+                    case FormattingStyle.Indent:
+                        stringBuilder.Append(Indent);
+
+                        break;
+                }
+
                 for (var i = 0; i < row.Count; i++)
                 {
+                    if (i == row.Count - 1)
+                    {
+                        stringBuilder.Append(row[i]);
+
+                        continue;
+                    }
+
                     stringBuilder.AppendFormat($"{{0,{columnSizes[i] * -1}}}", row[i]);
                 }
 
@@ -75,7 +91,8 @@ namespace ArgsMapper.ContentBuilding
             }
         }
 
-        internal static IReadOnlyList<int> GetColumnLengths(IEnumerable<IReadOnlyList<string>> values, int padding)
+        internal static IReadOnlyList<int> GetColumnLengths(
+            IEnumerable<IReadOnlyList<string>> values, int padding)
         {
             int[] lengths = null;
 
@@ -85,7 +102,7 @@ namespace ArgsMapper.ContentBuilding
 
                 for (var i = 0; i < row.Count; i++)
                 {
-                    if (row[i] == null)
+                    if (string.IsNullOrEmpty(row[i]))
                     {
                         continue;
                     }

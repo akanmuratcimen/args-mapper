@@ -48,7 +48,7 @@ namespace ArgsMapper.ContentBuilding
 
         public void AddContent(params string[] contents)
         {
-            _contentRenderer.AppendContent(contents);
+            _contentRenderer.AppendContent(FormattingStyle.None, contents);
         }
 
         public string ContentText => _contentRenderer.ToString();
@@ -56,31 +56,31 @@ namespace ArgsMapper.ContentBuilding
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.None, columns, rows);
         }
     }
 }

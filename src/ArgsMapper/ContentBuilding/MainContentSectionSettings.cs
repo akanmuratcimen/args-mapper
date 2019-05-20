@@ -46,7 +46,7 @@ namespace ArgsMapper.ContentBuilding
         {
             var option = _options.Get(propertySelector);
 
-            _contentRenderer.AppendProperty(option.ToString(), description);
+            _contentRenderer.AppendProperty(FormattingStyle.Indent, option.ToString(), description);
         }
 
         public void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
@@ -54,42 +54,42 @@ namespace ArgsMapper.ContentBuilding
         {
             var command = _commands.Get(propertySelector);
 
-            _contentRenderer.AppendProperty(command.ToString(), description);
+            _contentRenderer.AppendProperty(FormattingStyle.Indent, command.ToString(), description);
         }
 
         public void AddContent(params string[] contents)
         {
-            _contentRenderer.AppendContent(contents);
+            _contentRenderer.AppendContent(FormattingStyle.Indent, contents);
         }
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _contentRenderer.AppendTable(columns, rows);
+            _contentRenderer.AppendTable(FormattingStyle.Indent, columns, rows);
         }
 
         public string ContentText => _contentRenderer.ToString();

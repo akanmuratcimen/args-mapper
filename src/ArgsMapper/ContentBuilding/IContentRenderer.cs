@@ -23,23 +23,23 @@ namespace ArgsMapper.ContentBuilding
 {
     internal interface IContentRenderer
     {
-        void AppendContent(params string[] contents);
+        void AppendContent(FormattingStyle style, params string[] contents);
         void AppendSection(string header, string sectionString);
-        void AppendProperty(string name, string description);
+        void AppendProperty(FormattingStyle style, string name, string description);
 
-        void AppendTable((string, string) columns,
+        void AppendTable(FormattingStyle style, (string, string) columns,
             params (string, string)[] rows);
 
-        void AppendTable((string, string, string) columns,
+        void AppendTable(FormattingStyle style, (string, string, string) columns,
             params (string, string, string)[] rows);
 
-        void AppendTable((string, string, string, string) columns,
+        void AppendTable(FormattingStyle style, (string, string, string, string) columns,
             params (string, string, string, string)[] rows);
 
-        void AppendTable((string, string, string, string, string)
+        void AppendTable(FormattingStyle style, (string, string, string, string, string)
             columns, params (string, string, string, string, string)[] rows);
 
-        void AppendTable((string, string, string, string, string, string)
+        void AppendTable(FormattingStyle style, (string, string, string, string, string, string)
             columns, params (string, string, string, string, string, string)[] rows);
 
         string ToString();

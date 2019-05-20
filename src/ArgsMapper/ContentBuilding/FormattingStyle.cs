@@ -21,12 +21,9 @@
 
 namespace ArgsMapper.ContentBuilding
 {
-    internal enum ContentType
+    internal enum FormattingStyle
     {
-        Text,
-        Property,
-        Header,
-        Section,
-        Table
+        None,
+        Indent
     }
 }

@@ -26,43 +26,43 @@ namespace ArgsMapper.ContentBuilding
 {
     internal class Content
     {
-        internal Content(ContentType type, params string[] values)
+        internal Content(FormattingStyle style, params string[] values)
         {
-            Type = type;
+            Style = style;
             Values = values.Select(x => new[] { x });
         }
 
-        internal Content(ContentType type, params (string, string)[] values)
+        internal Content(FormattingStyle style, params (string, string)[] values)
         {
-            Type = type;
+            Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2 });
         }
 
-        internal Content(ContentType type, params (string, string, string)[] values)
+        internal Content(FormattingStyle style, params (string, string, string)[] values)
         {
-            Type = type;
+            Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3 });
         }
 
-        internal Content(ContentType type, params (string, string, string, string)[] values)
+        internal Content(FormattingStyle style, params (string, string, string, string)[] values)
         {
-            Type = type;
+            Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4 });
         }
 
-        internal Content(ContentType type, params (string, string, string, string, string)[] values)
+        internal Content(FormattingStyle style, params (string, string, string, string, string)[] values)
         {
-            Type = type;
+            Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 });
         }
 
-        internal Content(ContentType type, params (string, string, string, string, string, string)[] values)
+        internal Content(FormattingStyle style, params (string, string, string, string, string, string)[] values)
         {
-            Type = type;
+            Style = style;
             Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6 });
         }
 
-        internal ContentType Type { get; }
+        internal FormattingStyle Style { get; }
         internal IEnumerable<IReadOnlyList<string>> Values { get; }
     }
 }
