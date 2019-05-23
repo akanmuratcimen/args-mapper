@@ -60,7 +60,7 @@ namespace ArgsMapper.PageBuilding
             return _stringBuilder.TrimEnd().ToString();
         }
 
-        private static IEnumerable<string> Format(PageContentFormattingStyle style,
+        private static IEnumerable<string> Format(PageContentRowFormattingStyle style,
             IEnumerable<IReadOnlyList<string>> values, IReadOnlyList<int> columnLengths)
         {
             foreach (var row in values)
@@ -69,7 +69,7 @@ namespace ArgsMapper.PageBuilding
 
                 switch (style)
                 {
-                    case PageContentFormattingStyle.Indent:
+                    case PageContentRowFormattingStyle.Indent:
                         stringBuilder.Append(' ', IndentSize);
 
                         break;

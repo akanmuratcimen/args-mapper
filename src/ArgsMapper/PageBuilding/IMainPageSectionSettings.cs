@@ -26,9 +26,10 @@ namespace ArgsMapper.PageBuilding
 {
     public interface IMainPageSectionSettings<T> : IPageBuilder where T : class
     {
-        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector, string description = null);
+        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector, 
+            Action<PageContentOptionSettings> settings = null);
 
         void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
-            string description = null) where TCommand : class;
+            Action<PageContentCommandSettings> settings = null) where TCommand : class;
     }
 }

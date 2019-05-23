@@ -48,7 +48,7 @@ namespace ArgsMapper.PageBuilding
 
         public void AddText(params string[] contents)
         {
-            _pageRenderer.AppendText(PageContentFormattingStyle.None, contents);
+            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, contents);
         }
 
         public string Content => _pageRenderer.ToString();
@@ -56,31 +56,31 @@ namespace ArgsMapper.PageBuilding
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentFormattingStyle.None, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
     }
 }

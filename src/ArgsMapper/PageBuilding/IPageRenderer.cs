@@ -23,23 +23,28 @@ namespace ArgsMapper.PageBuilding
 {
     internal interface IPageRenderer
     {
-        void AppendText(PageContentFormattingStyle style, params string[] contents);
+        void AppendText(PageContentRowFormattingStyle style, params string[] contents);
         void AppendSection(string header, string sectionString);
-        void AppendProperty(PageContentFormattingStyle style, string name, string description);
 
-        void AppendTable(PageContentFormattingStyle style, (string, string) columns,
+        void AppendOption(PageContentRowFormattingStyle style, string name, 
+            PageContentOptionSettings settings);
+
+        void AppendCommand(PageContentRowFormattingStyle style, string name, 
+            PageContentCommandSettings settings);
+
+        void AppendTable(PageContentRowFormattingStyle style, (string, string) columns,
             params (string, string)[] rows);
 
-        void AppendTable(PageContentFormattingStyle style, (string, string, string) columns,
+        void AppendTable(PageContentRowFormattingStyle style, (string, string, string) columns,
             params (string, string, string)[] rows);
 
-        void AppendTable(PageContentFormattingStyle style, (string, string, string, string) columns,
+        void AppendTable(PageContentRowFormattingStyle style, (string, string, string, string) columns,
             params (string, string, string, string)[] rows);
 
-        void AppendTable(PageContentFormattingStyle style, (string, string, string, string, string)
+        void AppendTable(PageContentRowFormattingStyle style, (string, string, string, string, string)
             columns, params (string, string, string, string, string)[] rows);
 
-        void AppendTable(PageContentFormattingStyle style, (string, string, string, string, string, string)
+        void AppendTable(PageContentRowFormattingStyle style, (string, string, string, string, string, string)
             columns, params (string, string, string, string, string, string)[] rows);
 
         string ToString();

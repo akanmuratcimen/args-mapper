@@ -21,9 +21,8 @@
 
 namespace ArgsMapper.PageBuilding
 {
-    internal enum PageContentFormattingStyle
+    internal class PageContentColumnSettings
     {
-        None,
-        Indent
+        public int? Width { get; set; }
     }
 }

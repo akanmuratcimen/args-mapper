@@ -20,65 +20,127 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
+using System.Linq;
 using ArgsMapper.Utilities;
 
 namespace ArgsMapper.PageBuilding
 {
     internal class PageRenderer : IPageRenderer
     {
+        private readonly IList<PageContent> _contents;
         private readonly IPageContentFormatter _pageContentFormatter;
-        private readonly IList<PageContent> Contents = new List<PageContent>();
 
         public PageRenderer()
         {
-            _pageContentFormatter = new PageContentFormatter(Contents);
+            _contents = new List<PageContent>();
+            _pageContentFormatter = new PageContentFormatter(_contents);
         }
 
-        public void AppendText(PageContentFormattingStyle style,
+        public void AppendText(PageContentRowFormattingStyle style,
             params string[] contents)
         {
-            Contents.Add(new PageContent(style, contents));
+            _contents.Add(new PageContent {
+                Style = style,
+                Values = new[] {
+                    contents
+                }
+            });
         }
 
-        public void AppendTable(PageContentFormattingStyle style,
+        public void AppendTable(PageContentRowFormattingStyle style,
             (string, string) columns,
             params (string, string)[] rows)
         {
-            Contents.Add(new PageContent(style, columns.Merge(rows)));
+            _contents.Add(new PageContent {
+                Style = style,
+                Values = columns.Merge(rows).Select(x => new[] {
+                    x.Item1, x.Item2
+                })
+            });
         }
 
-        public void AppendTable(PageContentFormattingStyle style,
+        public void AppendTable(PageContentRowFormattingStyle style,
             (string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            Contents.Add(new PageContent(style, columns.Merge(rows)));
+            _contents.Add(new PageContent {
+                Style = style,
+                Values = columns.Merge(rows).Select(x => new[] {
+                    x.Item1, x.Item2, x.Item3
+                })
+            });
         }
 
-        public void AppendTable(PageContentFormattingStyle style,
+        public void AppendTable(PageContentRowFormattingStyle style,
             (string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            Contents.Add(new PageContent(style, columns.Merge(rows)));
+            _contents.Add(new PageContent {
+                Style = style,
+                Values = columns.Merge(rows).Select(x => new[] {
+                    x.Item1, x.Item2, x.Item3, x.Item4
+                })
+            });
         }
 
-        public void AppendTable(PageContentFormattingStyle style,
+        public void AppendTable(PageContentRowFormattingStyle style,
             (string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            Contents.Add(new PageContent(style, columns.Merge(rows)));
+            _contents.Add(new PageContent {
+                Style = style,
+                Values = columns.Merge(rows).Select(x => new[] {
+                    x.Item1, x.Item2, x.Item3, x.Item4, x.Item5
+                })
+            });
         }
 
-        public void AppendTable(PageContentFormattingStyle style,
+        public void AppendTable(PageContentRowFormattingStyle style,
             (string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            Contents.Add(new PageContent(style, columns.Merge(rows)));
+            _contents.Add(new PageContent {
+                Style = style,
+                Values = columns.Merge(rows).Select(x => new[] {
+                    x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6
+                })
+            });
         }
 
-        public void AppendProperty(PageContentFormattingStyle style, 
-            string name, string description)
+        public void AppendOption(PageContentRowFormattingStyle style,
+            string name, PageContentOptionSettings settings)
         {
-            Contents.Add(new PageContent(style, (name, description)));
+            _contents.Add(new PageContent {
+                Style = style,
+                ColumnSettings = new[] {
+                    new PageContentColumnSettings {
+                        Width = settings?.NameColumnWidth
+                    }
+                },
+                Values = new[] {
+                    new[] {
+                        name, settings?.Description
+                    }
+                }
+            });
+        }
+
+        public void AppendCommand(PageContentRowFormattingStyle style,
+            string name, PageContentCommandSettings settings)
+        {
+            _contents.Add(new PageContent {
+                Style = style,
+                ColumnSettings = new[] {
+                    new PageContentColumnSettings {
+                        Width = settings?.NameColumnWidth
+                    }
+                },
+                Values = new[] {
+                    new[] {
+                        name, settings?.Description
+                    }
+                }
+            });
         }
 
         public override string ToString()
@@ -88,8 +150,23 @@ namespace ArgsMapper.PageBuilding
 
         public void AppendSection(string header, string sectionString)
         {
-            Contents.Add(new PageContent(PageContentFormattingStyle.None, header));
-            Contents.Add(new PageContent(PageContentFormattingStyle.None, sectionString));
+            _contents.Add(new PageContent {
+                Style = PageContentRowFormattingStyle.None,
+                Values = new[] {
+                    new[] {
+                        header
+                    }
+                }
+            });
+
+            _contents.Add(new PageContent {
+                Style = PageContentRowFormattingStyle.None,
+                Values = new[] {
+                    new[] {
+                        sectionString
+                    }
+                }
+            });
         }
     }
 }

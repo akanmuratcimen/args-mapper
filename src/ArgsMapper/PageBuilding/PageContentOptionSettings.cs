@@ -19,14 +19,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Linq.Expressions;
-
 namespace ArgsMapper.PageBuilding
 {
-    public interface ICommandPageSectionSettings<TCommand> : IPageBuilder where TCommand : class
+    public class PageContentOptionSettings
     {
-        void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
-            Action<PageContentOptionSettings> settings = null);
+        public string Description { get; set; }
+        public int NameColumnWidth { get; set; }
+        public int DescriptionColumnWidth { get; set; }
     }
 }

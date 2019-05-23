@@ -34,7 +34,7 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendText(PageContentFormattingStyle.None, "content line");
+            renderer.AppendText(PageContentRowFormattingStyle.None, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -49,8 +49,8 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendText(PageContentFormattingStyle.None, "content line 1");
-            renderer.AppendText(PageContentFormattingStyle.None, "content line 2");
+            renderer.AppendText(PageContentRowFormattingStyle.None, "content line 1");
+            renderer.AppendText(PageContentRowFormattingStyle.None, "content line 2");
 
             // Act
             var contentText = renderer.ToString();
@@ -70,7 +70,7 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendText(PageContentFormattingStyle.Indent, "content line");
+            renderer.AppendText(PageContentRowFormattingStyle.Indent, "content line");
 
             // Act
             var contentText = renderer.ToString();
@@ -85,8 +85,8 @@ namespace ArgsMapper.Tests.PageTests
             // Arrange
             var renderer = new PageRenderer();
 
-            renderer.AppendText(PageContentFormattingStyle.None, "content line 1");
-            renderer.AppendText(PageContentFormattingStyle.None, "content line 2");
+            renderer.AppendText(PageContentRowFormattingStyle.None, "content line 1");
+            renderer.AppendText(PageContentRowFormattingStyle.None, "content line 2");
 
             // Act
             var contentText = renderer.ToString();
@@ -107,7 +107,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.None,
+                PageContentRowFormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4", "column 5"),
                 ("value 1", "value 2", "value 3", "value 4", "value 5")
             );
@@ -131,7 +131,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.None,
+                PageContentRowFormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4"),
                 ("value 1", "value 2", "value 3", "value 4")
             );
@@ -155,7 +155,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.None,
+                PageContentRowFormattingStyle.None,
                 ("column 1", "column 2", "column 3", "column 4", "column 5", "column 6"),
                 ("value 1", "value 2", "value 3", "value 4", "value 5", "value 6")
             );
@@ -179,7 +179,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.None,
+                PageContentRowFormattingStyle.None,
                 ("column 1", "column 2", "column 3"),
                 ("value 1", "value 2", "value 3")
             );
@@ -203,7 +203,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.None,
+                PageContentRowFormattingStyle.None,
                 ("column 1", "column 2"),
                 ("value 1", "value 2")
             );
@@ -251,7 +251,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.Indent,
+                PageContentRowFormattingStyle.Indent,
                 ("column 1", "column 2"),
                 ("value 1", "value 2")
             );
@@ -275,7 +275,7 @@ namespace ArgsMapper.Tests.PageTests
             var renderer = new PageRenderer();
 
             renderer.AppendTable(
-                PageContentFormattingStyle.Indent,
+                PageContentRowFormattingStyle.Indent,
                 ("column 1", "column 2"),
                 ("value 1", "value 2"),
                 ("value 3", "value 4")

@@ -20,55 +20,13 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ArgsMapper.PageBuilding
 {
     internal class PageContent
     {
-        internal PageContent(PageContentFormattingStyle style, 
-            params string[] values)
-        {
-            Style = style;
-            Values = values.Select(x => new[] { x });
-        }
-
-        internal PageContent(PageContentFormattingStyle style, 
-            params (string, string)[] values)
-        {
-            Style = style;
-            Values = values.Select(x => new[] { x.Item1, x.Item2 });
-        }
-
-        internal PageContent(PageContentFormattingStyle style, 
-            params (string, string, string)[] values)
-        {
-            Style = style;
-            Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3 });
-        }
-
-        internal PageContent(PageContentFormattingStyle style, 
-            params (string, string, string, string)[] values)
-        {
-            Style = style;
-            Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4 });
-        }
-
-        internal PageContent(PageContentFormattingStyle style, 
-            params (string, string, string, string, string)[] values)
-        {
-            Style = style;
-            Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 });
-        }
-
-        internal PageContent(PageContentFormattingStyle style, 
-            params (string, string, string, string, string, string)[] values)
-        {
-            Style = style;
-            Values = values.Select(x => new[] { x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6 });
-        }
-
-        internal PageContentFormattingStyle Style { get; }
-        internal IEnumerable<IReadOnlyList<string>> Values { get; }
+        internal PageContentRowFormattingStyle Style { get; set; }
+        internal IEnumerable<IReadOnlyList<string>> Values { get; set; }
+        internal IReadOnlyList<PageContentColumnSettings> ColumnSettings { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddOption_With_Description_In_Settings()
+        internal void Usage_AddCommand_Usage_AddSection_AddOption_With_Its_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
@@ -48,7 +48,11 @@ namespace ArgsMapper.Tests.PageTests
                 commandSettings.AddOption(x => x.Option);
 
                 commandSettings.Usage.AddSection("header", section => {
-                    section.AddOption(x => x.Option, "option description");
+                    section.AddOption(x => x.Option, contentOptionSettings => {
+                        contentOptionSettings.Description = "option description";
+                        contentOptionSettings.DescriptionColumnWidth = 40;
+                        contentOptionSettings.NameColumnWidth = 20;
+                    });
                 });
             });
         }
@@ -372,14 +376,18 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddOption_With_Description_In_Settings()
+        internal void Usage_AddSection_AddOption_With_Its_Settings()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
             mapper.AddOption(x => x.Option);
 
             mapper.Usage.AddSection("header", section => {
-                section.AddOption(x => x.Option, "option description");
+                section.AddOption(x => x.Option, contentOptionSettings => {
+                    contentOptionSettings.Description = "option description";
+                    contentOptionSettings.DescriptionColumnWidth = 40;
+                    contentOptionSettings.NameColumnWidth = 20;
+                });
             });
         }
 
