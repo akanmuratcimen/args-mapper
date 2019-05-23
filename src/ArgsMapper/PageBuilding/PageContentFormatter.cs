@@ -48,7 +48,8 @@ namespace ArgsMapper.PageBuilding
         {
             foreach (var content in _contents)
             {
-                var columnLengths = GetColumnLengths(content.Values, TableColumnPadding);
+                var definedWidths = PrepareColumnWidths(content.ColumnSize, content.ColumnSettings);
+                var columnLengths = GetColumnLengths(content.Values, definedWidths, TableColumnPadding);
                 var formattedValues = Format(content.Style, content.Values, columnLengths);
 
                 foreach (var formattedValue in formattedValues)
@@ -91,15 +92,30 @@ namespace ArgsMapper.PageBuilding
             }
         }
 
-        internal static IReadOnlyList<int> GetColumnLengths(
-            IEnumerable<IReadOnlyList<string>> values, int padding)
+        private static int[] PrepareColumnWidths(int columnLength,
+            IReadOnlyList<PageContentColumnSettings> columnSettings)
         {
-            int[] lengths = null;
+            var result = new int[columnLength];
 
+            if (columnSettings == null)
+            {
+                return result;
+            }
+
+            for (var i = 0; i < columnLength; i++)
+            {
+                result[i] = i > columnSettings.Count - 1 ? 0 : columnSettings[i].Width;
+            }
+
+            return result;
+        }
+
+        internal static IReadOnlyList<int> GetColumnLengths(
+            IEnumerable<IReadOnlyList<string>> values,
+            int[] lengths, int padding)
+        {
             foreach (var row in values)
             {
-                lengths = lengths ?? new int[row.Count];
-
                 for (var i = 0; i < row.Count; i++)
                 {
                     if (string.IsNullOrEmpty(row[i]))
@@ -109,11 +125,6 @@ namespace ArgsMapper.PageBuilding
 
                     lengths[i] = Math.Max(row[i].Length, lengths[i]);
                 }
-            }
-
-            if (lengths == null)
-            {
-                return null;
             }
 
             for (var i = 0; i < lengths.Length - 1; i++)

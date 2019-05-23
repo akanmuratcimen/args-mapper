@@ -39,12 +39,18 @@ namespace ArgsMapper.PageBuilding
         public void AppendText(PageContentRowFormattingStyle style,
             params string[] contents)
         {
-            _contents.Add(new PageContent {
-                Style = style,
-                Values = new[] {
-                    contents
-                }
-            });
+            foreach (var content in contents)
+            {
+                _contents.Add(new PageContent {
+                    ColumnSize = 1,
+                    Style = style,
+                    Values = new[] {
+                        new[] {
+                            content
+                        }
+                    }
+                });
+            }
         }
 
         public void AppendTable(PageContentRowFormattingStyle style,
@@ -52,6 +58,7 @@ namespace ArgsMapper.PageBuilding
             params (string, string)[] rows)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 2,
                 Style = style,
                 Values = columns.Merge(rows).Select(x => new[] {
                     x.Item1, x.Item2
@@ -64,6 +71,7 @@ namespace ArgsMapper.PageBuilding
             params (string, string, string)[] rows)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 3,
                 Style = style,
                 Values = columns.Merge(rows).Select(x => new[] {
                     x.Item1, x.Item2, x.Item3
@@ -76,6 +84,7 @@ namespace ArgsMapper.PageBuilding
             params (string, string, string, string)[] rows)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 4,
                 Style = style,
                 Values = columns.Merge(rows).Select(x => new[] {
                     x.Item1, x.Item2, x.Item3, x.Item4
@@ -88,6 +97,7 @@ namespace ArgsMapper.PageBuilding
             params (string, string, string, string, string)[] rows)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 5,
                 Style = style,
                 Values = columns.Merge(rows).Select(x => new[] {
                     x.Item1, x.Item2, x.Item3, x.Item4, x.Item5
@@ -100,6 +110,7 @@ namespace ArgsMapper.PageBuilding
             params (string, string, string, string, string, string)[] rows)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 6,
                 Style = style,
                 Values = columns.Merge(rows).Select(x => new[] {
                     x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6
@@ -111,10 +122,11 @@ namespace ArgsMapper.PageBuilding
             string name, PageContentOptionSettings settings)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 2,
                 Style = style,
                 ColumnSettings = new[] {
                     new PageContentColumnSettings {
-                        Width = settings?.NameColumnWidth
+                        Width = settings?.NameColumnWidth ?? 0
                     }
                 },
                 Values = new[] {
@@ -129,10 +141,11 @@ namespace ArgsMapper.PageBuilding
             string name, PageContentCommandSettings settings)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 2,
                 Style = style,
                 ColumnSettings = new[] {
                     new PageContentColumnSettings {
-                        Width = settings?.NameColumnWidth
+                        Width = settings?.NameColumnWidth ?? 0
                     }
                 },
                 Values = new[] {
@@ -151,6 +164,7 @@ namespace ArgsMapper.PageBuilding
         public void AppendSection(string header, string sectionString)
         {
             _contents.Add(new PageContent {
+                ColumnSize = 1,
                 Style = PageContentRowFormattingStyle.None,
                 Values = new[] {
                     new[] {
@@ -160,6 +174,7 @@ namespace ArgsMapper.PageBuilding
             });
 
             _contents.Add(new PageContent {
+                ColumnSize = 1,
                 Style = PageContentRowFormattingStyle.None,
                 Values = new[] {
                     new[] {

@@ -25,6 +25,7 @@ namespace ArgsMapper.PageBuilding
 {
     internal class PageContent
     {
+        public int ColumnSize { get; set; }
         internal PageContentRowFormattingStyle Style { get; set; }
         internal IEnumerable<IReadOnlyList<string>> Values { get; set; }
         internal IReadOnlyList<PageContentColumnSettings> ColumnSettings { get; set; }

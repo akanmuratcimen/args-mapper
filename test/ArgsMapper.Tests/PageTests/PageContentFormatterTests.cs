@@ -33,12 +33,14 @@ namespace ArgsMapper.Tests.PageTests
             {
                 yield return new object[] {
                     new[] { new[] { "c1", "c2" } },
-                    new[] { 2, 2 }, 
+                    new[] { 0, 0 },
+                    new[] { 2, 2 },
                     0
                 };
 
                 yield return new object[] {
                     new[] { new[] { "", "" } },
+                    new[] { 0, 0 },
                     new[] { 0, 0 },
                     0
                 };
@@ -48,12 +50,14 @@ namespace ArgsMapper.Tests.PageTests
                         new[] { "c1", "" },
                         new[] { null, "" }
                     },
+                    new[] { 0, 0 },
                     new[] { 2, 0 },
                     0
                 };
 
                 yield return new object[] {
                     new[] { new string[] { null } },
+                    new[] { 0 },
                     new[] { 0 },
                     0
                 };
@@ -63,6 +67,7 @@ namespace ArgsMapper.Tests.PageTests
                         new[] { "c1", "c2" },
                         new[] { "a", "b" }
                     },
+                    new[] { 0, 0 },
                     new[] { 2, 2 },
                     0
                 };
@@ -72,6 +77,7 @@ namespace ArgsMapper.Tests.PageTests
                         new[] { "c1", "c2" },
                         new[] { "aaa", "bbb" }
                     },
+                    new[] { 0, 0 },
                     new[] { 3, 3 },
                     0
                 };
@@ -81,6 +87,7 @@ namespace ArgsMapper.Tests.PageTests
                         new[] { "", "c2" },
                         new[] { "aa", "bbb" }
                     },
+                    new[] { 0, 0 },
                     new[] { 2, 3 },
                     0
                 };
@@ -90,6 +97,7 @@ namespace ArgsMapper.Tests.PageTests
                         new[] { "", "c2" },
                         new[] { "aa", "bbb" }
                     },
+                    new[] { 0, 0 },
                     new[] { 4, 3 },
                     2
                 };
@@ -99,13 +107,25 @@ namespace ArgsMapper.Tests.PageTests
                         new[] { "", "c2", "c3" },
                         new[] { "aa", "bbb", "ccc" }
                     },
+                    new[] { 0, 0, 0 },
                     new[] { 4, 5, 3 },
                     2
                 };
 
                 yield return new object[] {
                     new string[] { },
-                    null,
+                    new int[] { },
+                    new int[] { },
+                    0
+                };
+
+                yield return new object[] {
+                    new[] {
+                        new[] { "a", "aaa"  },
+                        new[] { "abc", "bbb-ccc" }
+                    },
+                    new[] { 5, 3 },
+                    new[] { 5, 7 },
                     0
                 };
             }
@@ -113,9 +133,11 @@ namespace ArgsMapper.Tests.PageTests
 
         [Theory]
         [MemberData(nameof(Values))]
-        internal void Render_GetColumnLengths(string[][] values, int[] columnLengths, int padding)
+        internal void Render_GetColumnLengths(string[][] values,
+            int[] definedWidths, int[] expectedColumnLengths, int padding)
         {
-            Assert.Equal(columnLengths, PageContentFormatter.GetColumnLengths(values, padding));
+            Assert.Equal(expectedColumnLengths, PageContentFormatter
+                .GetColumnLengths(values, definedWidths, padding));
         }
     }
 }

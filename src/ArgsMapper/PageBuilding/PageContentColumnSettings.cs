@@ -23,6 +23,6 @@ namespace ArgsMapper.PageBuilding
 {
     internal class PageContentColumnSettings
     {
-        public int? Width { get; set; }
+        public int Width { get; set; }
     }
 }
