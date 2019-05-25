@@ -25,6 +25,5 @@ namespace ArgsMapper.PageBuilding
     {
         public string Description { get; set; }
         public int NameColumnWidth { get; set; }
-        public int DescriptionColumnWidth { get; set; }
     }
 }

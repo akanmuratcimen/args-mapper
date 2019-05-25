@@ -84,7 +84,6 @@ namespace ArgsMapper.Tests.PageBuildingTests
                 commandSettings.Usage.AddSection("header", section => {
                     section.AddOption(x => x.Option, contentOptionSettings => {
                         contentOptionSettings.Description = "option description";
-                        contentOptionSettings.DescriptionColumnWidth = 40;
                         contentOptionSettings.NameColumnWidth = 20;
                     });
                 });
@@ -455,7 +454,6 @@ namespace ArgsMapper.Tests.PageBuildingTests
             mapper.Usage.AddSection("header", section => {
                 section.AddOption(x => x.Option, contentOptionSettings => {
                     contentOptionSettings.Description = "option description";
-                    contentOptionSettings.DescriptionColumnWidth = 40;
                     contentOptionSettings.NameColumnWidth = 20;
                 });
             });
