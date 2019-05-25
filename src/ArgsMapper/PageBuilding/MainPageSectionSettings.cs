@@ -55,6 +55,11 @@ namespace ArgsMapper.PageBuilding
 
             var option = _options.Get(propertySelector);
 
+            if (option == null)
+            {
+                throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
+            }
+
             _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent, 
                 option.ToString(), contentOptionSettings);
         }
@@ -72,6 +77,11 @@ namespace ArgsMapper.PageBuilding
             }
 
             var command = _commands.Get(propertySelector);
+
+            if (command == null)
+            {
+                throw new CommandCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
+            }
 
             _pageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent, 
                 command.ToString(), contentCommandSettings);

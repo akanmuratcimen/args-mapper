@@ -53,6 +53,11 @@ namespace ArgsMapper.PageBuilding
 
             var option = _commandOptions.Get(propertySelector);
 
+            if (option == null)
+            {
+                throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
+            }
+
             _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent, 
                 option.ToString(), contentOptionSettings);
         }
