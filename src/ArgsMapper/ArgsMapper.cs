@@ -66,20 +66,20 @@ namespace ArgsMapper
         {
             if (args.IsNullOrEmpty())
             {
-                var introductionContentText = Introduction.Content;
+                var introductionContent = Introduction.Content;
 
-                if (introductionContentText != string.Empty)
+                if (introductionContent != string.Empty)
                 {
-                    Settings.DefaultWriter.Write(introductionContentText);
+                    Settings.DefaultWriter.Write(introductionContent);
 
                     return;
                 }
 
-                var usageContentText = Usage.Content;
+                var usageContent = Usage.Content;
 
-                if (usageContentText != string.Empty)
+                if (usageContent != string.Empty)
                 {
-                    Settings.DefaultWriter.Write(usageContentText);
+                    Settings.DefaultWriter.Write(usageContent);
 
                     return;
                 }

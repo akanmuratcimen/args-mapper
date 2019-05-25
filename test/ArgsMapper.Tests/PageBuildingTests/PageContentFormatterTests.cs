@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using ArgsMapper.PageBuilding;
 using Xunit;
 
-namespace ArgsMapper.Tests.PageTests
+namespace ArgsMapper.Tests.PageBuildingTests
 {
     public class PageContentFormatterTests
     {

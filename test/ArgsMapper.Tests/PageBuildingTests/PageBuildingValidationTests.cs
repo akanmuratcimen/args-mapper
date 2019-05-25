@@ -1,4 +1,4 @@
-// The MIT License (MIT)
+﻿// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -22,7 +22,7 @@
 using ArgsMapper.PageBuilding;
 using Xunit;
 
-namespace ArgsMapper.Tests.PageTests
+namespace ArgsMapper.Tests.PageBuildingTests
 {
     public class PageBuildingValidationTests
     {

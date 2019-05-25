@@ -24,7 +24,7 @@ using ArgsMapper.PageBuilding;
 using ArgsMapper.Tests.Helpers;
 using Xunit;
 
-namespace ArgsMapper.Tests.PageTests
+namespace ArgsMapper.Tests.PageBuildingTests
 {
     public class PageRendererTests
     {
