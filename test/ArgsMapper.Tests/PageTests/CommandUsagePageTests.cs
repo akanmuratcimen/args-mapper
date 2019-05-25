@@ -19,71 +19,50 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using System.IO;
 using System.Text;
 using Xunit;
 
 namespace ArgsMapper.Tests.PageTests
 {
-    public class IntroductionPageTests
+    public class CommandUsagePageTests
     {
         [Fact]
-        internal void Mapper_Output_Should_Be_Empty_When_Introduction_And_Usage_Not_Defined()
+        internal void Mapper_Output_Should_Be_Command_Usage_Content()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
             var output = new StringBuilder();
 
             mapper.Settings.DefaultWriter = new StringWriter(output);
 
-            mapper.AddOption(x => x.Option);
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddText("sample command usage text.");
+            });
 
             // Act
-            mapper.Execute(Array.Empty<string>(), null);
+            mapper.Execute(new[] { "command", "--help" }, null);
 
             // Assert
-            Assert.Equal(string.Empty, output.ToString());
+            Assert.Equal("sample command usage text.", output.ToString());
         }
 
         [Fact]
-        internal void Mapper_Output_Should_Be_Introduction_Content()
+        internal void Mapper_Output_Should_Unknown_Option_Error()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
             var output = new StringBuilder();
 
             mapper.Settings.DefaultWriter = new StringWriter(output);
 
-            mapper.AddOption(x => x.Option);
-
-            mapper.Introduction.AddText("sample introduction text.");
+            mapper.AddCommand(x => x.Command);
 
             // Act
-            mapper.Execute(Array.Empty<string>(), null);
+            mapper.Execute(new[] { "command", "--help" }, null);
 
             // Assert
-            Assert.Equal("sample introduction text.", output.ToString());
-        }
-
-        [Fact]
-        internal void Mapper_Output_Should_Be_Usage_Content_When_Introduction_Not_Defined()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-            var output = new StringBuilder();
-
-            mapper.Settings.DefaultWriter = new StringWriter(output);
-
-            mapper.AddOption(x => x.Option);
-
-            mapper.Usage.AddText("sample usage text.");
-
-            // Act
-            mapper.Execute(Array.Empty<string>(), null);
-
-            // Assert
-            Assert.Equal("sample usage text.", output.ToString());
+            Assert.StartsWith("Unknown 'command' command option", output.ToString());
         }
     }
 }

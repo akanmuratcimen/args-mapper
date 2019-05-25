@@ -32,17 +32,23 @@ namespace ArgsMapper
     /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
     public class ArgsCommandSettings<T, TProperty> where T : class where TProperty : class
     {
+        public ArgsCommandSettings()
+        {
+            Options = new List<Option>();
+            Usage = new CommandPageBuilder<TProperty>(Options);
+        }
+
         /// <summary>
         ///     Ignores the option if true.
         /// </summary>
         public bool IsDisabled { get; set; }
 
-        internal List<Option> Options { get; } = new List<Option>();
+        internal List<Option> Options { get; }
         internal ArgsMapper<T> Mapper { get; set; }
 
         /// <summary>
         ///     Command usage builder.
         /// </summary>
-        public ICommandPageBuilder<TProperty> Usage => new CommandPageBuilder<TProperty>(Options);
+        public ICommandPageBuilder<TProperty> Usage { get; }
     }
 }

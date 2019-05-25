@@ -33,6 +33,7 @@ namespace ArgsMapper.PageBuilding
         public CommandPageBuilder(IEnumerable<Option> commandOptions)
         {
             _commandOptions = commandOptions;
+
             _pageRenderer = new PageRenderer();
         }
 

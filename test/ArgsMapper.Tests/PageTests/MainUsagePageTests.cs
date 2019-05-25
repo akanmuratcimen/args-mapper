@@ -37,6 +37,7 @@ namespace ArgsMapper.Tests.PageTests
             var output = new StringBuilder();
 
             mapper.Settings.DefaultWriter = new StringWriter(output);
+
             mapper.AddOption(x => x.Option);
 
             mapper.Usage.AddText("sample usage text.");
@@ -58,6 +59,7 @@ namespace ArgsMapper.Tests.PageTests
             var output = new StringBuilder();
 
             mapper.Settings.DefaultWriter = new StringWriter(output);
+
             mapper.AddOption(x => x.Option);
 
             // Act

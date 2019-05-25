@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
@@ -87,11 +88,11 @@ namespace ArgsMapper
             else
             {
                 var args0 = args[0];
-                var usageContent = Usage.Content;
+                var mainUsageContent = Usage.Content;
 
-                if (args0.IsHelpOption() && usageContent != string.Empty)
+                if (args0.IsHelpOption() && mainUsageContent != string.Empty)
                 {
-                    Settings.DefaultWriter.Write(usageContent);
+                    Settings.DefaultWriter.Write(mainUsageContent);
 
                     return;
                 }
@@ -101,6 +102,26 @@ namespace ArgsMapper
                     Settings.DefaultWriter.Write(Settings.ApplicationVersion.ToString());
 
                     return;
+                }
+
+                if (Commands.Any())
+                {
+                    var command = Commands.Get(args[0], Settings.StringComparison);
+
+                    if (command != null && !command.IsDisabled && args.Length > 1)
+                    {
+                        if (args[1].IsHelpOption() && command.Usage != null)
+                        {
+                            var commandUsageContent = command.Usage.Content;
+
+                            if (commandUsageContent != string.Empty)
+                            {
+                                Settings.DefaultWriter.Write(commandUsageContent);
+
+                                return;
+                            }
+                        }
+                    }
                 }
             }
 
