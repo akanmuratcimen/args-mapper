@@ -87,10 +87,11 @@ namespace ArgsMapper
             else
             {
                 var args0 = args[0];
+                var usageContent = Usage.Content;
 
-                if (args0.IsHelpOption())
+                if (args0.IsHelpOption() && usageContent != string.Empty)
                 {
-                    Settings.DefaultWriter.Write(Usage.Content);
+                    Settings.DefaultWriter.Write(usageContent);
 
                     return;
                 }
@@ -112,7 +113,7 @@ namespace ArgsMapper
                 return;
             }
 
-            onExecute(mapperResult.Model);
+            onExecute?.Invoke(mapperResult.Model);
         }
 
         public async Task ExecuteAsync(string[] args, Action<T> onExecute)
