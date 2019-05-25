@@ -28,5 +28,7 @@ namespace ArgsMapper.PageBuilding
     {
         void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
             Action<PageContentOptionSettings> settings = null);
+
+        void AddHelpOption(Action<PageContentOptionSettings> settings = null);
     }
 }

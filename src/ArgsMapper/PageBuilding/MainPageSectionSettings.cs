@@ -87,6 +87,36 @@ namespace ArgsMapper.PageBuilding
                 command.ToString(), contentCommandSettings);
         }
 
+        public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
+        {
+            PageContentOptionSettings contentOptionSettings = null;
+
+            if (settings != null)
+            {
+                contentOptionSettings = new PageContentOptionSettings();
+
+                settings(contentOptionSettings);
+            }
+
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+                Constants.HelpOptionString, contentOptionSettings);
+        }
+
+        public void AddVersionOption(Action<PageContentOptionSettings> settings = null)
+        {
+            PageContentOptionSettings contentOptionSettings = null;
+
+            if (settings != null)
+            {
+                contentOptionSettings = new PageContentOptionSettings();
+
+                settings(contentOptionSettings);
+            }
+
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+                Constants.VersionOptionString, contentOptionSettings);
+        }
+
         public void AddText(params string[] contents)
         {
             _pageRenderer.AppendText(PageContentRowFormattingStyle.Indent, contents);

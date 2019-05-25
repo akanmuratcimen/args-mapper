@@ -85,5 +85,45 @@ namespace ArgsMapper.Tests.PageTests
             // Assert
             Assert.Equal("sample usage text.", output.ToString());
         }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Help_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.Introduction.AddHelpOption(contentOptionSettings => {
+                contentOptionSettings.Description = "sample help description.";
+            });
+
+            // Act
+            mapper.Execute(Array.Empty<string>(), null);
+
+            // Assert
+            Assert.Equal("-h|--help    sample help description.", output.ToString());
+        }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Version_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.Introduction.AddVersionOption(contentOptionSettings => {
+                contentOptionSettings.Description = "sample version description.";
+            });
+
+            // Act
+            mapper.Execute(Array.Empty<string>(), null);
+
+            // Assert
+            Assert.Equal("-v|--version    sample version description.", output.ToString());
+        }
     }
 }

@@ -32,9 +32,11 @@ namespace ArgsMapper
 
         internal static char[] HelpOptionAliases = { '?', 'h' };
         internal static string[] HelpOptionNames = { "help" };
+        internal static readonly string HelpOptionString = "-h|--help";
 
         internal static readonly char[] VersionOptionShortNames = { 'v' };
         internal static readonly string[] VersionOptionLongNames = { "version" };
+        internal static readonly string VersionOptionString = "-v|--version";
 
         internal static IEnumerable<char> ReservedOptionShortNames
         {

@@ -26,5 +26,6 @@ namespace ArgsMapper.PageBuilding
     public interface ICommandPageBuilder<TCommand> : IPageBuilder where TCommand : class
     {
         void AddSection(string header, Action<ICommandPageSectionSettings<TCommand>> sectionSettings);
+        void AddHelpOption(Action<PageContentOptionSettings> settings = null);
     }
 }

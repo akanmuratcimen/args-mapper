@@ -47,6 +47,21 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
+        public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
+        {
+            PageContentOptionSettings contentOptionSettings = null;
+
+            if (settings != null)
+            {
+                contentOptionSettings = new PageContentOptionSettings();
+
+                settings(contentOptionSettings);
+            }
+
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
+                Constants.HelpOptionString, contentOptionSettings);
+        }
+
         public void AddText(params string[] contents)
         {
             _pageRenderer.AppendText(PageContentRowFormattingStyle.None, contents);

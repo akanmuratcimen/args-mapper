@@ -68,5 +68,45 @@ namespace ArgsMapper.Tests.PageTests
             // Assert
             Assert.StartsWith("Unknown option", output.ToString());
         }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Help_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.Usage.AddHelpOption(contentOptionSettings => {
+                contentOptionSettings.Description = "sample help description.";
+            });
+
+            // Act
+            mapper.Execute(new[] { "--help" }, null);
+
+            // Assert
+            Assert.Equal("-h|--help    sample help description.", output.ToString());
+        }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Version_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.Usage.AddVersionOption(contentOptionSettings => {
+                contentOptionSettings.Description = "sample version description.";
+            });
+
+            // Act
+            mapper.Execute(new[] { "--help" }, null);
+
+            // Assert
+            Assert.Equal("-v|--version    sample version description.", output.ToString());
+        }
     }
 }

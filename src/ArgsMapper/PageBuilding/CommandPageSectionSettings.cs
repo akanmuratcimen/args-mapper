@@ -62,6 +62,21 @@ namespace ArgsMapper.PageBuilding
                 option.ToString(), contentOptionSettings);
         }
 
+        public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
+        {
+            PageContentOptionSettings contentOptionSettings = null;
+
+            if (settings != null)
+            {
+                contentOptionSettings = new PageContentOptionSettings();
+
+                settings(contentOptionSettings);
+            }
+
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+                Constants.HelpOptionString, contentOptionSettings);
+        }
+
         public void AddText(params string[] contents)
         {
             _pageRenderer.AppendText(PageContentRowFormattingStyle.Indent, contents);

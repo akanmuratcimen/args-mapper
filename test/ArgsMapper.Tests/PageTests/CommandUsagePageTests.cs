@@ -48,6 +48,28 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
+        internal void Mapper_Output_Should_Be_Help_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddHelpOption(contentOptionSettings => {
+                    contentOptionSettings.Description = "sample help description.";
+                });
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "--help" }, null);
+
+            // Assert
+            Assert.Equal("-h|--help    sample help description.", output.ToString());
+        }
+
+        [Fact]
         internal void Mapper_Output_Should_Unknown_Option_Error()
         {
             // Arrange

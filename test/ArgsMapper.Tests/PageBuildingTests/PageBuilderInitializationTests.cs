@@ -26,6 +26,40 @@ namespace ArgsMapper.Tests.PageBuildingTests
     public class PageBuilderInitializationTests
     {
         [Fact]
+        internal void Usage_AddCommand_Usage_AddHelpOption()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddHelpOption();
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddHelpOption()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddHelpOption();
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddHelpOption_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddHelpOption(settings => { });
+                });
+            });
+        }
+
+        [Fact]
         internal void Usage_AddCommand_Usage_AddSection_AddOption_In_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
@@ -352,6 +386,22 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
+        internal void Usage_AddHelpOption()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddHelpOption();
+        }
+
+        [Fact]
+        internal void Usage_AddHelpOption_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddHelpOption(settings => { });
+        }
+
+        [Fact]
         internal void Usage_AddSection_AddCommand_In_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
@@ -360,6 +410,26 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             mapper.Usage.AddSection("header", section => {
                 section.AddCommand(x => x.Command);
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddHelpOption()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddHelpOption();
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddHelpOption_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddHelpOption(settings => { });
             });
         }
 
@@ -458,6 +528,26 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             mapper.Usage.AddSection("header", section => {
                 section.AddText("content", "content");
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddVersionOption()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddVersionOption();
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddVersionOption_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddVersionOption(settings => { });
             });
         }
 
@@ -570,6 +660,22 @@ namespace ArgsMapper.Tests.PageBuildingTests
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 
             mapper.Usage.AddText("content", "content");
+        }
+
+        [Fact]
+        internal void Usage_AddVersionOption()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddVersionOption();
+        }
+
+        [Fact]
+        internal void Usage_AddVersionOption_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.Usage.AddVersionOption(settings => { });
         }
     }
 }
