@@ -14,24 +14,26 @@ namespace DotNet.Cli
             introduction.AddEmptyLine();
 
             introduction.AddSection("Options:", sectionSettings => {
+                const int columnWidth = 16;
+
                 sectionSettings.AddHelpOption(optionSettings => {
                     optionSettings.Description = "Display help.";
-                    optionSettings.NameColumnWidth = 16;
+                    optionSettings.NameColumnWidth = columnWidth;
                 });
 
                 sectionSettings.AddOption(x => x.Info, optionSettings => {
                     optionSettings.Description = "Display .NET Core information.";
-                    optionSettings.NameColumnWidth = 16;
+                    optionSettings.NameColumnWidth = columnWidth;
                 });
 
                 sectionSettings.AddOption(x => x.ListSdks, optionSettings => {
                     optionSettings.Description = "Display the installed SDKs.";
-                    optionSettings.NameColumnWidth = 16;
+                    optionSettings.NameColumnWidth = columnWidth;
                 });
 
                 sectionSettings.AddOption(x => x.ListRuntimes, optionSettings => {
                     optionSettings.Description = "Display the installed runtimes.";
-                    optionSettings.NameColumnWidth = 16;
+                    optionSettings.NameColumnWidth = columnWidth;
                 });
             });
 
