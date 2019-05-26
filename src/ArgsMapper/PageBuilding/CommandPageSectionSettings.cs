@@ -77,6 +77,11 @@ namespace ArgsMapper.PageBuilding
                 Constants.HelpOptionString, contentOptionSettings);
         }
 
+        public void AddEmptyLine()
+        {
+            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, string.Empty);
+        }
+
         public void AddText(params string[] contents)
         {
             _pageRenderer.AppendText(PageContentRowFormattingStyle.Indent, contents);

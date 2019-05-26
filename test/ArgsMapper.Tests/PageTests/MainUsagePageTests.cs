@@ -46,7 +46,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(args, null);
 
             // Assert
-            Assert.Equal("sample usage text.", output.ToString());
+            Assert.Equal("sample usage text.", output.ToString().TrimEnd());
         }
 
         [Theory]
@@ -86,7 +86,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(new[] { "--help" }, null);
 
             // Assert
-            Assert.Equal("-h|--help    sample help description.", output.ToString());
+            Assert.Equal("-h|--help  sample help description.", output.ToString().TrimEnd());
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(new[] { "--help" }, null);
 
             // Assert
-            Assert.Equal("-v|--version    sample version description.", output.ToString());
+            Assert.Equal("-v|--version  sample version description.", output.ToString().TrimEnd());
         }
     }
 }

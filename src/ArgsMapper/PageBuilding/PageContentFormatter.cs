@@ -33,7 +33,7 @@ namespace ArgsMapper.PageBuilding
 
     internal class PageContentFormatter : IPageContentFormatter
     {
-        private const int TableColumnPadding = 4;
+        private const int TableColumnPadding = 2;
         private const int IndentSize = 2;
         private readonly IList<PageContent> _contents;
         private readonly StringBuilder _stringBuilder;
@@ -58,7 +58,12 @@ namespace ArgsMapper.PageBuilding
                 }
             }
 
-            return _stringBuilder.TrimEnd().ToString();
+            if (_stringBuilder.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            return _stringBuilder.TrimEnd().AppendLine().ToString();
         }
 
         private static IEnumerable<string> Format(PageContentRowFormattingStyle style,

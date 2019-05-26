@@ -50,7 +50,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Single(lines);
 
-            Assert.Equal("command-name    command description.", lines[0]);
+            Assert.Equal("command-name  command description.", lines[0]);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Single(lines);
 
-            Assert.Equal("command-name            command description.", lines[0]);
+            Assert.Equal("command-name          command description.", lines[0]);
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
-        internal void Render_Content()
+        internal void Render_Text()
         {
             // Arrange
             var renderer = new PageRenderer();
@@ -114,11 +114,11 @@ namespace ArgsMapper.Tests.PageBuildingTests
             var contentText = renderer.ToString();
 
             // Assert
-            Assert.Equal("content line", contentText);
+            Assert.Equal("content line", contentText.TrimEnd());
         }
 
         [Fact]
-        internal void Render_Content_Indent()
+        internal void Render_Text_Indent()
         {
             // Arrange
             var renderer = new PageRenderer();
@@ -129,11 +129,11 @@ namespace ArgsMapper.Tests.PageBuildingTests
             var contentText = renderer.ToString();
 
             // Assert
-            Assert.Equal("  content line", contentText);
+            Assert.Equal("  content line", contentText.TrimEnd());
         }
 
         [Fact]
-        internal void Render_Content_Multiple_Append()
+        internal void Render_Text_Multiple_Append()
         {
             // Arrange
             var renderer = new PageRenderer();
@@ -154,7 +154,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
-        internal void Render_Multiple_Content()
+        internal void Render_Multiple_Text()
         {
             // Arrange
             var renderer = new PageRenderer();
@@ -194,8 +194,8 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(2, lines.Length);
 
-            Assert.Equal("column 1    column 2    column 3    column 4    column 5", lines[0]);
-            Assert.Equal("value 1     value 2     value 3     value 4     value 5", lines[1]);
+            Assert.Equal("column 1  column 2  column 3  column 4  column 5", lines[0]);
+            Assert.Equal("value 1   value 2   value 3   value 4   value 5", lines[1]);
         }
 
         [Fact]
@@ -218,8 +218,8 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(2, lines.Length);
 
-            Assert.Equal("column 1    column 2    column 3    column 4", lines[0]);
-            Assert.Equal("value 1     value 2     value 3     value 4", lines[1]);
+            Assert.Equal("column 1  column 2  column 3  column 4", lines[0]);
+            Assert.Equal("value 1   value 2   value 3   value 4", lines[1]);
         }
 
         [Fact]
@@ -242,8 +242,8 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(2, lines.Length);
 
-            Assert.Equal("column 1    column 2    column 3    column 4    column 5    column 6", lines[0]);
-            Assert.Equal("value 1     value 2     value 3     value 4     value 5     value 6", lines[1]);
+            Assert.Equal("column 1  column 2  column 3  column 4  column 5  column 6", lines[0]);
+            Assert.Equal("value 1   value 2   value 3   value 4   value 5   value 6", lines[1]);
         }
 
         [Fact]
@@ -266,8 +266,8 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(2, lines.Length);
 
-            Assert.Equal("column 1    column 2    column 3", lines[0]);
-            Assert.Equal("value 1     value 2     value 3", lines[1]);
+            Assert.Equal("column 1  column 2  column 3", lines[0]);
+            Assert.Equal("value 1   value 2   value 3", lines[1]);
         }
 
         [Fact]
@@ -290,8 +290,8 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(2, lines.Length);
 
-            Assert.Equal("column 1    column 2", lines[0]);
-            Assert.Equal("value 1     value 2", lines[1]);
+            Assert.Equal("column 1  column 2", lines[0]);
+            Assert.Equal("value 1   value 2", lines[1]);
         }
 
         [Fact]
@@ -316,7 +316,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Single(lines);
 
-            Assert.Equal("option-name    option description.", lines[0]);
+            Assert.Equal("option-name  option description.", lines[0]);
         }
 
         [Fact]
@@ -342,7 +342,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Single(lines);
 
-            Assert.Equal("option-name             option description.", lines[0]);
+            Assert.Equal("option-name           option description.", lines[0]);
         }
 
         [Fact]
@@ -412,8 +412,8 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(2, lines.Length);
 
-            Assert.Equal("  column 1    column 2", lines[0]);
-            Assert.Equal("  value 1     value 2", lines[1]);
+            Assert.Equal("  column 1  column 2", lines[0]);
+            Assert.Equal("  value 1   value 2", lines[1]);
         }
 
         [Fact]
@@ -437,9 +437,9 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             Assert.Equal(3, lines.Length);
 
-            Assert.Equal("  column 1    column 2", lines[0]);
-            Assert.Equal("  value 1     value 2", lines[1]);
-            Assert.Equal("  value 3     value 4", lines[2]);
+            Assert.Equal("  column 1  column 2", lines[0]);
+            Assert.Equal("  value 1   value 2", lines[1]);
+            Assert.Equal("  value 3   value 4", lines[2]);
         }
     }
 }

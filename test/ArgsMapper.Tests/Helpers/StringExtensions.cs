@@ -27,7 +27,7 @@ namespace ArgsMapper.Tests.Helpers
     {
         public static string[] ToLines(this string value)
         {
-            return value.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            return value.TrimEnd().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
         }
     }
 }

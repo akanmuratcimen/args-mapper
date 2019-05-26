@@ -24,6 +24,7 @@ namespace ArgsMapper.PageBuilding
     public interface IPageBuilder
     {
         string Content { get; }
+        void AddEmptyLine();
         void AddText(params string[] contents);
 
         void AddTable((string, string) columns,

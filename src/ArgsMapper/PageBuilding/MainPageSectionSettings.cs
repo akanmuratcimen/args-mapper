@@ -30,8 +30,8 @@ namespace ArgsMapper.PageBuilding
     internal class MainPageSectionSettings<T> : IMainPageSectionSettings<T> where T : class
     {
         private readonly IEnumerable<Command> _commands;
-        private readonly IPageRenderer _pageRenderer;
         private readonly IEnumerable<Option> _options;
+        private readonly IPageRenderer _pageRenderer;
 
         public MainPageSectionSettings(IEnumerable<Command> commands,
             IEnumerable<Option> options, IPageRenderer pageRenderer)
@@ -60,7 +60,7 @@ namespace ArgsMapper.PageBuilding
                 throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent, 
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 option.ToString(), contentOptionSettings);
         }
 
@@ -83,7 +83,7 @@ namespace ArgsMapper.PageBuilding
                 throw new CommandCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
             }
 
-            _pageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent, 
+            _pageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent,
                 command.ToString(), contentCommandSettings);
         }
 
@@ -115,6 +115,11 @@ namespace ArgsMapper.PageBuilding
 
             _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 Constants.VersionOptionString, contentOptionSettings);
+        }
+
+        public void AddEmptyLine()
+        {
+            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, string.Empty);
         }
 
         public void AddText(params string[] contents)

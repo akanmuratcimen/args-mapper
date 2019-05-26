@@ -20,7 +20,7 @@ namespace ArgsMapper.Tests
             // Act
             mapper.Execute(Array.Empty<string>(), null);
 
-            Assert.Equal(string.Empty, output.ToString());
+            Assert.Equal(string.Empty, output.ToString().TrimEnd());
         }
 
         [Fact]

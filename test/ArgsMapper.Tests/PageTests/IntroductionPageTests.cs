@@ -63,7 +63,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(Array.Empty<string>(), null);
 
             // Assert
-            Assert.Equal("sample introduction text.", output.ToString());
+            Assert.Equal("sample introduction text.", output.ToString().TrimEnd());
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(Array.Empty<string>(), null);
 
             // Assert
-            Assert.Equal("sample usage text.", output.ToString());
+            Assert.Equal("sample usage text.", output.ToString().TrimEnd());
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(Array.Empty<string>(), null);
 
             // Assert
-            Assert.Equal("-h|--help    sample help description.", output.ToString());
+            Assert.Equal("-h|--help  sample help description.", output.ToString().TrimEnd());
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace ArgsMapper.Tests.PageTests
             mapper.Execute(Array.Empty<string>(), null);
 
             // Assert
-            Assert.Equal("-v|--version    sample version description.", output.ToString());
+            Assert.Equal("-v|--version  sample version description.", output.ToString().TrimEnd());
         }
     }
 }
