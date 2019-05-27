@@ -19,21 +19,15 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Linq;
-using ArgsMapper.Models;
+using System.Collections.Generic;
 
-namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
+namespace ArgsMapper.PageBuilding
 {
-    internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
+    internal class PageContent
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
-            Option commandOption) where T : class where TProperty : class
-        {
-            if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))
-            {
-                throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
-            }
-        }
+        public int ColumnSize { get; set; }
+        internal PageContentRowFormattingStyle Style { get; set; }
+        internal IEnumerable<IReadOnlyList<string>> Values { get; set; }
+        internal IReadOnlyList<PageContentColumnSettings> ColumnSettings { get; set; }
     }
 }

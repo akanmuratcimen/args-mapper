@@ -19,21 +19,35 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Linq;
-using ArgsMapper.Models;
+using System.Text;
 
-namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
+namespace ArgsMapper.Utilities
 {
-    internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
+    internal static class StringBuilderExtensions
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
-            Option commandOption) where T : class where TProperty : class
+        internal static StringBuilder TrimEnd(this StringBuilder stringBuilder)
         {
-            if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))
+            if (stringBuilder == null || stringBuilder.Length == 0)
             {
-                throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
+                return stringBuilder;
             }
+
+            var i = stringBuilder.Length - 1;
+
+            for (; i >= 0; i--)
+            {
+                if (!char.IsWhiteSpace(stringBuilder[i]))
+                {
+                    break;
+                }
+            }
+
+            if (i < stringBuilder.Length - 1)
+            {
+                stringBuilder.Length = i + 1;
+            }
+
+            return stringBuilder;
         }
     }
 }

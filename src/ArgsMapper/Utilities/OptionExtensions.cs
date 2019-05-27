@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -28,32 +28,6 @@ namespace ArgsMapper.Utilities
         internal static bool HasValidLongName(this Option option)
         {
             return option.LongName.IndexOfAny(Constants.AssignmentOperators) == -1;
-        }
-
-        internal static bool IsVersionOption(this string arg)
-        {
-            if (arg.Length == 2)
-            {
-                foreach (var shortName in Constants.VersionOptionShortNames)
-                {
-                    if (arg == shortName.AddShortNamePrefix())
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            foreach (var longName in Constants.VersionOptionLongNames)
-            {
-                if (arg == longName.AddLongNamePrefix())
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

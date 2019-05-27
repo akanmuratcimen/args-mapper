@@ -19,21 +19,26 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Linq;
-using ArgsMapper.Models;
+using System;
+using System.Reflection;
 
-namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
+namespace ArgsMapper.PageBuilding
 {
-    internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
+    public class OptionCouldNotBeFoundException : Exception
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
-            Option commandOption) where T : class where TProperty : class
+        public OptionCouldNotBeFoundException(MemberInfo propertyInfo) :
+            base($"'{propertyInfo.Name}' option could not be found. " +
+                "Please note that you must define the option before use it.")
         {
-            if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))
-            {
-                throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
-            }
+        }
+    }
+
+    public class CommandCouldNotBeFoundException : Exception
+    {
+        public CommandCouldNotBeFoundException(MemberInfo propertyInfo) :
+            base($"'{propertyInfo.Name}' command could not be found. " +
+                "Please note that you must define the option before use it.")
+        {
         }
     }
 }

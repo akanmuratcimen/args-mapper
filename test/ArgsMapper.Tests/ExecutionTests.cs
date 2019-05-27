@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,21 @@ namespace ArgsMapper.Tests
 {
     public class ExecutionTests
     {
+        [Fact]
+        internal void Execute_Output_Should_Be_Empty_When_OnExecute_Method_Null()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            // Act
+            mapper.Execute(Array.Empty<string>(), null);
+
+            Assert.Equal(string.Empty, output.ToString().TrimEnd());
+        }
+
         [Fact]
         internal void Execute_Should_Write_Error_Text()
         {

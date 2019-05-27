@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using ArgsMapper.PageBuilding;
 using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Models
@@ -36,6 +37,7 @@ namespace ArgsMapper.Models
         internal PropertyInfo[] PropertyInfos { get; set; }
         internal Type Type => PropertyInfo.PropertyType;
         internal CultureInfo CultureInfo { get; set; }
+        internal IPageBuilder Usage { get; set; }
 
         public override string ToString()
         {

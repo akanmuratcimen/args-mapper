@@ -19,12 +19,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using ArgsMapper.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Text;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 using Xunit;
 
 namespace ArgsMapper.Tests
@@ -124,22 +125,6 @@ namespace ArgsMapper.Tests
             Assert.Equal(expected, displayName);
         }
 
-        [Fact]
-        internal void OptionListExtensions_Get_Should_Return_Null()
-        {
-            // Arrange
-            var options = new List<Option> {
-                new Option()
-            };
-
-            // Act
-            var option = options.Get(OptionMatchType.None, "option", 
-                StringComparison.InvariantCultureIgnoreCase);
-
-            // Assert
-            Assert.Null(option);
-        }
-
         [Theory]
         [InlineData("", false)]
         [InlineData("v", false)]
@@ -155,10 +140,21 @@ namespace ArgsMapper.Tests
             Assert.Equal(expected, value.IsVersionOption());
         }
 
-        [Fact]
-        internal void ArgsExtensions_GetOptionMatchType_Should_Return_None()
+        [Theory]
+        [InlineData("", false)]
+        [InlineData("h", false)]
+        [InlineData("-h", true)]
+        [InlineData("-?", true)]
+        [InlineData("?", false)]
+        [InlineData("help", false)]
+        [InlineData("-help", false)]
+        [InlineData("--help", true)]
+        [InlineData("--h", false)]
+        [InlineData("-f", false)]
+        [InlineData("--foobar", false)]
+        internal void OptionExtensions_IsHelpOption(string value, bool expected)
         {
-            Assert.Equal(OptionMatchType.None, "foobar".GetOptionMatchType());
+            Assert.Equal(expected, value.IsHelpOption());
         }
 
         [Theory]
@@ -202,6 +198,12 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void ArgsExtensions_GetOptionMatchType_Should_Return_None()
+        {
+            Assert.Equal(OptionMatchType.None, "foobar".GetOptionMatchType());
+        }
+
+        [Fact]
         internal void ExpressionExtensions_GetPropertyName()
         {
             Assert.Equal("option",
@@ -223,6 +225,51 @@ namespace ArgsMapper.Tests
                 ((Expression<Func<OneBoolFieldOptionArgs, bool>>)
                     (x => x.Option)).GetPropertyInfos()
                 .GetName(CultureInfo.InvariantCulture));
+        }
+
+        [Fact]
+        internal void OptionListExtensions_Get_Should_Return_Null()
+        {
+            // Arrange
+            var options = new List<Option> {
+                new Option()
+            };
+
+            // Act
+            var option = options.Get(OptionMatchType.None, "option",
+                StringComparison.InvariantCultureIgnoreCase);
+
+            // Assert
+            Assert.Null(option);
+        }
+
+        [Fact]
+        internal void StringBuilderExtensions_TrimEnd()
+        {
+            // Arrange
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("foo");
+            stringBuilder.AppendLine("bar");
+
+            // Act
+            stringBuilder = stringBuilder.TrimEnd();
+
+            // Assert
+            Assert.Equal($"foo{Environment.NewLine}bar", stringBuilder.ToString());
+        }
+
+        [Fact]
+        internal void StringBuilderExtensions_TrimEnd_When_StringBuilder_Null()
+        {
+            // Arrange
+            var stringBuilder = new StringBuilder();
+
+            // Act
+            stringBuilder = stringBuilder.TrimEnd();
+
+            // Assert
+            Assert.Equal(string.Empty, stringBuilder.ToString());
         }
     }
 }

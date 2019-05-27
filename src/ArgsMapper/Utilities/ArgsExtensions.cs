@@ -136,14 +136,68 @@ namespace ArgsMapper.Utilities
             return prefix is null ? value : value.Remove(0, prefix.Length);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsReservedOptionLongName(this string value)
         {
             return Constants.ReservedOptionLongNames.Contains(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsReservedOptionShortName(this char value)
         {
             return Constants.ReservedOptionShortNames.Contains(value);
+        }
+
+        internal static bool IsVersionOption(this string arg)
+        {
+            if (arg.Length == 2)
+            {
+                foreach (var shortName in Constants.VersionOptionShortNames)
+                {
+                    if (arg == shortName.AddShortNamePrefix())
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            foreach (var longName in Constants.VersionOptionLongNames)
+            {
+                if (arg == longName.AddLongNamePrefix())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static bool IsHelpOption(this string arg)
+        {
+            if (arg.Length == 2)
+            {
+                foreach (var alias in Constants.HelpOptionAliases)
+                {
+                    if (arg == alias.AddShortNamePrefix())
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            foreach (var name in Constants.HelpOptionNames)
+            {
+                if (arg == name.AddLongNamePrefix())
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -19,21 +19,20 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Linq;
-using ArgsMapper.Models;
+using System;
+using System.Linq.Expressions;
 
-namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
+namespace ArgsMapper.PageBuilding
 {
-    internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
+    public interface IGeneralPageSectionSettings<T> : IPageBuilder where T : class
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
-            Option commandOption) where T : class where TProperty : class
-        {
-            if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))
-            {
-                throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
-            }
-        }
+        void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
+            Action<PageContentOptionSettings> settings = null);
+
+        void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
+            Action<PageContentCommandSettings> settings = null) where TCommand : class;
+
+        void AddHelpOption(Action<PageContentOptionSettings> settings = null);
+        void AddVersionOption(Action<PageContentOptionSettings> settings = null);
     }
 }

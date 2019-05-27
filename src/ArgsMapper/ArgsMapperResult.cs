@@ -1,4 +1,4 @@
-﻿// The MIT License (MIT)
+// The MIT License (MIT)
 // 
 // Copyright (c) 2019 Akan Murat Cimen
 // 
@@ -19,6 +19,7 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
 using System.Diagnostics;
 
 namespace ArgsMapper
@@ -33,10 +34,9 @@ namespace ArgsMapper
         /// <summary>
         ///     Initializes a new instance of the <see cref="ArgsMapperResult{T}" /> class.
         /// </summary>
-        /// <param name="model">The type of the arguments model.</param>
-        internal ArgsMapperResult(T model)
+        internal ArgsMapperResult()
         {
-            Model = model;
+            Model = Activator.CreateInstance<T>();
         }
 
         /// <summary>

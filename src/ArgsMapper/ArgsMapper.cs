@@ -21,12 +21,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
+using ArgsMapper.PageBuilding;
 using ArgsMapper.Utilities;
 using ArgsMapper.ValueConversion;
 
@@ -34,6 +36,25 @@ namespace ArgsMapper
 {
     public sealed class ArgsMapper<T> where T : class
     {
+        internal ICommandOptionValidationService CommandOptionValidationService;
+        internal ICommandValidationService CommandValidationService;
+        public IGeneralPageBuilder<T> Introduction;
+        internal IOptionValidationService OptionValidationService;
+        internal IReflectionService ReflectionService;
+        public IGeneralPageBuilder<T> Usage;
+        internal IValueConverterFactory ValueConverterFactory;
+
+        public ArgsMapper()
+        {
+            Introduction = new GeneralPageBuilder<T>(Commands, Options);
+            Usage = new GeneralPageBuilder<T>(Commands, Options);
+            OptionValidationService = new OptionValidationService();
+            CommandValidationService = new CommandValidationService();
+            ValueConverterFactory = new ValueConverterFactory();
+            ReflectionService = new ReflectionService(ValueConverterFactory);
+            CommandOptionValidationService = new CommandOptionValidationService();
+        }
+
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();
 
@@ -42,21 +63,66 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        internal IOptionValidationService OptionValidationService => new OptionValidationService();
-        internal ICommandValidationService CommandValidationService => new CommandValidationService();
-        internal IValueConverterFactory ValueConverterFactory => new ValueConverterFactory();
-        internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
-        internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
-
         public void Execute(string[] args, Action<T> onExecute)
         {
-            var versionInfo = VersionInfo(args);
-
-            if (versionInfo != null)
+            if (args.IsNullOrEmpty())
             {
-                Settings.DefaultWriter.Write(versionInfo);
+                var introductionContent = Introduction.Content;
 
-                return;
+                if (introductionContent != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(introductionContent);
+
+                    return;
+                }
+
+                var usageContent = Usage.Content;
+
+                if (usageContent != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(usageContent);
+
+                    return;
+                }
+            }
+            else
+            {
+                var args0 = args[0];
+                var mainUsageContent = Usage.Content;
+
+                if (args0.IsHelpOption() && mainUsageContent != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(mainUsageContent);
+
+                    return;
+                }
+
+                if (args0.IsVersionOption())
+                {
+                    Settings.DefaultWriter.Write(Settings.ApplicationVersion.ToString());
+
+                    return;
+                }
+
+                if (Commands.Any())
+                {
+                    var command = Commands.Get(args[0], Settings.StringComparison);
+
+                    if (command != null && !command.IsDisabled && args.Length > 1)
+                    {
+                        if (args[1].IsHelpOption() && command.Usage != null)
+                        {
+                            var commandUsageContent = command.Usage.Content;
+
+                            if (commandUsageContent != string.Empty)
+                            {
+                                Settings.DefaultWriter.Write(commandUsageContent);
+
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
             var mapperResult = Map(args);
@@ -68,7 +134,7 @@ namespace ArgsMapper
                 return;
             }
 
-            onExecute(mapperResult.Model);
+            onExecute?.Invoke(mapperResult.Model);
         }
 
         public async Task ExecuteAsync(string[] args, Action<T> onExecute)
@@ -86,7 +152,7 @@ namespace ArgsMapper
         /// <returns>Instance of <see cref="ArgsMapperResult{T}" />.</returns>
         internal ArgsMapperResult<T> Map(params string[] args)
         {
-            var result = new ArgsMapperResult<T>(Activator.CreateInstance<T>());
+            var result = new ArgsMapperResult<T>();
 
             try
             {
@@ -100,14 +166,9 @@ namespace ArgsMapper
             return result;
         }
 
-        private string VersionInfo(string[] args)
+        ~ArgsMapper()
         {
-            if (!args.IsNullOrEmpty() && args[0].IsVersionOption())
-            {
-                return Settings.ApplicationVersion.ToString();
-            }
-
-            return null;
+            Settings.DefaultWriter.Dispose();
         }
     }
 }

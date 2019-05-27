@@ -21,6 +21,7 @@
 
 using System.Collections.Generic;
 using ArgsMapper.Models;
+using ArgsMapper.PageBuilding;
 
 namespace ArgsMapper
 {
@@ -29,16 +30,25 @@ namespace ArgsMapper
     /// </summary>
     /// <typeparam name="T">The type of the arguments model.</typeparam>
     /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
-
-    // ReSharper disable once UnusedTypeParameter
-    public class ArgsCommandSettings<T, TProperty> where T : class
+    public class ArgsCommandSettings<T, TProperty> where T : class where TProperty : class
     {
+        public ArgsCommandSettings()
+        {
+            Options = new List<Option>();
+            Usage = new CommandPageBuilder<TProperty>(Options);
+        }
+
         /// <summary>
         ///     Ignores the option if true.
         /// </summary>
         public bool IsDisabled { get; set; }
 
-        internal List<Option> Options { get; } = new List<Option>();
+        internal List<Option> Options { get; }
         internal ArgsMapper<T> Mapper { get; set; }
+
+        /// <summary>
+        ///     Command usage builder.
+        /// </summary>
+        public ICommandPageBuilder<TProperty> Usage { get; }
     }
 }

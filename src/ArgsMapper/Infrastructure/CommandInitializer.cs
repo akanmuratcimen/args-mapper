@@ -30,7 +30,8 @@ namespace ArgsMapper.Infrastructure
     {
         internal static Command Initialize<T, TProperty>(ArgsMapper<T> mapper, 
             Expression<Func<T, TProperty>> propertySelector, string name, 
-            Action<ArgsCommandSettings<T, TProperty>> commandSettings) where T : class
+            Action<ArgsCommandSettings<T, TProperty>> commandSettings) 
+            where T : class where TProperty : class
         {
             var command = new Command();
 
@@ -51,6 +52,7 @@ namespace ArgsMapper.Infrastructure
 
             commandSettings(settings);
 
+            command.Usage = settings.Usage;
             command.IsDisabled = settings.IsDisabled;
             command.Options = settings.Options;
 
