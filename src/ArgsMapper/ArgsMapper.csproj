@@ -1,25 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Title>args-mapper</Title>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Version>0.1.0</Version>
     <Authors>Akan Murat Cimen</Authors>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/akanmuratcimen/args-mapper</PackageProjectUrl>
-    <Copyright>Akan Murat Cimen 2019</Copyright>
-    <Company />
+    <Copyright>Copyright (c) 2019 Akan Murat Cimen</Copyright>
     <RepositoryUrl>https://github.com/akanmuratcimen/args-mapper</RepositoryUrl>
     <PackageTags>args cli command line fluent commandline parser mapper</PackageTags>
     <Description>An easy to use, simple, strongly typed dotnet core command line parser.</Description>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <NoWarn>1701;1702;CA2240;S3925</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;CA2240;S3925</NoWarn>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
 </Project>
