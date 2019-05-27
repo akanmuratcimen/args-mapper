@@ -21,6 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -36,6 +37,18 @@ namespace ArgsMapper.Tests
     internal class OneIntOptionArgs
     {
         public int Option { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneDoubleOptionArgs
+    {
+        public double Option { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneDateTimeOptionArgs
+    {
+        public DateTime Option { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
