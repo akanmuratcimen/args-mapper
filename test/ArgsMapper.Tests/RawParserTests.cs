@@ -283,6 +283,23 @@ namespace ArgsMapper.Tests
             Assert.Equal(path, result[("o", OptionMatchType.ByShortName)][0]);
         }
 
+        [Theory]
+        [InlineData("\"foobar\"")]
+        [InlineData("\"-o foo\"")]
+        [InlineData("\"--option foobar\"")]
+        [InlineData("\"-o \"foo bar\"\"")]
+        [InlineData("'-o foobar'")]
+        [InlineData("\"-o 'foo bar'\"")]
+        [InlineData("\"-o \"\"foo bar\"\"\"")]
+        internal void RawParser_ParseOptions_Should_Not_Parse_Values_If_It_Is_In_Quotes(string arg)
+        {
+            // Act
+            var result = RawParser.ParseOptions(new[] { "-o", arg });
+
+            // Assert
+            Assert.Equal(arg, result[("o", OptionMatchType.ByShortName)][0]);
+        }
+
         [Fact]
         internal void RawParser_ParseOptions_Should_Merge_Mixed_Prefixes()
         {
