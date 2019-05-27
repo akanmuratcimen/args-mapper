@@ -264,6 +264,25 @@ namespace ArgsMapper.Tests
             }
         }
 
+        [Theory]
+        [InlineData("C:\\file.txt")]
+        [InlineData("foobar.com")]
+        [InlineData("http://foobar.com")]
+        [InlineData("http://www.foobar.com/")]
+        [InlineData("http://www.foobar.org/abc/def.htm")]
+        [InlineData("www.foobar.org/abc/def.htm#ghj")]
+        [InlineData("mailto:foo@bar.com")]
+        [InlineData("tel:1-888-555-5555")]
+        [InlineData("file:///foo/bar/file.txt")]
+        internal void RawParser_ParseOptions_Should_Parse_Paths_Correctly(string path)
+        {
+            // Act
+            var result = RawParser.ParseOptions(new[] { "-o", path });
+
+            // Assert
+            Assert.Equal(path, result[("o", OptionMatchType.ByShortName)][0]);
+        }
+
         [Fact]
         internal void RawParser_ParseOptions_Should_Merge_Mixed_Prefixes()
         {
