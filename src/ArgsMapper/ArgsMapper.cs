@@ -66,7 +66,8 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        public void Execute(string[] args, Action<T> onExecute)
+        public void Execute(string[] args, Action<T> onSuccess, 
+            Action<ArgsMapperErrorResult> onError = null)
         {
             if (args.IsNullOrEmpty())
             {
@@ -132,17 +133,27 @@ namespace ArgsMapper
 
             if (mapperResult.HasError)
             {
-                Settings.DefaultWriter.Write(mapperResult.ErrorMessage);
+                if (onError == null)
+                {
+                    Settings.DefaultWriter.Write(mapperResult.ErrorMessage);
+
+                    return;
+                }
+
+                onError.Invoke(new ArgsMapperErrorResult {
+                    ErrorMessage = mapperResult.ErrorMessage
+                });
 
                 return;
             }
 
-            onExecute?.Invoke(mapperResult.Model);
+            onSuccess?.Invoke(mapperResult.Model);
         }
 
-        public async Task ExecuteAsync(string[] args, Action<T> onExecute)
+        public async Task ExecuteAsync(string[] args,
+            Action<T> onSuccess, Action<ArgsMapperErrorResult> onError = null)
         {
-            Execute(args, onExecute);
+            Execute(args, onSuccess, onError);
 
             await Task.CompletedTask;
         }

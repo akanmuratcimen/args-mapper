@@ -55,10 +55,5 @@ namespace ArgsMapper
         ///     The instance of the arguments model.
         /// </summary>
         public T Model { get; internal set; }
-
-        public static implicit operator T(ArgsMapperResult<T> result)
-        {
-            return result.Model;
-        }
     }
 }

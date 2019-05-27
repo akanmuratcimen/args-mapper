@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -21,26 +21,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using Xunit;
-
-namespace ArgsMapper.Tests
+namespace ArgsMapper
 {
-    public class ArgsMapperResultTests
+    public class ArgsMapperErrorResult
     {
-        [Fact]
-        internal void ArgsMapperResult_Should_Be_Able_To_Cast_To_Its_Model()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.AddOption(x => x.Option);
-
-            // Act
-            var result = (OneBoolOptionArgs)mapper.Map("--option");
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OneBoolOptionArgs>(result);
-        }
+        /// <summary>
+        ///     Error message of the mapping result.
+        /// </summary>
+        public string ErrorMessage { get; set; }
     }
 }

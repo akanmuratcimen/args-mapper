@@ -32,7 +32,36 @@ namespace ArgsMapper.Tests
     public class ExecutionTests
     {
         [Fact]
-        internal void Execute_Output_Should_Be_Empty_When_OnExecute_Method_Null()
+        internal void Execute_OnError_Result_Should_Have_ErrorMessage()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Act
+            mapper.Execute(new[] { "--option" }, null, errorResult => {
+                // Assert
+                Assert.Equal("Unknown option 'option'.", errorResult.ErrorMessage);
+            });
+        }
+
+        [Fact]
+        internal void Execute_Output_Should_Be_Empty_When_OnError_Not_Null()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            // Act
+            mapper.Execute(new[] { "--option" }, null, errorResult => {
+            });
+
+            Assert.Equal(string.Empty, output.ToString());
+        }
+
+        [Fact]
+        internal void Execute_Output_Should_Be_Empty_When_OnSuccess_Method_Null()
         {
             // Arrange
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
@@ -47,7 +76,7 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
-        internal void Execute_Should_Write_Error_Text()
+        internal void Execute_Should_Write_Error_Text_When_OnError_Null()
         {
             // Arrange
             var mapper = new ArgsMapper<OneBoolOptionArgs>();

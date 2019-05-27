@@ -14,14 +14,19 @@ namespace Basic
                 commandSettings.AddOption(x => x.Password);
             });
 
-            mapper.Execute(args, OnExecute);
+            mapper.Execute(args, OnSuccess, OnError);
         }
 
-        private static void OnExecute(Args args)
+        private static void OnError(ArgsMapperErrorResult errorResult)
+        {
+            Console.WriteLine(errorResult.ErrorMessage);
+        }
+
+        private static void OnSuccess(Args args)
         {
             if (args.AddUser != null)
             {
-                Console.WriteLine($"User created with '{args.AddUser.Username}' " +
+                Console.WriteLine($"User has been created with '{args.AddUser.Username}' " +
                     $"username and '{args.AddUser.Password}' password.");
             }
         }
