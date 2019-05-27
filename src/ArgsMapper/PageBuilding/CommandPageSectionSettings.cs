@@ -27,16 +27,15 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.PageBuilding
 {
-    internal class CommandPageSectionSettings<TCommand> : ICommandPageSectionSettings<TCommand>
-        where TCommand : class
+    internal class CommandPageSectionSettings<TCommand> : DefaultPageBuilder,
+        ICommandPageSectionSettings<TCommand> where TCommand : class
     {
         private readonly IEnumerable<Option> _commandOptions;
-        private readonly IPageRenderer _pageRenderer;
 
-        public CommandPageSectionSettings(IEnumerable<Option> commandOptions, IPageRenderer pageRenderer)
+        public CommandPageSectionSettings(IEnumerable<Option> commandOptions, IPageRenderer pageRenderer) :
+            base(pageRenderer)
         {
             _commandOptions = commandOptions;
-            _pageRenderer = pageRenderer;
         }
 
         public void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
@@ -58,7 +57,7 @@ namespace ArgsMapper.PageBuilding
                 throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent, 
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 option.ToString(), contentOptionSettings);
         }
 
@@ -76,47 +75,5 @@ namespace ArgsMapper.PageBuilding
             _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 Constants.HelpOptionString, contentOptionSettings);
         }
-
-        public void AddEmptyLine()
-        {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, string.Empty);
-        }
-
-        public void AddText(params string[] contents)
-        {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.Indent, contents);
-        }
-
-        public void AddTable((string, string) columns,
-            params (string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
-        }
-
-        public void AddTable((string, string, string) columns,
-            params (string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
-        }
-
-        public void AddTable((string, string, string, string) columns,
-            params (string, string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
-        }
-
-        public void AddTable((string, string, string, string, string) columns,
-            params (string, string, string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
-        }
-
-        public void AddTable((string, string, string, string, string, string) columns,
-            params (string, string, string, string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
-        }
-
-        public string Content => _pageRenderer.ToString();
     }
 }
