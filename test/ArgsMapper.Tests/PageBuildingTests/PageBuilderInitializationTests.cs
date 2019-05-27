@@ -26,12 +26,34 @@ namespace ArgsMapper.Tests.PageBuildingTests
     public class PageBuilderInitializationTests
     {
         [Fact]
+        internal void Usage_AddCommand_Usage_AddEmptyLine()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddEmptyLine();
+            });
+        }
+
+        [Fact]
         internal void Usage_AddCommand_Usage_AddHelpOption()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
                 commandSettings.Usage.AddHelpOption();
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_Usage_AddSection_AddEmptyLine()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddSection("header", section => {
+                    section.AddEmptyLine();
+                });
             });
         }
 
@@ -385,6 +407,14 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
+        internal void Usage_AddEmptyLine()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.Usage.AddEmptyLine();
+        }
+
+        [Fact]
         internal void Usage_AddHelpOption()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
@@ -409,6 +439,30 @@ namespace ArgsMapper.Tests.PageBuildingTests
 
             mapper.Usage.AddSection("header", section => {
                 section.AddCommand(x => x.Command);
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddCommand_In_Settings_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command);
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddCommand(x => x.Command, commandSettings => {
+                    commandSettings.Description = "sample command description.";
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddEmptyLine()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.Usage.AddSection("header", section => {
+                section.AddEmptyLine();
             });
         }
 

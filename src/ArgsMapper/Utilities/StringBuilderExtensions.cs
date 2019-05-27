@@ -19,18 +19,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using System.Text;
 
 namespace ArgsMapper.Utilities
 {
     internal static class StringBuilderExtensions
     {
-        internal static StringBuilder AppendNewLine(this StringBuilder stringBuilder)
-        {
-            return stringBuilder.Append(Environment.NewLine);
-        }
-
         internal static StringBuilder TrimEnd(this StringBuilder stringBuilder)
         {
             if (stringBuilder == null || stringBuilder.Length == 0)

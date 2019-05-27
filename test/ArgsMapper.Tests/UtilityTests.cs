@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Text;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
 using Xunit;
@@ -240,6 +241,35 @@ namespace ArgsMapper.Tests
 
             // Assert
             Assert.Null(option);
+        }
+
+        [Fact]
+        internal void StringBuilderExtensions_TrimEnd()
+        {
+            // Arrange
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("foo");
+            stringBuilder.AppendLine("bar");
+
+            // Act
+            stringBuilder = stringBuilder.TrimEnd();
+
+            // Assert
+            Assert.Equal($"foo{Environment.NewLine}bar", stringBuilder.ToString());
+        }
+
+        [Fact]
+        internal void StringBuilderExtensions_TrimEnd_When_StringBuilder_Null()
+        {
+            // Arrange
+            var stringBuilder = new StringBuilder();
+
+            // Act
+            stringBuilder = stringBuilder.TrimEnd();
+
+            // Assert
+            Assert.Equal(string.Empty, stringBuilder.ToString());
         }
     }
 }
