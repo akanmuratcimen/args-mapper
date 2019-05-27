@@ -25,16 +25,15 @@ using ArgsMapper.Models;
 
 namespace ArgsMapper.PageBuilding
 {
-    internal class CommandPageBuilder<TCommand> : ICommandPageBuilder<TCommand> where TCommand : class
+    internal class CommandPageBuilder<TCommand> : DefaultPageBuilder,
+        ICommandPageBuilder<TCommand> where TCommand : class
     {
         private readonly IEnumerable<Option> _commandOptions;
-        private readonly IPageRenderer _pageRenderer;
 
-        public CommandPageBuilder(IEnumerable<Option> commandOptions)
+        public CommandPageBuilder(IEnumerable<Option> commandOptions) :
+            base(new PageRenderer())
         {
             _commandOptions = commandOptions;
-
-            _pageRenderer = new PageRenderer();
         }
 
         public void AddSection(string header, Action<ICommandPageSectionSettings<TCommand>> sectionSettings)
@@ -60,48 +59,6 @@ namespace ArgsMapper.PageBuilding
 
             _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
                 Constants.HelpOptionString, contentOptionSettings);
-        }
-
-        public void AddEmptyLine()
-        {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, string.Empty);
-        }
-
-        public void AddText(params string[] contents)
-        {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, contents);
-        }
-
-        public string Content => _pageRenderer.ToString();
-
-        public void AddTable((string, string) columns,
-            params (string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
-        }
-
-        public void AddTable((string, string, string) columns,
-            params (string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
-        }
-
-        public void AddTable((string, string, string, string) columns,
-            params (string, string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
-        }
-
-        public void AddTable((string, string, string, string, string) columns,
-            params (string, string, string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
-        }
-
-        public void AddTable((string, string, string, string, string, string) columns,
-            params (string, string, string, string, string, string)[] rows)
-        {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
     }
 }

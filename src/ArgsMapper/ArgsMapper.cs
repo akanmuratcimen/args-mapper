@@ -38,10 +38,8 @@ namespace ArgsMapper
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
-        public IGeneralPageBuilder<T> Introduction;
         internal IOptionValidationService OptionValidationService;
         internal IReflectionService ReflectionService;
-        public IGeneralPageBuilder<T> Usage;
         internal IValueConverterFactory ValueConverterFactory;
 
         public ArgsMapper()
@@ -54,6 +52,9 @@ namespace ArgsMapper
             ReflectionService = new ReflectionService(ValueConverterFactory);
             CommandOptionValidationService = new CommandOptionValidationService();
         }
+
+        public IGeneralPageBuilder<T> Introduction { get; }
+        public IGeneralPageBuilder<T> Usage { get; }
 
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();

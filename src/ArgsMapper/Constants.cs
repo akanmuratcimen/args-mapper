@@ -30,8 +30,8 @@ namespace ArgsMapper
 
         internal static readonly char[] AssignmentOperators = { '=', ':', ' ' };
 
-        internal static char[] HelpOptionAliases = { '?', 'h' };
-        internal static string[] HelpOptionNames = { "help" };
+        internal static readonly char[] HelpOptionAliases = { '?', 'h' };
+        internal static readonly string[] HelpOptionNames = { "help" };
         internal static readonly string HelpOptionString = "-h|--help";
 
         internal static readonly char[] VersionOptionShortNames = { 'v' };
