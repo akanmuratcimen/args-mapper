@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Math": {
+      "commandName": "Project",
+      "commandLineArgs": "sum 1 2"
+    }
+  }
+}
