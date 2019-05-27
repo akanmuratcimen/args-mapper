@@ -21,70 +21,32 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using ArgsMapper.Models;
-using ArgsMapper.Utilities;
 
 namespace ArgsMapper.PageBuilding
 {
-    internal class MainPageSectionSettings<T> : IMainPageSectionSettings<T> where T : class
+    internal class GeneralPageBuilder<T> : IGeneralPageBuilder<T> where T : class
     {
         private readonly IEnumerable<Command> _commands;
-        private readonly IEnumerable<Option> _options;
         private readonly IPageRenderer _pageRenderer;
+        private readonly IEnumerable<Option> _options;
 
-        public MainPageSectionSettings(IEnumerable<Command> commands,
-            IEnumerable<Option> options, IPageRenderer pageRenderer)
+        public GeneralPageBuilder(IEnumerable<Command> commands, IEnumerable<Option> options)
         {
             _commands = commands;
             _options = options;
-            _pageRenderer = pageRenderer;
+
+            _pageRenderer = new PageRenderer();
         }
 
-        public void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
-            Action<PageContentOptionSettings> settings = null)
+        public void AddSection(string header, Action<IGeneralPageSectionSettings<T>> sectionSettings)
         {
-            PageContentOptionSettings contentOptionSettings = null;
+            var contentRenderer = new PageRenderer();
+            var settings = new GeneralPageSectionSettings<T>(_commands, _options, contentRenderer);
 
-            if (settings != null)
-            {
-                contentOptionSettings = new PageContentOptionSettings();
+            sectionSettings(settings);
 
-                settings(contentOptionSettings);
-            }
-
-            var option = _options.Get(propertySelector);
-
-            if (option == null)
-            {
-                throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
-            }
-
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
-                option.ToString(), contentOptionSettings);
-        }
-
-        public void AddCommand<TCommand>(Expression<Func<T, TCommand>> propertySelector,
-            Action<PageContentCommandSettings> settings = null) where TCommand : class
-        {
-            PageContentCommandSettings contentCommandSettings = null;
-
-            if (settings != null)
-            {
-                contentCommandSettings = new PageContentCommandSettings();
-
-                settings(contentCommandSettings);
-            }
-
-            var command = _commands.Get(propertySelector);
-
-            if (command == null)
-            {
-                throw new CommandCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
-            }
-
-            _pageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent,
-                command.ToString(), contentCommandSettings);
+            _pageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
@@ -98,7 +60,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
                 Constants.HelpOptionString, contentOptionSettings);
         }
 
@@ -113,7 +75,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+            _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
                 Constants.VersionOptionString, contentOptionSettings);
         }
 
@@ -124,37 +86,37 @@ namespace ArgsMapper.PageBuilding
 
         public void AddText(params string[] contents)
         {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.Indent, contents);
+            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, contents);
         }
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.Indent, columns, rows);
+            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public string Content => _pageRenderer.ToString();

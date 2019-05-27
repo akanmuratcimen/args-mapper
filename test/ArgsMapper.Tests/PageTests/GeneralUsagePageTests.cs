@@ -25,7 +25,7 @@ using Xunit;
 
 namespace ArgsMapper.Tests.PageTests
 {
-    public class MainUsagePageTests
+    public class GeneralUsagePageTests
     {
         [Theory]
         [InlineData("-h")]

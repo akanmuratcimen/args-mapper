@@ -23,9 +23,9 @@ using System;
 
 namespace ArgsMapper.PageBuilding
 {
-    public interface IMainPageBuilder<T> : IPageBuilder where T : class
+    public interface IGeneralPageBuilder<T> : IPageBuilder where T : class
     {
-        void AddSection(string header, Action<IMainPageSectionSettings<T>> sectionSettings);
+        void AddSection(string header, Action<IGeneralPageSectionSettings<T>> sectionSettings);
         void AddHelpOption(Action<PageContentOptionSettings> settings = null);
         void AddVersionOption(Action<PageContentOptionSettings> settings = null);
     }

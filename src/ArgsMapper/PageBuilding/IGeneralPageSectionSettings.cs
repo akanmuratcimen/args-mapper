@@ -24,7 +24,7 @@ using System.Linq.Expressions;
 
 namespace ArgsMapper.PageBuilding
 {
-    public interface IMainPageSectionSettings<T> : IPageBuilder where T : class
+    public interface IGeneralPageSectionSettings<T> : IPageBuilder where T : class
     {
         void AddOption<TOption>(Expression<Func<T, TOption>> propertySelector,
             Action<PageContentOptionSettings> settings = null);

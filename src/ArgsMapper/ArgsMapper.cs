@@ -38,16 +38,16 @@ namespace ArgsMapper
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
-        public IMainPageBuilder<T> Introduction;
+        public IGeneralPageBuilder<T> Introduction;
         internal IOptionValidationService OptionValidationService;
         internal IReflectionService ReflectionService;
-        public IMainPageBuilder<T> Usage;
+        public IGeneralPageBuilder<T> Usage;
         internal IValueConverterFactory ValueConverterFactory;
 
         public ArgsMapper()
         {
-            Introduction = new MainPageBuilder<T>(Commands, Options);
-            Usage = new MainPageBuilder<T>(Commands, Options);
+            Introduction = new GeneralPageBuilder<T>(Commands, Options);
+            Usage = new GeneralPageBuilder<T>(Commands, Options);
             OptionValidationService = new OptionValidationService();
             CommandValidationService = new CommandValidationService();
             ValueConverterFactory = new ValueConverterFactory();
