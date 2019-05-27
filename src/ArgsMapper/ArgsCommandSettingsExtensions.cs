@@ -1,23 +1,25 @@
-// The MIT License (MIT)
-// 
-// Copyright (c) 2019 Akan Murat Cimen
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2019 Akan Murat Cimen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 using System;
 using System.Linq.Expressions;
@@ -50,7 +52,7 @@ namespace ArgsMapper
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, false, null);
         }
@@ -75,7 +77,7 @@ namespace ArgsMapper
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, 
             Action<ArgsOptionSettings<TOption>> optionSettings)
-            where T : class
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, false, optionSettings);
         }
@@ -105,7 +107,8 @@ namespace ArgsMapper
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, string longName) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector, string longName) 
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, null);
         }
@@ -137,7 +140,7 @@ namespace ArgsMapper
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, optionSettings);
         }
@@ -173,7 +176,7 @@ namespace ArgsMapper
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, 
-            char shortName, string longName) where T : class
+            char shortName, string longName) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, null);
         }
@@ -211,14 +214,15 @@ namespace ArgsMapper
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, 
             char shortName, string longName,
-            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, optionSettings);
         }
 
         private static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TProperty>> propertySelector, char? shortName, string longName,
-            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings) where T : class
+            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings) 
+            where T : class where TCommand : class
         {
             ushort? position = null;
 
@@ -248,7 +252,7 @@ namespace ArgsMapper
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, true, null);
         }
@@ -269,7 +273,7 @@ namespace ArgsMapper
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector,
             Action<ArgsOptionSettings<TOption>> optionSettings)
-            where T : class
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, null, true, optionSettings);
         }
@@ -290,7 +294,7 @@ namespace ArgsMapper
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector, string longName,
-            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class
+            Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, optionSettings);
         }
@@ -309,7 +313,8 @@ namespace ArgsMapper
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, string longName) where T : class
+            Expression<Func<TCommand, TOption>> propertySelector, string longName) 
+            where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, null);
         }

@@ -1,32 +1,36 @@
-// The MIT License (MIT)
-// 
-// Copyright (c) 2019 Akan Murat Cimen
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2019 Akan Murat Cimen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
+using ArgsMapper.PageBuilding;
 using ArgsMapper.Utilities;
 using ArgsMapper.ValueConversion;
 
@@ -34,6 +38,26 @@ namespace ArgsMapper
 {
     public sealed class ArgsMapper<T> where T : class
     {
+        internal ICommandOptionValidationService CommandOptionValidationService;
+        internal ICommandValidationService CommandValidationService;
+        internal IOptionValidationService OptionValidationService;
+        internal IReflectionService ReflectionService;
+        internal IValueConverterFactory ValueConverterFactory;
+
+        public ArgsMapper()
+        {
+            Introduction = new GeneralPageBuilder<T>(Commands, Options);
+            Usage = new GeneralPageBuilder<T>(Commands, Options);
+            OptionValidationService = new OptionValidationService();
+            CommandValidationService = new CommandValidationService();
+            ValueConverterFactory = new ValueConverterFactory();
+            ReflectionService = new ReflectionService(ValueConverterFactory);
+            CommandOptionValidationService = new CommandOptionValidationService();
+        }
+
+        public IGeneralPageBuilder<T> Introduction { get; }
+        public IGeneralPageBuilder<T> Usage { get; }
+
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();
 
@@ -42,38 +66,94 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        internal IOptionValidationService OptionValidationService => new OptionValidationService();
-        internal ICommandValidationService CommandValidationService => new CommandValidationService();
-        internal IValueConverterFactory ValueConverterFactory => new ValueConverterFactory();
-        internal IReflectionService ReflectionService => new ReflectionService(ValueConverterFactory);
-        internal ICommandOptionValidationService CommandOptionValidationService => new CommandOptionValidationService();
-
-        public void Execute(string[] args, Action<T> onExecute)
+        public void Execute(string[] args, Action<T> onSuccess, 
+            Action<ArgsMapperErrorResult> onError = null)
         {
-            var versionInfo = VersionInfo(args);
-
-            if (versionInfo != null)
+            if (args.IsNullOrEmpty())
             {
-                Settings.DefaultWriter.Write(versionInfo);
+                var introductionContent = Introduction.Content;
 
-                return;
+                if (introductionContent != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(introductionContent);
+
+                    return;
+                }
+
+                var usageContent = Usage.Content;
+
+                if (usageContent != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(usageContent);
+
+                    return;
+                }
+            }
+            else
+            {
+                var args0 = args[0];
+                var mainUsageContent = Usage.Content;
+
+                if (args0.IsHelpOption() && mainUsageContent != string.Empty)
+                {
+                    Settings.DefaultWriter.Write(mainUsageContent);
+
+                    return;
+                }
+
+                if (args0.IsVersionOption())
+                {
+                    Settings.DefaultWriter.Write(Settings.ApplicationVersion.ToString());
+
+                    return;
+                }
+
+                if (Commands.Any())
+                {
+                    var command = Commands.Get(args[0], Settings.StringComparison);
+
+                    if (command != null && !command.IsDisabled && args.Length > 1)
+                    {
+                        if (args[1].IsHelpOption() && command.Usage != null)
+                        {
+                            var commandUsageContent = command.Usage.Content;
+
+                            if (commandUsageContent != string.Empty)
+                            {
+                                Settings.DefaultWriter.Write(commandUsageContent);
+
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
             var mapperResult = Map(args);
 
             if (mapperResult.HasError)
             {
-                Settings.DefaultWriter.Write(mapperResult.ErrorMessage);
+                if (onError == null)
+                {
+                    Settings.DefaultWriter.Write(mapperResult.ErrorMessage);
+
+                    return;
+                }
+
+                onError.Invoke(new ArgsMapperErrorResult {
+                    ErrorMessage = mapperResult.ErrorMessage
+                });
 
                 return;
             }
 
-            onExecute(mapperResult.Model);
+            onSuccess?.Invoke(mapperResult.Model);
         }
 
-        public async Task ExecuteAsync(string[] args, Action<T> onExecute)
+        public async Task ExecuteAsync(string[] args,
+            Action<T> onSuccess, Action<ArgsMapperErrorResult> onError = null)
         {
-            Execute(args, onExecute);
+            Execute(args, onSuccess, onError);
 
             await Task.CompletedTask;
         }
@@ -86,7 +166,7 @@ namespace ArgsMapper
         /// <returns>Instance of <see cref="ArgsMapperResult{T}" />.</returns>
         internal ArgsMapperResult<T> Map(params string[] args)
         {
-            var result = new ArgsMapperResult<T>(Activator.CreateInstance<T>());
+            var result = new ArgsMapperResult<T>();
 
             try
             {
@@ -100,14 +180,9 @@ namespace ArgsMapper
             return result;
         }
 
-        private string VersionInfo(string[] args)
+        ~ArgsMapper()
         {
-            if (!args.IsNullOrEmpty() && args[0].IsVersionOption())
-            {
-                return Settings.ApplicationVersion.ToString();
-            }
-
-            return null;
+            Settings.DefaultWriter.Dispose();
         }
     }
 }

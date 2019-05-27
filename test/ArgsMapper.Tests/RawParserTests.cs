@@ -1,23 +1,25 @@
-// The MIT License (MIT)
-// 
-// Copyright (c) 2019 Akan Murat Cimen
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2019 Akan Murat Cimen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 using System.Collections.Generic;
 using ArgsMapper.Models;
@@ -260,6 +262,42 @@ namespace ArgsMapper.Tests
                     new[] { "-o", "value" }, ("o", OptionMatchType.ByShortName), "value"
                 };
             }
+        }
+
+        [Theory]
+        [InlineData("C:\\file.txt")]
+        [InlineData("foobar.com")]
+        [InlineData("http://foobar.com")]
+        [InlineData("http://www.foobar.com/")]
+        [InlineData("http://www.foobar.org/abc/def.htm")]
+        [InlineData("www.foobar.org/abc/def.htm#ghj")]
+        [InlineData("mailto:foo@bar.com")]
+        [InlineData("tel:1-888-555-5555")]
+        [InlineData("file:///foo/bar/file.txt")]
+        internal void RawParser_ParseOptions_Should_Parse_Paths_Correctly(string path)
+        {
+            // Act
+            var result = RawParser.ParseOptions(new[] { "-o", path });
+
+            // Assert
+            Assert.Equal(path, result[("o", OptionMatchType.ByShortName)][0]);
+        }
+
+        [Theory]
+        [InlineData("\"foobar\"")]
+        [InlineData("\"-o foo\"")]
+        [InlineData("\"--option foobar\"")]
+        [InlineData("\"-o \"foo bar\"\"")]
+        [InlineData("'-o foobar'")]
+        [InlineData("\"-o 'foo bar'\"")]
+        [InlineData("\"-o \"\"foo bar\"\"\"")]
+        internal void RawParser_ParseOptions_Should_Not_Parse_Values_If_It_Is_In_Quotes(string arg)
+        {
+            // Act
+            var result = RawParser.ParseOptions(new[] { "-o", arg });
+
+            // Assert
+            Assert.Equal(arg, result[("o", OptionMatchType.ByShortName)][0]);
         }
 
         [Fact]

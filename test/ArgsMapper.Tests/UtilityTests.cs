@@ -1,30 +1,33 @@
-// The MIT License (MIT)
-// 
-// Copyright (c) 2019 Akan Murat Cimen
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2019 Akan Murat Cimen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
-using ArgsMapper.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Text;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 using Xunit;
 
 namespace ArgsMapper.Tests
@@ -124,22 +127,6 @@ namespace ArgsMapper.Tests
             Assert.Equal(expected, displayName);
         }
 
-        [Fact]
-        internal void OptionListExtensions_Get_Should_Return_Null()
-        {
-            // Arrange
-            var options = new List<Option> {
-                new Option()
-            };
-
-            // Act
-            var option = options.Get(OptionMatchType.None, "option", 
-                StringComparison.InvariantCultureIgnoreCase);
-
-            // Assert
-            Assert.Null(option);
-        }
-
         [Theory]
         [InlineData("", false)]
         [InlineData("v", false)]
@@ -155,10 +142,21 @@ namespace ArgsMapper.Tests
             Assert.Equal(expected, value.IsVersionOption());
         }
 
-        [Fact]
-        internal void ArgsExtensions_GetOptionMatchType_Should_Return_None()
+        [Theory]
+        [InlineData("", false)]
+        [InlineData("h", false)]
+        [InlineData("-h", true)]
+        [InlineData("-?", true)]
+        [InlineData("?", false)]
+        [InlineData("help", false)]
+        [InlineData("-help", false)]
+        [InlineData("--help", true)]
+        [InlineData("--h", false)]
+        [InlineData("-f", false)]
+        [InlineData("--foobar", false)]
+        internal void OptionExtensions_IsHelpOption(string value, bool expected)
         {
-            Assert.Equal(OptionMatchType.None, "foobar".GetOptionMatchType());
+            Assert.Equal(expected, value.IsHelpOption());
         }
 
         [Theory]
@@ -202,6 +200,12 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void ArgsExtensions_GetOptionMatchType_Should_Return_None()
+        {
+            Assert.Equal(OptionMatchType.None, "foobar".GetOptionMatchType());
+        }
+
+        [Fact]
         internal void ExpressionExtensions_GetPropertyName()
         {
             Assert.Equal("option",
@@ -223,6 +227,51 @@ namespace ArgsMapper.Tests
                 ((Expression<Func<OneBoolFieldOptionArgs, bool>>)
                     (x => x.Option)).GetPropertyInfos()
                 .GetName(CultureInfo.InvariantCulture));
+        }
+
+        [Fact]
+        internal void OptionListExtensions_Get_Should_Return_Null()
+        {
+            // Arrange
+            var options = new List<Option> {
+                new Option()
+            };
+
+            // Act
+            var option = options.Get(OptionMatchType.None, "option",
+                StringComparison.InvariantCultureIgnoreCase);
+
+            // Assert
+            Assert.Null(option);
+        }
+
+        [Fact]
+        internal void StringBuilderExtensions_TrimEnd()
+        {
+            // Arrange
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("foo");
+            stringBuilder.AppendLine("bar");
+
+            // Act
+            stringBuilder = stringBuilder.TrimEnd();
+
+            // Assert
+            Assert.Equal($"foo{Environment.NewLine}bar", stringBuilder.ToString());
+        }
+
+        [Fact]
+        internal void StringBuilderExtensions_TrimEnd_When_StringBuilder_Null()
+        {
+            // Arrange
+            var stringBuilder = new StringBuilder();
+
+            // Act
+            stringBuilder = stringBuilder.TrimEnd();
+
+            // Assert
+            Assert.Equal(string.Empty, stringBuilder.ToString());
         }
     }
 }
