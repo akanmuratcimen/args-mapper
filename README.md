@@ -19,7 +19,7 @@ An easy to use, simple, strongly typed dotnet core command line parser.
 
 ## Quick Start
 
-Define a class which is called `Args` in the example above that will hold the application commands and options and call the `Execute` method of the `ArgsMapper` class. 
+Define a class which is called `Args` in the example below that will hold the application commands and options and call the `Execute` method of the `ArgsMapper` class. 
 
 ```csharp
 class Program
