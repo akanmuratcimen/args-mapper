@@ -4,8 +4,52 @@
 
 An easy to use, simple, strongly typed dotnet core command line parser.
 
+## Introduction
+
+- Compatible with .net core.
+- No dependencies.
+- Fluent command, option and usage page definitions.
+- Supports all primitive types and its collection and nullable versions.
+- Also supports enum, uri, datetime, timespan and guid types.
+- Rich usage and introduction page building (includes table generator).
+- Culture support for value conversion.
+- Parsing error page customization support.
+- Synchronous and asynchronous Execute method support
+- Supports `-h|--help` and `-v|--version` options by default.
+
+## Quick Start
+
+Define a class which is called `Args` in the example above that will hold the application commands and options and call the `Execute` method of the `ArgsMapper` class. 
+
+```csharp
+internal static class Program
+{
+    private static void Main(string[] args)
+    {
+        var mapper = new ArgsMapper<Args>();
+
+        mapper.AddCommand(x => x.Command);
+
+        mapper.Execute(args, OnSuccess, OnError);
+    }
+
+    private static void OnSuccess(Args args)
+    {
+        if (args.Command != null)
+        {
+            Console.WriteLine("Command executed.");
+        }
+    }
+
+    private static void OnError(ArgsMapperErrorResult errorResult)
+    {
+        Console.WriteLine(errorResult.ErrorMessage);
+    }
+}
+```
+
 ## Samples  
 There are [sample projects](https://github.com/akanmuratcimen/args-mapper/tree/master/samples) that you can look at.  
 
 ## License  
-args-mapper is licensed under the [MIT license](LICENSE).
+This project is licensed under the [MIT license](LICENSE).
