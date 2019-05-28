@@ -22,26 +22,38 @@ An easy to use, simple, strongly typed dotnet core command line parser.
 Define a class which is called `Args` in the example above that will hold the application commands and options and call the `Execute` method of the `ArgsMapper` class. 
 
 ```csharp
-internal static class Program
+class Program
 {
-    private static void Main(string[] args)
+    class Args
+    {
+        public CommandArg Command { get; set; }
+    }
+
+    class CommandArg
+    {
+        public string Option { get; set; }
+    }
+
+    static void Main(string[] args)
     {
         var mapper = new ArgsMapper<Args>();
 
-        mapper.AddCommand(x => x.Command);
+        mapper.AddCommand(x => x.Command, commandSettings => {
+            commandSettings.AddOption(x => x.Option);
+        });
 
         mapper.Execute(args, OnSuccess, OnError);
     }
 
-    private static void OnSuccess(Args args)
+    static void OnSuccess(Args args)
     {
         if (args.Command != null)
         {
-            Console.WriteLine("Command executed.");
+            Console.WriteLine($"Command executed with '{args.Command.Option}' option.");
         }
     }
 
-    private static void OnError(ArgsMapperErrorResult errorResult)
+    static void OnError(ArgsMapperErrorResult errorResult)
     {
         Console.WriteLine(errorResult.ErrorMessage);
     }
