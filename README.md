@@ -26,10 +26,10 @@ class Program
 {
     class Args
     {
-        public CommandArg Command { get; set; }
+        public Command Command { get; set; }
     }
 
-    class CommandArg
+    class Command
     {
         public string Option { get; set; }
     }
@@ -58,6 +58,14 @@ class Program
         Console.WriteLine(errorResult.ErrorMessage);
     }
 }
+```
+
+Execution and output:
+
+```
+ > program command --option sample
+ 
+ Command executed with 'sample' option.
 ```
 
 ## Samples  
