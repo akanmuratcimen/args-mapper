@@ -280,8 +280,6 @@ namespace ArgsMapper.Tests
     {
         public Queue<int> QueueOption { get; set; }
         public Stack<int> StackOption { get; set; }
-        public IEnumerable<int> IEnumerableIntOption { get; set; }
-        public IList<int> ListIntOption { get; set; }
     }
 
     internal enum SampleEnum

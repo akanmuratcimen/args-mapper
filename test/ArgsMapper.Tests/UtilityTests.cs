@@ -22,6 +22,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -197,6 +198,24 @@ namespace ArgsMapper.Tests
         internal void TypeExtensions_GetFirstGenericArgument(Type genericType, Type expectedType)
         {
             Assert.Equal(expectedType, genericType.GetFirstGenericArgument());
+        }
+
+        [Theory]
+        [InlineData(typeof(ICollection<int>), true)]
+        [InlineData(typeof(IEnumerable<int>), true)]
+        [InlineData(typeof(IList<int>), true)]
+        [InlineData(typeof(IReadOnlyCollection<int>), true)]
+        [InlineData(typeof(IReadOnlyList<int>), true)]
+        [InlineData(typeof(List<int>), true)]
+        [InlineData(typeof(IEnumerable), false)]
+        [InlineData(typeof(ICollection), false)]
+        [InlineData(typeof(Stack<int>), false)]
+        [InlineData(typeof(Queue<int>), false)]
+        [InlineData(typeof(Dictionary<int, int>), false)]
+        [InlineData(typeof(KeyValuePair<int, int>), false)]
+        internal void TypeExtensions_IsList(Type type, bool isList)
+        {
+            Assert.Equal(isList, type.IsList());
         }
 
         [Fact]

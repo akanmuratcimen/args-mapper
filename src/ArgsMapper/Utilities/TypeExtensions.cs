@@ -60,7 +60,31 @@ namespace ArgsMapper.Utilities
 
         internal static bool IsList(this Type type)
         {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
+            if (!type.IsGenericType)
+            {
+                return false;
+            }
+
+            Type[] listTypes = {
+                typeof(ICollection<>),
+                typeof(IEnumerable<>),
+                typeof(IList<>),
+                typeof(IReadOnlyCollection<>),
+                typeof(IReadOnlyList<>),
+                typeof(List<>)
+            };
+
+            var genericTypeDefinition = type.GetGenericTypeDefinition();
+
+            foreach (var listType in listTypes)
+            {
+                if (genericTypeDefinition == listType)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal static bool IsNullable(this Type type)

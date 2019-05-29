@@ -78,9 +78,14 @@ namespace ArgsMapper.Tests
         [InlineData(typeof(List<Uri>), "amqp://user:pass@host:10000/path", "ftp://foo.bar.com:000")]
         [InlineData(typeof(List<SampleEnum>), "Value1", "Value2", "value3")]
         [InlineData(typeof(List<SampleEnum>), "1", "2")]
+        [InlineData(typeof(IList<bool>), "1")]
+        [InlineData(typeof(IEnumerable<bool>), "1")]
+        [InlineData(typeof(ICollection<bool>), "1")]
+        [InlineData(typeof(IReadOnlyCollection<bool>), "1")]
+        [InlineData(typeof(IReadOnlyList<bool>), "1")]
         internal void ValueConverterFactory_Convert_ListTypes(Type type, params string[] values)
         {
-            Assert.IsType(type, _valueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));
+            Assert.IsAssignableFrom(type, _valueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));
         }
 
         [Theory]
