@@ -43,21 +43,16 @@ namespace ArgsMapper.Mapping
 
         internal T Map(T model, string[] args)
         {
-            if (_mapper.Commands.Any())
+            if (args.IsNullOrEmpty() || args[0].IsValidOption() || !_mapper.Commands.Any())
             {
-                return MapCommandPositionalOptionsAndOptions(model, args);
+                return MapPositionalOptionsAndOptions(model, args);
             }
 
-            return MapPositionalOptionsAndOptions(model, args);
+            return MapCommandPositionalOptionsAndOptions(model, args);
         }
 
         private T MapCommandPositionalOptionsAndOptions(T model, string[] args)
         {
-            if (args.IsNullOrEmpty())
-            {
-                return model;
-            }
-
             var command = _mapper.Commands.Get(args[0], _mapper.Settings.StringComparison);
 
             if (command is null || command.IsDisabled)

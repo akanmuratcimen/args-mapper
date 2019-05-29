@@ -37,10 +37,10 @@ namespace ArgsMapper.Tests
             mapper.AddCommand(x => x.Command);
 
             // Act
-            var result = mapper.Map("--option", "0");
+            var result = mapper.Map("--option", "1");
 
             // Assert
-            Assert.False(result.Model.Option);
+            Assert.True(result.Model.Option);
         }
 
         [Fact]
