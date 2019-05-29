@@ -43,7 +43,7 @@ namespace ArgsMapper.Mapping
 
         internal T Map(T model, string[] args)
         {
-            if (args.IsNullOrEmpty() || args[0].IsValidOption() || !_mapper.Commands.Any())
+            if (args.IsNullOrEmpty() || args[0].IsValidOption() || _mapper.Options.Any() && !_mapper.Commands.Any())
             {
                 return MapPositionalOptionsAndOptions(model, args);
             }

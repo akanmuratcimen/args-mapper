@@ -28,6 +28,34 @@ namespace ArgsMapper.Tests
     public class ScenarioTests
     {
         [Fact]
+        internal void Output_Should_Be_Unknown_Command_Error_When_Input_Is_Not_Valid_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Act
+            var result = mapper.Map("command");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("'command' is not a valid command.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void Output_Should_Be_Unknown_Option_Error_When_Input_Is_Valid_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Act
+            var result = mapper.Map("--option");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown option 'option'.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void Should_Be_Valid_Adding_An_Command_After_An_Option()
         {
             // Arrange
