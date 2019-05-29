@@ -66,7 +66,7 @@ namespace ArgsMapper
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
 
-        public void Execute(string[] args, Action<T> onSuccess, 
+        public void Execute(string[] args, Action<T> onSuccess,
             Action<ArgsMapperErrorResult> onError = null)
         {
             if (args.IsNullOrEmpty())
@@ -170,7 +170,9 @@ namespace ArgsMapper
 
             try
             {
-                result.Model = new ArgumentMapper<T>(this, ReflectionService).Map(result.Model, args);
+                result.Model = new ArgumentMapper<T>(
+                        this, ReflectionService)
+                    .Map(result.Model, args);
             }
             catch (UsageException e)
             {

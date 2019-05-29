@@ -70,7 +70,7 @@ namespace ArgsMapper.ValueConversion
         {
             if (type.IsList())
             {
-                return CreateListWithValues(type.GetFirstGenericArgument(), values, formatProvider);
+                return CreateListWithValues(type, values, formatProvider);
             }
 
             var value = values.LastOrDefault();
@@ -93,8 +93,9 @@ namespace ArgsMapper.ValueConversion
             return SupportedTypes.Contains(type);
         }
 
-        private IList CreateListWithValues(Type itemType, IEnumerable<string> values, IFormatProvider formatProvider)
+        private object CreateListWithValues(Type type, IEnumerable<string> values, IFormatProvider formatProvider)
         {
+            var itemType = type.GetFirstGenericArgument();
             var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
 
             foreach (var value in values)

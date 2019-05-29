@@ -199,14 +199,6 @@ namespace ArgsMapper.Tests.InitializationValidationTests
                 Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
                     commandSettings.AddOption(x => x.StackOption)
                 );
-
-                Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
-                    commandSettings.AddOption(x => x.IEnumerableIntOption)
-                );
-
-                Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
-                    commandSettings.AddOption(x => x.ListIntOption)
-                );
             });
         }
 

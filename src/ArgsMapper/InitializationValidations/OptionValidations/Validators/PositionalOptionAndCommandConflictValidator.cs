@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -30,7 +30,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
-            if (mapper.Commands.Any())
+            if (option.IsPositionalOption && mapper.Commands.Any())
             {
                 throw new PositionalOptionConflictsWithCommandException();
             }

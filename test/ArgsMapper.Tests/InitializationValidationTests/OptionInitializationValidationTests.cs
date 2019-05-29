@@ -178,14 +178,6 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
                 mapper.AddOption(x => x.StackOption)
             );
-
-            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
-                mapper.AddOption(x => x.IEnumerableIntOption)
-            );
-
-            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
-                mapper.AddOption(x => x.ListIntOption)
-            );
         }
 
         [Fact]
