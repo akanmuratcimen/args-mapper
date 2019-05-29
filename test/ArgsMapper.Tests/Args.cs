@@ -204,6 +204,14 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class ThreeListOfIntOptionsArgs
+    {
+        public List<int> Options1 { get; set; }
+        public List<int> Options2 { get; set; }
+        public List<int> Options3 { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class FourBoolOptionArgs
     {
         public bool Option1 { get; set; }
