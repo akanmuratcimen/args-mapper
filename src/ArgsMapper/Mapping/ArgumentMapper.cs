@@ -83,11 +83,16 @@ namespace ArgsMapper.Mapping
 
             for (short i = 1; i < args.Length; i++)
             {
+                if (args[i].IsValidOption())
+                {
+                    break;
+                }
+
                 var option = command.Options.GetByPosition((short)(i - 1));
 
                 if (option is null)
                 {
-                    continue;
+                    throw new NoMatchedValueForCommandPositionalOptionException(command.ToString(), args[i]);
                 }
 
                 _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
@@ -144,11 +149,16 @@ namespace ArgsMapper.Mapping
 
             for (short i = 0; i < args.Length; i++)
             {
+                if (args[i].IsValidOption())
+                {
+                    break;
+                }
+
                 var option = _mapper.Options.GetByPosition(i);
 
                 if (option is null)
                 {
-                    continue;
+                    throw new NoMatchedValueForPositionalOptionException(args[i]);
                 }
 
                 _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);

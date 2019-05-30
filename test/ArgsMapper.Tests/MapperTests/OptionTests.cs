@@ -93,6 +93,24 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_Args_Exceeded_PositionalOption_Definitions()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
+
+            mapper.AddPositionalOption(x => x.Option1);
+            mapper.AddPositionalOption(x => x.Option2);
+            mapper.AddPositionalOption(x => x.Option3);
+
+            // Act
+            var result = mapper.Map("1", "2", "3", "4");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("There is no matched option for value '4'.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_CommandPositionalOption_Value_Valid_Option()
         {
             // Arrange
