@@ -1,6 +1,8 @@
+![logo](https://raw.githubusercontent.com/akanmuratcimen/args-mapper/master/args-mapper.png)
+
 # args-mapper
 
-[![Build status](https://ci.appveyor.com/api/projects/status/hetocc8taw31msma/branch/master?svg=true)](https://ci.appveyor.com/project/akanmuratcimen/args-mapper/branch/master) [![Coverage Status](https://coveralls.io/repos/github/akanmuratcimen/args-mapper/badge.svg?branch=master)](https://coveralls.io/github/akanmuratcimen/args-mapper?branch=master) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=akanmuratcimen_args-mapper&metric=alert_status)](https://sonarcloud.io/dashboard?id=akanmuratcimen_args-mapper) ![Package info](https://img.shields.io/nuget/v/args-mapper.svg)
+[![Build status](https://ci.appveyor.com/api/projects/status/hetocc8taw31msma/branch/master?svg=true)](https://ci.appveyor.com/project/akanmuratcimen/args-mapper/branch/master) [![Coverage Status](https://coveralls.io/repos/github/akanmuratcimen/args-mapper/badge.svg?branch=master)](https://coveralls.io/github/akanmuratcimen/args-mapper?branch=master) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=akanmuratcimen_args-mapper&metric=alert_status)](https://sonarcloud.io/dashboard?id=akanmuratcimen_args-mapper) [![BotBuilder Badge](https://buildstats.info/nuget/args-mapper?dWidth=54&includePreReleases=true)](https://www.nuget.org/packages/args-mapper)
 
 An easy to use, simple, strongly typed dotnet core command line parser.
 
