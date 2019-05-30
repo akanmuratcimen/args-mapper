@@ -63,6 +63,23 @@ namespace ArgsMapper.Mapping
             var commandInstance = _reflectionService.SetValue(command, model);
 
             var proceededOptions = new HashSet<Option>();
+            var parsedOptions = RawParser.ParseOptions(args, 1);
+
+            var groupedOptions = new Dictionary<Option, List<string>>(
+                new OptionPropertyInfoEqualityComparer());
+
+            foreach (var ((key, matchType), values) in parsedOptions)
+            {
+                var option = command.Options.Get(matchType, key, _mapper.Settings.StringComparison);
+
+                if (option is null || option.IsDisabled)
+                {
+                    throw new UnknownCommandOptionException(command.ToString(), key);
+                }
+
+                proceededOptions.Add(option);
+                groupedOptions.AddOrMergeValues(option, values);
+            }
 
             for (short i = 1; i < args.Length; i++)
             {
@@ -76,23 +93,6 @@ namespace ArgsMapper.Mapping
                 _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
 
                 proceededOptions.Add(option);
-            }
-
-            var parsedOptions = RawParser.ParseOptions(args, 1);
-
-            var groupedOptions = new Dictionary<Option, List<string>>(new OptionPropertyInfoEqualityComparer());
-
-            foreach (var ((key, matchType), values) in parsedOptions)
-            {
-                var option = command.Options.Get(matchType, key, _mapper.Settings.StringComparison);
-
-                if (option is null || option.IsDisabled)
-                {
-                    throw new UnknownCommandOptionException(command.ToString(), key);
-                }
-
-                proceededOptions.Add(option);
-                groupedOptions.AddOrMergeValues(option, values);
             }
 
             foreach (var option in command.Options)
@@ -124,6 +124,23 @@ namespace ArgsMapper.Mapping
         private T MapPositionalOptionsAndOptions(T model, string[] args)
         {
             var proceededOptions = new HashSet<Option>();
+            var parsedOptions = RawParser.ParseOptions(args);
+
+            var groupedOptions = new Dictionary<Option, List<string>>(
+                new OptionPropertyInfoEqualityComparer());
+
+            foreach (var ((key, matchType), values) in parsedOptions)
+            {
+                var option = _mapper.Options.Get(matchType, key, _mapper.Settings.StringComparison);
+
+                if (option is null || option.IsDisabled)
+                {
+                    throw new UnknownOptionException(key);
+                }
+
+                proceededOptions.Add(option);
+                groupedOptions.AddOrMergeValues(option, values);
+            }
 
             for (short i = 0; i < args.Length; i++)
             {
@@ -137,23 +154,6 @@ namespace ArgsMapper.Mapping
                 _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);
 
                 proceededOptions.Add(option);
-            }
-
-            var parsedOptions = RawParser.ParseOptions(args);
-
-            var groupedOptions = new Dictionary<Option, List<string>>(new OptionPropertyInfoEqualityComparer());
-
-            foreach (var ((key, matchType), values) in parsedOptions)
-            {
-                var option = _mapper.Options.Get(matchType, key, _mapper.Settings.StringComparison);
-
-                if (option is null || option.IsDisabled)
-                {
-                    throw new UnknownOptionException(key);
-                }
-
-                proceededOptions.Add(option);
-                groupedOptions.AddOrMergeValues(option, values);
             }
 
             foreach (var option in _mapper.Options)

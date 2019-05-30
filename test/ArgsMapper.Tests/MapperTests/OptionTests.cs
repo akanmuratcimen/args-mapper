@@ -93,6 +93,24 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_CommandPositionalOption_Value_Valid_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--foobar");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown 'command' command option 'foobar'.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_Option_Has_Not_Valid_Value()
         {
             // Arrange
@@ -158,6 +176,22 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.True(result.HasError);
             Assert.Equal("Unknown option 'option1'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_PositionalOption_Value_Valid_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("--foobar");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown option 'foobar'.", result.ErrorMessage);
         }
 
         [Fact]
