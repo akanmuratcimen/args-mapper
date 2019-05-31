@@ -47,7 +47,7 @@ namespace ArgsMapper.Tests.MapperTests
             var result = mapper.Map("command", $"--{arg}");
 
             // Assert
-            Assert.Equal(expected, result.Model.Command?.Option ?? false); // todo not a good assert
+            Assert.Equal(expected, result.Model.Command?.Option ?? false);
         }
 
         [Theory]
