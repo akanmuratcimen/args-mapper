@@ -60,7 +60,8 @@ namespace ArgsMapper.ValueConversion
                 [typeof(TimeSpan)] = new TimeSpanValueConverter(),
                 [typeof(DateTime)] = new DateTimeValueConverter(),
                 [typeof(Uri)] = new UriValueConverter(),
-                [typeof(Enum)] = new EnumValueConverter()
+                [typeof(Enum)] = new EnumValueConverter(),
+                [typeof(object)] = new ObjectValueConverter()
             };
         }
 
