@@ -114,6 +114,32 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneListStringOptionWithOneBoolOptionArgs
+    {
+        public List<string> Options { get; set; }
+        public int Option { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneListStringOptionWithOneBoolOptionArgs
+    {
+        public OneListStringOptionWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class TwoListStringOptionArgs
+    {
+        public List<string> Options1 { get; set; }
+        public List<string> Options2 { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithTwoListStringOptionArgs
+    {
+        public TwoListStringOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class OneListIntOptionArgs
     {
         public List<int> Option { get; set; }

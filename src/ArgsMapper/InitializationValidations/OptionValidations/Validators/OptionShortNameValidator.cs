@@ -30,9 +30,10 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
-            // ReSharper disable once PossibleInvalidOperationException
+            // ReSharper disable once InvertIf
             if (option.HasShortName)
             {
+                // ReSharper disable once PossibleInvalidOperationException
                 if (!char.IsLetter(option.ShortName.Value))
                 {
                     throw new InvalidOptionShortNameException(option.ShortName.Value);

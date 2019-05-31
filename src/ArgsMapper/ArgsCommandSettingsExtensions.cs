@@ -24,7 +24,7 @@
 using System;
 using System.Linq.Expressions;
 using ArgsMapper.Infrastructure;
-using ArgsMapper.InitializationValidations.OptionValidations;
+using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.Utilities;
 
 namespace ArgsMapper
@@ -43,12 +43,15 @@ namespace ArgsMapper
         /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
         /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
-        /// <exception cref="UnsupportedOptionPropertyTypeException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        /// <exception cref="OptionLongNameAlreadyExistsException">
+        /// <exception cref="CommandOptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists
         ///     in the <see cref="ArgsCommandSettings{T, TCommand}" />.
+        /// </exception>
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
@@ -66,16 +69,19 @@ namespace ArgsMapper
         /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="UnsupportedOptionPropertyTypeException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
-        /// <exception cref="OptionLongNameAlreadyExistsException">
+        /// <exception cref="CommandOptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists
         ///     in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
+        /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, 
+            Expression<Func<TCommand, TOption>> propertySelector,
             Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class where TCommand : class
         {
@@ -91,23 +97,26 @@ namespace ArgsMapper
         /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
-        /// <exception cref="OptionLongNameRequiredException">
+        /// <exception cref="CommandOptionLongNameRequiredException">
         ///     Option <paramref name="longName" /> is null or empty.
         /// </exception>
-        /// <exception cref="InvalidOptionLongNameException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Option <paramref name="longName" /> is not valid.
         ///     It is includes a whitespace or an assignment character (: =).
         /// </exception>
-        /// <exception cref="OptionLongNameAlreadyExistsException">
+        /// <exception cref="CommandOptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
         ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        /// <exception cref="UnsupportedOptionPropertyTypeException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Throws when the option property not supported.
+        /// </exception>
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, string longName) 
+            Expression<Func<TCommand, TOption>> propertySelector, string longName)
             where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, false, null);
@@ -123,19 +132,22 @@ namespace ArgsMapper
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="OptionLongNameRequiredException">
+        /// <exception cref="CommandOptionLongNameRequiredException">
         ///     Option <paramref name="longName" /> is null or empty.
         /// </exception>
-        /// <exception cref="InvalidOptionLongNameException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Option <paramref name="longName" /> is not valid.
         ///     It is includes a whitespace or an assignment character (: =).
         /// </exception>
-        /// <exception cref="OptionLongNameAlreadyExistsException">
+        /// <exception cref="CommandOptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
         ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        /// <exception cref="UnsupportedOptionPropertyTypeException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Throws when the option property not supported.
+        /// </exception>
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
@@ -155,27 +167,30 @@ namespace ArgsMapper
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="shortName">The short name for the option.</param>
         /// <param name="longName">The long name for the option.</param>
-        /// <exception cref="OptionLongNameRequiredException">
+        /// <exception cref="CommandOptionLongNameRequiredException">
         ///     Option <paramref name="longName" /> is null or empty.
         /// </exception>
-        /// <exception cref="InvalidOptionLongNameException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Option <paramref name="longName" /> is not valid.
         ///     It is includes a whitespace or an assignment character (: =).
         /// </exception>
-        /// <exception cref="OptionShortNameAlreadyExistsException">
+        /// <exception cref="CommandOptionShortNameAlreadyExistsException">
         ///     An option with the same <paramref name="shortName" />
         ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        /// <exception cref="OptionLongNameAlreadyExistsException">
+        /// <exception cref="CommandOptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
         ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        /// <exception cref="UnsupportedOptionPropertyTypeException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Throws when the option property not supported.
+        /// </exception>
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, 
+            Expression<Func<TCommand, TOption>> propertySelector,
             char shortName, string longName) where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, shortName, longName, false, null);
@@ -192,27 +207,30 @@ namespace ArgsMapper
         /// <param name="shortName">The short name for the option.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="OptionLongNameRequiredException">
+        /// <exception cref="CommandOptionLongNameRequiredException">
         ///     Option <paramref name="longName" /> is null or empty.
         /// </exception>
-        /// <exception cref="InvalidOptionLongNameException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Option <paramref name="longName" /> is not valid.
         ///     It is includes a whitespace or an assignment character (: =).
         /// </exception>
-        /// <exception cref="OptionShortNameAlreadyExistsException">
+        /// <exception cref="CommandOptionShortNameAlreadyExistsException">
         ///     An option with the same <paramref name="shortName" />
         ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        /// <exception cref="OptionLongNameAlreadyExistsException">
+        /// <exception cref="CommandOptionLongNameAlreadyExistsException">
         ///     An option with the same <paramref name="longName" />
         ///     already exists in the <see cref="ArgsCommandSettings{T, TCommand}" />.
         /// </exception>
-        /// <exception cref="UnsupportedOptionPropertyTypeException">
+        /// <exception cref="UnsupportedCommandOptionPropertyTypeException">
         ///     Throws when the option property not supported.
+        /// </exception>
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, 
+            Expression<Func<TCommand, TOption>> propertySelector,
             char shortName, string longName,
             Action<ArgsOptionSettings<TOption>> optionSettings) where T : class where TCommand : class
         {
@@ -221,7 +239,7 @@ namespace ArgsMapper
 
         private static void AddOption<T, TCommand, TProperty>(this ArgsCommandSettings<T, TCommand> commandSettings,
             Expression<Func<TCommand, TProperty>> propertySelector, char? shortName, string longName,
-            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings) 
+            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings)
             where T : class where TCommand : class
         {
             ushort? position = null;
@@ -247,8 +265,8 @@ namespace ArgsMapper
         /// <typeparam name="TOption">The type of the option of the command model.</typeparam>
         /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
@@ -266,8 +284,8 @@ namespace ArgsMapper
         /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
@@ -288,8 +306,8 @@ namespace ArgsMapper
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
@@ -308,12 +326,12 @@ namespace ArgsMapper
         /// <param name="commandSettings"><see cref="ArgsCommandSettings{T, TCommand}" /> for the command.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="CommandPositionalOptionListConflictException">
+        ///     Throws when defining another command option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TCommand, TOption>(
             this ArgsCommandSettings<T, TCommand> commandSettings,
-            Expression<Func<TCommand, TOption>> propertySelector, string longName) 
+            Expression<Func<TCommand, TOption>> propertySelector, string longName)
             where T : class where TCommand : class
         {
             AddOption(commandSettings, propertySelector, null, longName, true, null);

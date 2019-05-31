@@ -245,29 +245,63 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         }
 
         [Fact]
-        internal void AddCommand_AddPositionalOption_Should_Throw_UnsupportedCommandPositionalOptionPropertyTypeException_Class()
+        internal void AddCommand_AddPositionalOption_Should_Throw_CommandPositionalOptionListConflictException_PositionalOption()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+
+                Assert.Throws<CommandPositionalOptionListConflictException>(() =>
+                    commandSettings.AddPositionalOption(x => x.Option)
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddPositionalOption_Should_Throw_CommandPositionalOptionListConflictException_PositionalOption_List()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithTwoListStringOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options1);
+
+                Assert.Throws<CommandPositionalOptionListConflictException>(() =>
+                    commandSettings.AddPositionalOption(x => x.Options2)
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddPositionalOption_Should_Throw_CommandPositionalOptionListConflictException_PositionalOption_Reverse()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option);
+
+                Assert.Throws<CommandPositionalOptionListConflictException>(() =>
+                    commandSettings.AddPositionalOption(x => x.Options)
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddPositionalOption_Should_Throw_UnsupportedCommandOptionPropertyTypeException_Class()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
 
             // Assert
             mapper.AddCommand(x => x.Command, "command", commandSettings => {
-                Assert.Throws<UnsupportedCommandPositionalOptionPropertyTypeException>(() =>
+                Assert.Throws<UnsupportedCommandOptionPropertyTypeException>(() =>
                     commandSettings.AddPositionalOption(x => x.Command)
-                );
-            });
-        }
-
-        [Fact]
-        internal void AddCommand_AddPositionalOption_Should_Throw_UnsupportedCommandPositionalOptionPropertyTypeException_List()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneListStringOption>();
-
-            // Assert
-            mapper.AddCommand(x => x.Command, "command", commandSettings => {
-                Assert.Throws<UnsupportedCommandPositionalOptionPropertyTypeException>(() =>
-                    commandSettings.AddPositionalOption(x => x.Option)
                 );
             });
         }

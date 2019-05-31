@@ -74,14 +74,6 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
         }
     }
 
-    public class UnsupportedCommandPositionalOptionPropertyTypeException : Exception
-    {
-        public UnsupportedCommandPositionalOptionPropertyTypeException(MemberInfo memberInfo) :
-            base($"Unsupported command positional option type: '{memberInfo.Name}'.")
-        {
-        }
-    }
-
     public class ReservedCommandOptionShortNameException : Exception
     {
         public ReservedCommandOptionShortNameException(char shortName) :
@@ -94,6 +86,14 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
     {
         public ReservedCommandOptionLongNameException(string longName) :
             base($"'{longName}' is a reserved long name.")
+        {
+        }
+    }
+
+    public class CommandPositionalOptionListConflictException : Exception
+    {
+        public CommandPositionalOptionListConflictException() :
+            base("Using another command option with a list positional option type not allowed.")
         {
         }
     }

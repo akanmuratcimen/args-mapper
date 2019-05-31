@@ -81,23 +81,47 @@ namespace ArgsMapper.Mapping
                 groupedOptions.AddOrMergeValues(option, values);
             }
 
-            for (short i = 1; i < args.Length; i++)
+            if (command.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
-                if (args[i].IsValidOption())
+                var option = command.Options.GetByPosition(0);
+
+                var listPositionalOptionValues = new List<string>();
+
+                for (short i = 1; i < args.Length; i++)
                 {
-                    break;
+                    if (args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    listPositionalOptionValues.Add(args[i]);
                 }
 
-                var option = command.Options.GetByPosition((short)(i - 1));
-
-                if (option is null)
-                {
-                    throw new NoMatchedValueForCommandPositionalOptionException(command.ToString(), args[i]);
-                }
-
-                _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
+                _reflectionService.SetValue(option, commandInstance,
+                    listPositionalOptionValues, _mapper.Settings.Culture);
 
                 proceededOptions.Add(option);
+            }
+            else
+            {
+                for (short i = 1; i < args.Length; i++)
+                {
+                    if (args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    var option = command.Options.GetByPosition((short)(i - 1));
+
+                    if (option is null)
+                    {
+                        throw new NoMatchedValueForCommandPositionalOptionException(command.ToString(), args[i]);
+                    }
+
+                    _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
+
+                    proceededOptions.Add(option);
+                }
             }
 
             foreach (var option in command.Options)
@@ -147,23 +171,36 @@ namespace ArgsMapper.Mapping
                 groupedOptions.AddOrMergeValues(option, values);
             }
 
-            for (short i = 0; i < args.Length; i++)
+            if (_mapper.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
-                if (args[i].IsValidOption())
-                {
-                    break;
-                }
+                var option = _mapper.Options.GetByPosition(0);
 
-                var option = _mapper.Options.GetByPosition(i);
-
-                if (option is null)
-                {
-                    throw new NoMatchedValueForPositionalOptionException(args[i]);
-                }
-
-                _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);
+                _reflectionService.SetValue(option, model,
+                    args.TakeWhile(x => !x.IsValidOption()).ToList(),
+                    _mapper.Settings.Culture);
 
                 proceededOptions.Add(option);
+            }
+            else
+            {
+                for (short i = 0; i < args.Length; i++)
+                {
+                    if (args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    var option = _mapper.Options.GetByPosition(i);
+
+                    if (option is null)
+                    {
+                        throw new NoMatchedValueForPositionalOptionException(args[i]);
+                    }
+
+                    _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);
+
+                    proceededOptions.Add(option);
+                }
             }
 
             foreach (var option in _mapper.Options)

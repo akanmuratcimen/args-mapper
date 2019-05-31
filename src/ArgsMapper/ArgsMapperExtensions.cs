@@ -168,6 +168,9 @@ namespace ArgsMapper
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists in the <see cref="ArgsMapper{T}" />.
         /// </exception>
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
+        /// </exception>
         public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector)
             where T : class
@@ -188,6 +191,9 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="OptionLongNameAlreadyExistsException">
         ///     An option with the same long name already exists in the <see cref="ArgsMapper{T}" />.
+        /// </exception>
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector,
@@ -219,6 +225,9 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
+        /// </exception>
         public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, string longName)
             where T : class
@@ -248,6 +257,9 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
+        /// </exception>
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, string longName,
@@ -284,6 +296,9 @@ namespace ArgsMapper
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
         /// </exception>
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
+        /// </exception>
         public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, char shortName, string longName)
             where T : class
@@ -318,6 +333,9 @@ namespace ArgsMapper
         /// </exception>
         /// <exception cref="UnsupportedOptionPropertyTypeException">
         ///     Throws when the option property not supported.
+        /// </exception>
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, char shortName, string longName,
@@ -354,8 +372,8 @@ namespace ArgsMapper
         /// <typeparam name="TOption">The type of the property of the model.</typeparam>
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector)
@@ -372,8 +390,8 @@ namespace ArgsMapper
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector,
@@ -392,8 +410,8 @@ namespace ArgsMapper
         /// <param name="mapper">The instance of <see cref="ArgsMapper{T}" />.</param>
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, string longName)
@@ -412,8 +430,8 @@ namespace ArgsMapper
         /// <param name="propertySelector">The type of the property the value will be assigned.</param>
         /// <param name="longName">The long name for the option.</param>
         /// <param name="optionSettings"><see cref="ArgsOptionSettings{T}" /> for the option.</param>
-        /// <exception cref="UnsupportedPositionalOptionPropertyTypeException">
-        ///     Throws when the positional option property not supported.
+        /// <exception cref="PositionalOptionListConflictException">
+        ///     Throws when defining another option if a list positional option type defined.
         /// </exception>
         public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, string longName,

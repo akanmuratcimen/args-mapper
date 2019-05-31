@@ -21,39 +21,32 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.OptionValidations.Validators;
+using System.Linq;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 
-namespace ArgsMapper.InitializationValidations.OptionValidations
+namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
-    internal interface IOptionValidationService
+    internal class PositionalOptionListConflictValidator : IOptionValidator
     {
-        void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class;
-    }
-
-    internal class OptionValidationService : IOptionValidationService
-    {
-        public OptionValidationService()
-        {
-            Validators = new List<IOptionValidator> {
-                new OptionPropertyTypeValidator(),
-                new OptionLongNameValidator(),
-                new OptionLongNameDuplicationValidator(),
-                new OptionShortNameValidator(),
-                new OptionShortNameDuplicationValidator(),
-                new PositionalOptionAndCommandConflictValidator(),
-                new PositionalOptionListConflictValidator()
-            };
-        }
-
-        private IEnumerable<IOptionValidator> Validators { get; }
-
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
-            foreach (var validator in Validators)
+            // ReSharper disable once InvertIf
+            if (option.IsPositionalOption)
             {
-                validator.Validate(mapper, option);
+                if (mapper.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
+                {
+                    throw new PositionalOptionListConflictException();
+                }
+
+                // ReSharper disable once InvertIf
+                if (option.Type.IsList())
+                {
+                    if (mapper.Options.Any(x => x.IsPositionalOption))
+                    {
+                        throw new PositionalOptionListConflictException();
+                    }
+                }
             }
         }
     }

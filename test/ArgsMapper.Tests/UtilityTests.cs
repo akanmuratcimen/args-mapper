@@ -164,7 +164,7 @@ namespace ArgsMapper.Tests
         [InlineData("option", "option")]
         [InlineData("Option", "option")]
         [InlineData("OptIon", "opt-ion")]
-        internal void Positional_Option_ToString(string name, string expected)
+        internal void PositionalOption_ToString(string name, string expected)
         {
             // Arrange
             var option = new Option {

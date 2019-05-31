@@ -98,10 +98,10 @@ namespace ArgsMapper.InitializationValidations.OptionValidations
         }
     }
 
-    public class UnsupportedPositionalOptionPropertyTypeException : Exception
+    public class PositionalOptionListConflictException : Exception
     {
-        public UnsupportedPositionalOptionPropertyTypeException(MemberInfo memberInfo) :
-            base($"Unsupported positional option type: '{memberInfo.Name}'.")
+        public PositionalOptionListConflictException() :
+            base("Using another option with a list positional option type not allowed.")
         {
         }
     }
