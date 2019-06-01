@@ -90,4 +90,20 @@ namespace ArgsMapper
         {
         }
     }
+
+    internal class NoMatchedValueForPositionalOptionException : UsageException
+    {
+        public NoMatchedValueForPositionalOptionException(string value)
+            : base($"There is no matched option for value '{value}'.")
+        {
+        }
+    }
+
+    internal class NoMatchedValueForCommandPositionalOptionException : UsageException
+    {
+        public NoMatchedValueForCommandPositionalOptionException(string command, string value)
+            : base($"There is no matched '{command}' option for value '{value}'.")
+        {
+        }
+    }
 }

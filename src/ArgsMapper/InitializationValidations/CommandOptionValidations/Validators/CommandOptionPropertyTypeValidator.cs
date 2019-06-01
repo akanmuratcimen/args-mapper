@@ -30,18 +30,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
         public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
             Option commandOption) where T : class where TProperty : class
         {
-            var isSupportedType = !commandSettings.Mapper
-                .ValueConverterFactory.IsSupportedType(commandOption.Type);
-
-            if (commandOption.IsPositionalOption && isSupportedType)
-            {
-                throw new UnsupportedCommandPositionalOptionPropertyTypeException(commandOption.Type);
-            }
-
-            var isSupportedBaseType = commandSettings.Mapper
-                .ValueConverterFactory.IsSupportedBaseType(commandOption.Type);
-
-            if (!isSupportedBaseType)
+            if (!commandSettings.Mapper.ValueConverterFactory.IsSupportedBaseType(commandOption.Type))
             {
                 throw new UnsupportedCommandOptionPropertyTypeException(commandOption.Type);
             }

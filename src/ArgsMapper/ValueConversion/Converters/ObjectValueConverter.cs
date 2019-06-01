@@ -21,30 +21,15 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System.Linq;
-using ArgsMapper.Models;
+using System;
 
-namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
+namespace ArgsMapper.ValueConversion.Converters
 {
-    internal class CommandOptionShortNameValidator : ICommandOptionValidator
+    internal class ObjectValueConverter : ISystemTypeValueConverter
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
-            Option commandOption) where T : class where TProperty : class
+        public object Convert(string value, IFormatProvider formatProvider)
         {
-            // ReSharper disable once InvertIf
-            if (commandOption.HasShortName)
-            {
-                // ReSharper disable once PossibleInvalidOperationException
-                if (!char.IsLetter(commandOption.ShortName.Value))
-                {
-                    throw new InvalidCommandOptionShortNameException(commandOption.ShortName.Value);
-                }
-
-                if (Constants.ReservedOptionShortNames.Contains(commandOption.ShortName.Value))
-                {
-                    throw new ReservedCommandOptionShortNameException(commandOption.ShortName.Value);
-                }
-            }
+            return value;
         }
     }
 }

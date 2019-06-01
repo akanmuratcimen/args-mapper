@@ -29,16 +29,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
     {
         public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
         {
-            var isSupportedType = mapper.ValueConverterFactory.IsSupportedType(option.Type);
-
-            if (option.IsPositionalOption && !isSupportedType)
-            {
-                throw new UnsupportedPositionalOptionPropertyTypeException(option.Type);
-            }
-
-            var isSupportedBaseType = mapper.ValueConverterFactory.IsSupportedBaseType(option.Type);
-
-            if (!isSupportedBaseType)
+            if (!mapper.ValueConverterFactory.IsSupportedBaseType(option.Type))
             {
                 throw new UnsupportedOptionPropertyTypeException(option.Type);
             }

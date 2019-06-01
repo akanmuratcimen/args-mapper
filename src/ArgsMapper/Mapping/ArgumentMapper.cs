@@ -63,24 +63,10 @@ namespace ArgsMapper.Mapping
             var commandInstance = _reflectionService.SetValue(command, model);
 
             var proceededOptions = new HashSet<Option>();
-
-            for (short i = 1; i < args.Length; i++)
-            {
-                var option = command.Options.GetByPosition((short)(i - 1));
-
-                if (option is null)
-                {
-                    continue;
-                }
-
-                _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
-
-                proceededOptions.Add(option);
-            }
-
             var parsedOptions = RawParser.ParseOptions(args, 1);
 
-            var groupedOptions = new Dictionary<Option, List<string>>(new OptionPropertyInfoEqualityComparer());
+            var groupedOptions = new Dictionary<Option, List<string>>(
+                new OptionPropertyInfoEqualityComparer());
 
             foreach (var ((key, matchType), values) in parsedOptions)
             {
@@ -93,6 +79,49 @@ namespace ArgsMapper.Mapping
 
                 proceededOptions.Add(option);
                 groupedOptions.AddOrMergeValues(option, values);
+            }
+
+            if (command.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
+            {
+                var option = command.Options.GetByPosition(0);
+
+                var listPositionalOptionValues = new List<string>();
+
+                for (short i = 1; i < args.Length; i++)
+                {
+                    if (args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    listPositionalOptionValues.Add(args[i]);
+                }
+
+                _reflectionService.SetValue(option, commandInstance,
+                    listPositionalOptionValues, _mapper.Settings.Culture);
+
+                proceededOptions.Add(option);
+            }
+            else
+            {
+                for (short i = 1; i < args.Length; i++)
+                {
+                    if (args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    var option = command.Options.GetByPosition((short)(i - 1));
+
+                    if (option is null)
+                    {
+                        throw new NoMatchedValueForCommandPositionalOptionException(command.ToString(), args[i]);
+                    }
+
+                    _reflectionService.SetValue(option, commandInstance, args[i], _mapper.Settings.Culture);
+
+                    proceededOptions.Add(option);
+                }
             }
 
             foreach (var option in command.Options)
@@ -124,24 +153,10 @@ namespace ArgsMapper.Mapping
         private T MapPositionalOptionsAndOptions(T model, string[] args)
         {
             var proceededOptions = new HashSet<Option>();
-
-            for (short i = 0; i < args.Length; i++)
-            {
-                var option = _mapper.Options.GetByPosition(i);
-
-                if (option is null)
-                {
-                    continue;
-                }
-
-                _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);
-
-                proceededOptions.Add(option);
-            }
-
             var parsedOptions = RawParser.ParseOptions(args);
 
-            var groupedOptions = new Dictionary<Option, List<string>>(new OptionPropertyInfoEqualityComparer());
+            var groupedOptions = new Dictionary<Option, List<string>>(
+                new OptionPropertyInfoEqualityComparer());
 
             foreach (var ((key, matchType), values) in parsedOptions)
             {
@@ -154,6 +169,38 @@ namespace ArgsMapper.Mapping
 
                 proceededOptions.Add(option);
                 groupedOptions.AddOrMergeValues(option, values);
+            }
+
+            if (_mapper.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
+            {
+                var option = _mapper.Options.GetByPosition(0);
+
+                _reflectionService.SetValue(option, model,
+                    args.TakeWhile(x => !x.IsValidOption()).ToList(),
+                    _mapper.Settings.Culture);
+
+                proceededOptions.Add(option);
+            }
+            else
+            {
+                for (short i = 0; i < args.Length; i++)
+                {
+                    if (args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    var option = _mapper.Options.GetByPosition(i);
+
+                    if (option is null)
+                    {
+                        throw new NoMatchedValueForPositionalOptionException(args[i]);
+                    }
+
+                    _reflectionService.SetValue(option, model, args[i], _mapper.Settings.Culture);
+
+                    proceededOptions.Add(option);
+                }
             }
 
             foreach (var option in _mapper.Options)

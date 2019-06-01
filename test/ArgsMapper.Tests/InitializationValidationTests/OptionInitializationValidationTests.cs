@@ -231,26 +231,56 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         }
 
         [Fact]
-        internal void AddPositionalOption_Should_Throw_UnsupportedPositionalOptionPropertyTypeException_Class()
+        internal void AddPositionalOption_Should_Throw_PositionalOptionListConflictException_PositionalOption()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options);
+
+            // Assert
+            Assert.Throws<PositionalOptionListConflictException>(() =>
+                mapper.AddPositionalOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_PositionalOptionListConflictException_PositionalOption_List()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoListStringOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options1);
+
+            // Assert
+            Assert.Throws<PositionalOptionListConflictException>(() =>
+                mapper.AddPositionalOption(x => x.Options2)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_PositionalOptionListConflictException_PositionalOption_Reverse()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
+
+            // Assert
+            Assert.Throws<PositionalOptionListConflictException>(() =>
+                mapper.AddPositionalOption(x => x.Options)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_UnsupportedOptionPropertyTypeException_Class()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
             // Assert
-            Assert.Throws<UnsupportedPositionalOptionPropertyTypeException>(() =>
+            Assert.Throws<UnsupportedOptionPropertyTypeException>(() =>
                 mapper.AddPositionalOption(x => x.Command)
-            );
-        }
-
-        [Fact]
-        internal void AddPositionalOption_Should_Throw_UnsupportedPositionalOptionPropertyTypeException_List()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneListStringOptionArgs>();
-
-            // Assert
-            Assert.Throws<UnsupportedPositionalOptionPropertyTypeException>(() =>
-                mapper.AddPositionalOption(x => x.Option)
             );
         }
     }

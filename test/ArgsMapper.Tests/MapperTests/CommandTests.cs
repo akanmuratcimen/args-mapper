@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -47,7 +47,7 @@ namespace ArgsMapper.Tests.MapperTests
             var result = mapper.Map("command", $"--{arg}");
 
             // Assert
-            Assert.Equal(expected, result.Model.Command?.Option ?? false); // todo not a good assert
+            Assert.Equal(expected, result.Model.Command?.Option ?? false);
         }
 
         [Theory]
@@ -205,6 +205,42 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void Command_PositionalOption_List_Should_Have_Arg_Values()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "foo", "bar");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.Option);
+        }
+
+        [Fact]
+        internal void Command_PositionalOption_List_Should_Have_Arg_Values_With_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.Options);
+            Assert.Equal(1, result.Model.Command.Option);
+        }
+
+        [Fact]
         internal void Command_PositionalOption_Should_Be_Matched()
         {
             // Arrange
@@ -339,6 +375,26 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.Null(result.Model.Command);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Args_Exceeded_PositionalOption_Definitions()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithThreeIntOptionsArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option1);
+                commandSettings.AddPositionalOption(x => x.Option2);
+                commandSettings.AddPositionalOption(x => x.Option3);
+            });
+
+            // Act
+            var result = mapper.Map("command", "1", "2", "3", "4");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("There is no matched 'command' option for value '4'.", result.ErrorMessage);
         }
 
         [Fact]

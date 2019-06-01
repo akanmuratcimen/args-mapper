@@ -56,6 +56,46 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void Should_Be_Use_Command_PositionalOption_List_With_Another_Command_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Contains("foo", result.Model.Command.Options);
+            Assert.Contains("bar", result.Model.Command.Options);
+
+            Assert.Equal(1, result.Model.Command.Option);
+        }
+
+        [Fact]
+        internal void Should_Be_Use_PositionalOption_List_With_Another_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options);
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Contains("foo", result.Model.Options);
+            Assert.Contains("bar", result.Model.Options);
+
+            Assert.Equal(1, result.Model.Option);
+        }
+
+        [Fact]
         internal void Should_Be_Valid_Adding_An_Command_After_An_Option()
         {
             // Arrange

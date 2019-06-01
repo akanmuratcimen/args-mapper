@@ -93,6 +93,42 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_Args_Exceeded_PositionalOption_Definitions()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
+
+            mapper.AddPositionalOption(x => x.Option1);
+            mapper.AddPositionalOption(x => x.Option2);
+            mapper.AddPositionalOption(x => x.Option3);
+
+            // Act
+            var result = mapper.Map("1", "2", "3", "4");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("There is no matched option for value '4'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_CommandPositionalOption_Value_Valid_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--foobar");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown 'command' command option 'foobar'.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_Option_Has_Not_Valid_Value()
         {
             // Arrange
@@ -158,6 +194,22 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.True(result.HasError);
             Assert.Equal("Unknown option 'option1'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_PositionalOption_Value_Valid_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("--foobar");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown option 'foobar'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -382,7 +434,39 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Positional_Option_Should_Be_Matched_Bool_Values()
+        internal void PositionalOption_List_Should_Have_Arg_Values()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("foo", "bar");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Option);
+        }
+
+        [Fact]
+        internal void PositionalOption_List_Should_Have_Arg_Values_With_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options);
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Options);
+            Assert.Equal(1, result.Model.Option);
+        }
+
+        [Fact]
+        internal void PositionalOption_Should_Be_Matched_Bool_Values()
         {
             // Arrange
             var mapper = new ArgsMapper<FourBoolOptionArgs>();
@@ -403,7 +487,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Positional_Option_Should_Be_Matched_Bool_Values_Ignore_Case()
+        internal void PositionalOption_Should_Be_Matched_Bool_Values_Ignore_Case()
         {
             // Arrange
             var mapper = new ArgsMapper<FourBoolOptionArgs>();
@@ -425,7 +509,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Positional_Option_Should_Be_Matched_Values_In_Order()
+        internal void PositionalOption_Should_Be_Matched_Values_In_Order()
         {
             // Arrange
             var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
@@ -444,7 +528,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Positional_Option_Should_Be_Matched_Values_With_Default_Values()
+        internal void PositionalOption_Should_Be_Matched_Values_With_Default_Values()
         {
             // Arrange
             var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
@@ -463,7 +547,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Positional_Option_Should_Be_Used_With_Named_Options()
+        internal void PositionalOption_Should_Be_Used_With_Named_Options()
         {
             // Arrange
             var mapper = new ArgsMapper<FourBoolOptionArgs>();

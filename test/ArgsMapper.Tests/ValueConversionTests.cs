@@ -83,6 +83,7 @@ namespace ArgsMapper.Tests
         [InlineData(typeof(ICollection<bool>), "1")]
         [InlineData(typeof(IReadOnlyCollection<bool>), "1")]
         [InlineData(typeof(IReadOnlyList<bool>), "1")]
+        [InlineData(typeof(List<object>), "0", "1")]
         internal void ValueConverterFactory_Convert_ListTypes(Type type, params string[] values)
         {
             Assert.IsAssignableFrom(type, _valueConverterFactory.Convert(values, type, CultureInfo.InvariantCulture));

@@ -34,7 +34,6 @@ namespace ArgsMapper.ValueConversion
     {
         object Convert(IList<string> values, Type type, IFormatProvider formatProvider);
         bool IsSupportedBaseType(Type type);
-        bool IsSupportedType(Type type);
     }
 
     internal class ValueConverterFactory : IValueConverterFactory
@@ -60,7 +59,8 @@ namespace ArgsMapper.ValueConversion
                 [typeof(TimeSpan)] = new TimeSpanValueConverter(),
                 [typeof(DateTime)] = new DateTimeValueConverter(),
                 [typeof(Uri)] = new UriValueConverter(),
-                [typeof(Enum)] = new EnumValueConverter()
+                [typeof(Enum)] = new EnumValueConverter(),
+                [typeof(object)] = new ObjectValueConverter()
             };
         }
 
@@ -87,12 +87,7 @@ namespace ArgsMapper.ValueConversion
         {
             return SupportedTypes.Contains(type.GetBaseType());
         }
-
-        public bool IsSupportedType(Type type)
-        {
-            return SupportedTypes.Contains(type);
-        }
-
+        
         private object CreateListWithValues(Type type, IEnumerable<string> values, IFormatProvider formatProvider)
         {
             var itemType = type.GetFirstGenericArgument();

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -27,6 +27,18 @@ namespace ArgsMapper.Tests
 {
     public class InitializationTests
     {
+        [Fact]
+        internal void Mapper_AddCommand_AddOption_AddPositionalOption_List_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+                commandSettings.AddPositionalOption(x => x.Options);
+            });
+        }
+
         [Fact]
         internal void Mapper_AddCommand_AddOption_Should_Be_Initialized_With_Property()
         {
@@ -93,6 +105,29 @@ namespace ArgsMapper.Tests
             mapper.AddCommand(x => x.Command, "command", commandSettings => {
                 commandSettings.AddOption(x => x.Option, 'o', "option", optionSettings => {
                 });
+            });
+        }
+
+        [Fact]
+        internal void Mapper_AddCommand_AddPositionalOption_List_AddOption_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+                commandSettings.AddOption(x => x.Option);
+            });
+        }
+
+        [Fact]
+        internal void Mapper_AddCommand_AddPositionalOption_List_Should_Be_Initialized_With_Property()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOption>();
+
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option);
             });
         }
 
@@ -171,6 +206,16 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void Mapper_AddOption_AddPositionalOption_List_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+            mapper.AddPositionalOption(x => x.Options);
+        }
+
+        [Fact]
         internal void Mapper_AddOption_Should_Be_Initialized_With_Property()
         {
             // Arrange
@@ -225,6 +270,25 @@ namespace ArgsMapper.Tests
 
             mapper.AddOption(x => x.Option, 'o', "option", optionSettings => {
             });
+        }
+
+        [Fact]
+        internal void Mapper_AddPositionalOption_List_AddOption_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options);
+            mapper.AddOption(x => x.Option);
+        }
+
+        [Fact]
+        internal void Mapper_AddPositionalOption_List_Should_Be_Initialized_With_Property()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
         }
 
         [Fact]

@@ -21,39 +21,33 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.OptionValidations.Validators;
+using System.Linq;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 
-namespace ArgsMapper.InitializationValidations.OptionValidations
+namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
 {
-    internal interface IOptionValidationService
+    internal class CommandPositionalOptionListConflictValidator : ICommandOptionValidator
     {
-        void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class;
-    }
-
-    internal class OptionValidationService : IOptionValidationService
-    {
-        public OptionValidationService()
+        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
+            Option commandOption) where T : class where TProperty : class
         {
-            Validators = new List<IOptionValidator> {
-                new OptionPropertyTypeValidator(),
-                new OptionLongNameValidator(),
-                new OptionLongNameDuplicationValidator(),
-                new OptionShortNameValidator(),
-                new OptionShortNameDuplicationValidator(),
-                new PositionalOptionAndCommandConflictValidator(),
-                new PositionalOptionListConflictValidator()
-            };
-        }
-
-        private IEnumerable<IOptionValidator> Validators { get; }
-
-        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
-        {
-            foreach (var validator in Validators)
+            // ReSharper disable once InvertIf
+            if (commandOption.IsPositionalOption)
             {
-                validator.Validate(mapper, option);
+                if (commandSettings.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
+                {
+                    throw new CommandPositionalOptionListConflictException();
+                }
+
+                // ReSharper disable once InvertIf
+                if (commandOption.Type.IsList())
+                {
+                    if (commandSettings.Options.Any(x => x.IsPositionalOption))
+                    {
+                        throw new CommandPositionalOptionListConflictException();
+                    }
+                }
             }
         }
     }

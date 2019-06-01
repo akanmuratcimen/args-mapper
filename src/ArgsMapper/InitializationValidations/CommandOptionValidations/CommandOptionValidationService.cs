@@ -42,7 +42,8 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
                 new CommandOptionLongNameValidator(),
                 new CommandOptionLongNameDuplicationValidator(),
                 new CommandOptionShortNameDuplicationValidator(),
-                new CommandOptionShortNameValidator()
+                new CommandOptionShortNameValidator(),
+                new CommandPositionalOptionListConflictValidator()
             };
         }
 
