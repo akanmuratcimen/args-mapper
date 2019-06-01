@@ -316,6 +316,17 @@ namespace ArgsMapper.Tests
         public Stack<int> StackOption { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
+    internal class ThereIsNoDefaultConstructor
+    {
+        public ThereIsNoDefaultConstructor(bool option)
+        {
+            Option = option;
+        }
+
+        public bool Option { get; set; }
+    }
+
     internal enum SampleEnum
     {
         Value1,
