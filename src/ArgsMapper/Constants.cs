@@ -32,8 +32,8 @@ namespace ArgsMapper
 
         internal static readonly char[] AssignmentOperators = { '=', ':', ' ' };
 
-        internal static readonly char[] HelpOptionAliases = { '?', 'h' };
-        internal static readonly string[] HelpOptionNames = { "help" };
+        internal static readonly char[] HelpOptionShortNames = { '?', 'h' };
+        internal static readonly string[] HelpOptionLongNames = { "help" };
         internal static readonly string HelpOptionString = "-h|--help";
 
         internal static readonly char[] VersionOptionShortNames = { 'v' };
@@ -48,6 +48,11 @@ namespace ArgsMapper
                 {
                     yield return shortName;
                 }
+
+                foreach (var shortName in HelpOptionShortNames)
+                {
+                    yield return shortName;
+                }
             }
         }
 
@@ -56,6 +61,11 @@ namespace ArgsMapper
             get
             {
                 foreach (var longName in VersionOptionLongNames)
+                {
+                    yield return longName;
+                }
+
+                foreach (var longName in HelpOptionLongNames)
                 {
                     yield return longName;
                 }

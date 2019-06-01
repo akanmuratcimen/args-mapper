@@ -45,6 +45,21 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         }
 
         [Theory]
+        [InlineData("opt:ion")]
+        [InlineData("opt=ion")]
+        [InlineData("opt ion")]
+        internal void AddPositionalOption_Should_Throw_InvalidOptionLongNameException(string optionLongName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<InvalidOptionLongNameException>(() =>
+                mapper.AddPositionalOption(x => x.Option, optionLongName)
+            );
+        }
+
+        [Theory]
         [InlineData('0')]
         [InlineData('-')]
         [InlineData('/')]
@@ -64,6 +79,7 @@ namespace ArgsMapper.Tests.InitializationValidationTests
 
         [Theory]
         [InlineData("version")]
+        [InlineData("help")]
         internal void AddOption_Should_Throw_ReservedOptionLongNameException(string optionLongName)
         {
             // Arrange
@@ -76,7 +92,22 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         }
 
         [Theory]
+        [InlineData("version")]
+        [InlineData("help")]
+        internal void AddPositionalOption_Should_Throw_ReservedOptionLongNameException(string optionLongName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<ReservedOptionLongNameException>(() =>
+                mapper.AddPositionalOption(x => x.Option, optionLongName)
+            );
+        }
+
+        [Theory]
         [InlineData('v')]
+        [InlineData('h')]
         internal void AddOption_Should_Throw_ReservedOptionShortNameException(char optionShortName)
         {
             // Arrange
@@ -213,6 +244,32 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             // Assert
             Assert.Throws<ArgumentException>(() =>
                 mapper.AddPositionalOption(x => x.Option())
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_OptionLongNameAlreadyExistsException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
+
+            // Assert
+            Assert.Throws<OptionLongNameAlreadyExistsException>(() =>
+                mapper.AddPositionalOption(x => x.Option)
+            );
+        }
+
+        [Fact]
+        internal void AddPositionalOption_Should_Throw_OptionLongNameRequiredException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<OptionLongNameRequiredException>(() =>
+                mapper.AddPositionalOption(x => x.Option, string.Empty)
             );
         }
 
