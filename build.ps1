@@ -1,7 +1,6 @@
 Push-Location $PSScriptRoot
 
-& dotnet restore --no-cache
-& dotnet build -c Release
+& dotnet build --no-restore -c Release
 
 & dotnet test test/ArgsMapper.Tests/ArgsMapper.Tests.csproj -c Debug `
     /p:CollectCoverage=true `
