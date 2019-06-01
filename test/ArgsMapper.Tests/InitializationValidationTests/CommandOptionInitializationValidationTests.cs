@@ -31,6 +31,7 @@ namespace ArgsMapper.Tests.InitializationValidationTests
     {
         [Theory]
         [InlineData("version")]
+        [InlineData("help")]
         internal void AddOption_Should_Throw_ReservedCommandOptionLongNameException(string optionLongName)
         {
             // Arrange
@@ -45,7 +46,24 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         }
 
         [Theory]
+        [InlineData("version")]
+        [InlineData("help")]
+        internal void AddPositionalOption_Should_Throw_ReservedCommandOptionLongNameException(string optionLongName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                Assert.Throws<ReservedCommandOptionLongNameException>(() =>
+                    commandSettings.AddPositionalOption(x => x.Option, optionLongName)
+                );
+            });
+        }
+
+        [Theory]
         [InlineData('v')]
+        [InlineData('h')]
         internal void AddOption_Should_Throw_ReservedCommandOptionShortNameException(char optionShortName)
         {
             // Arrange
@@ -72,6 +90,23 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             mapper.AddCommand(x => x.Command, "command", commandSettings => {
                 Assert.Throws<InvalidCommandOptionLongNameException>(() =>
                     commandSettings.AddOption(x => x.Option, optionLongName)
+                );
+            });
+        }
+
+        [Theory]
+        [InlineData("opt:ion")]
+        [InlineData("opt=ion")]
+        [InlineData("opt ion")]
+        internal void AddCommand_AddPositionalOption_Should_Throw_InvalidCommandOptionLongNameException(string optionLongName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                Assert.Throws<InvalidCommandOptionLongNameException>(() =>
+                    commandSettings.AddPositionalOption(x => x.Option, optionLongName)
                 );
             });
         }
@@ -240,6 +275,36 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             Assert.Throws<ArgumentException>(() =>
                 mapper.AddCommand(x => x.Command, commandSettings => {
                     commandSettings.AddPositionalOption(x => x.Option);
+                })
+            );
+        }
+
+        [Fact]
+        internal void AddCommand_AddPositionalOption_Should_Throw_CommandOptionLongNameAlreadyExistsException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, "command", commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option, "option");
+
+                Assert.Throws<CommandOptionLongNameAlreadyExistsException>(() =>
+                    commandSettings.AddPositionalOption(x => x.Option, "option")
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddPositionalOption_Should_Throw_CommandOptionLongNameRequiredException()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            Assert.Throws<CommandOptionLongNameRequiredException>(() =>
+                mapper.AddCommand(x => x.Command, commandSettings => {
+                    commandSettings.AddPositionalOption(x => x.Option, string.Empty);
                 })
             );
         }

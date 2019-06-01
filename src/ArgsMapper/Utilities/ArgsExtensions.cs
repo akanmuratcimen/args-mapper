@@ -180,9 +180,9 @@ namespace ArgsMapper.Utilities
         {
             if (arg.Length == 2)
             {
-                foreach (var alias in Constants.HelpOptionAliases)
+                foreach (var shortName in Constants.HelpOptionShortNames)
                 {
-                    if (arg == alias.AddShortNamePrefix())
+                    if (arg == shortName.AddShortNamePrefix())
                     {
                         return true;
                     }
@@ -191,9 +191,9 @@ namespace ArgsMapper.Utilities
                 return false;
             }
 
-            foreach (var name in Constants.HelpOptionNames)
+            foreach (var longName in Constants.HelpOptionLongNames)
             {
-                if (arg == name.AddLongNamePrefix())
+                if (arg == longName.AddLongNamePrefix())
                 {
                     return true;
                 }

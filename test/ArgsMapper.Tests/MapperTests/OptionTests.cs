@@ -181,6 +181,42 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_PositionalOption_Is_Required()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option, optionSettings => {
+                optionSettings.IsRequired = true;
+            });
+
+            // Act
+            var result = mapper.Map();
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Required option 'option' is missing.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_PositionalOption_List_Is_Required()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option, optionSettings => {
+                optionSettings.IsRequired = true;
+            });
+
+            // Act
+            var result = mapper.Map();
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Required option 'option' is missing.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_Option_Not_Defined()
         {
             // Arrange

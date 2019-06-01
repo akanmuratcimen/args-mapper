@@ -397,7 +397,6 @@ namespace ArgsMapper
             Expression<Func<T, TOption>> propertySelector,
             Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
-            where TOption : IComparable, IConvertible, IEquatable<TOption>
         {
             AddOption(mapper, propertySelector, null, null, true, optionSettings);
         }
@@ -416,7 +415,6 @@ namespace ArgsMapper
         public static void AddPositionalOption<T, TOption>(this ArgsMapper<T> mapper,
             Expression<Func<T, TOption>> propertySelector, string longName)
             where T : class
-            where TOption : IComparable, IConvertible, IEquatable<TOption>
         {
             AddOption(mapper, propertySelector, null, longName, true, null);
         }
@@ -437,7 +435,6 @@ namespace ArgsMapper
             Expression<Func<T, TOption>> propertySelector, string longName,
             Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
-            where TOption : IComparable, IConvertible, IEquatable<TOption>
         {
             AddOption(mapper, propertySelector, null, longName, true, optionSettings);
         }

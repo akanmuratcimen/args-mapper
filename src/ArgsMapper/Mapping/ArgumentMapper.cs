@@ -83,8 +83,6 @@ namespace ArgsMapper.Mapping
 
             if (command.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
-                var option = command.Options.GetByPosition(0);
-
                 var listPositionalOptionValues = new List<string>();
 
                 for (short i = 1; i < args.Length; i++)
@@ -97,10 +95,15 @@ namespace ArgsMapper.Mapping
                     listPositionalOptionValues.Add(args[i]);
                 }
 
-                _reflectionService.SetValue(option, commandInstance,
-                    listPositionalOptionValues, _mapper.Settings.Culture);
+                if (listPositionalOptionValues.Any())
+                {
+                    var option = command.Options.GetByPosition(0);
 
-                proceededOptions.Add(option);
+                    _reflectionService.SetValue(option, commandInstance,
+                        listPositionalOptionValues, _mapper.Settings.Culture);
+
+                    proceededOptions.Add(option);
+                }
             }
             else
             {
@@ -173,13 +176,17 @@ namespace ArgsMapper.Mapping
 
             if (_mapper.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
-                var option = _mapper.Options.GetByPosition(0);
+                var listPositionalOptionValues = args.TakeWhile(x => !x.IsValidOption()).ToList();
 
-                _reflectionService.SetValue(option, model,
-                    args.TakeWhile(x => !x.IsValidOption()).ToList(),
-                    _mapper.Settings.Culture);
+                if (listPositionalOptionValues.Any())
+                {
+                    var option = _mapper.Options.GetByPosition(0);
 
-                proceededOptions.Add(option);
+                    _reflectionService.SetValue(option, model,
+                        listPositionalOptionValues, _mapper.Settings.Culture);
+
+                    proceededOptions.Add(option);
+                }
             }
             else
             {

@@ -21,12 +21,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System;
 using Xunit;
 
 namespace ArgsMapper.Tests
 {
     public class ScenarioTests
     {
+        [Fact]
+        internal void Mapper_Should_Throw_MissingMethodException_When_There_Is_No_Default_Constructor()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThereIsNoDefaultConstructor>();
+
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            // Assert
+            Assert.Throws<MissingMethodException>(() => {
+                mapper.Map();
+            });
+        }
+
         [Fact]
         internal void Output_Should_Be_Unknown_Command_Error_When_Input_Is_Not_Valid_Option()
         {
