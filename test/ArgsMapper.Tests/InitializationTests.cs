@@ -292,6 +292,16 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void Mapper_AddPositionalOption_List_Should_Be_Initialized_With_Settings()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options, optionSettings => {
+            });
+        }
+
+        [Fact]
         internal void Mapper_AddPositionalOption_Should_Be_Initialized_With_Property()
         {
             // Arrange

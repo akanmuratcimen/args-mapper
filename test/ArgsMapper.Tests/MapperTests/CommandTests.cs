@@ -454,6 +454,46 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_Command_PositionalOption_Is_Required()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option, optionSettings => {
+                    optionSettings.IsRequired = true;
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Required 'command' command option 'option' is missing.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Command_PositionalOption_List_Is_Required()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option, optionSettings => {
+                    optionSettings.IsRequired = true;
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Required 'command' command option 'option' is missing.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_CommandOption_Has_Not_Valid_Value()
         {
             // Arrange
