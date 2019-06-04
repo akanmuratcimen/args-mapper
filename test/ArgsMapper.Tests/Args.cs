@@ -327,6 +327,24 @@ namespace ArgsMapper.Tests
         public bool Option { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
+    internal class TwoLevelNestedCommandArgs
+    {
+        public OneCommandWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class ThreeLevelNestedCommandArgs
+    {
+        public TwoLevelNestedCommandArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class FourLevelNestedCommandArgs
+    {
+        public ThreeLevelNestedCommandArgs Command { get; set; }
+    }
+
     internal enum SampleEnum
     {
         Value1,

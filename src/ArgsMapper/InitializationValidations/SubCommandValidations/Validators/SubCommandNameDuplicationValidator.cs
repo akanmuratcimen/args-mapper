@@ -21,35 +21,27 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.CommandValidations.Validators;
+using System.Linq;
 using ArgsMapper.Models;
 
-namespace ArgsMapper.InitializationValidations.CommandValidations
+namespace ArgsMapper.InitializationValidations.SubCommandValidations.Validators
 {
-    internal interface ICommandValidationService
+    internal class SubCommandNameDuplicationValidator : ISubCommandValidator
     {
-        void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class;
-    }
+        private readonly IArgsMapperSettings _argsMapperSettings;
 
-    internal class CommandValidationService : ICommandValidationService
-    {
-        public CommandValidationService(IArgsMapperSettings argsMapperSettings)
+        public SubCommandNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
         {
-            Validators = new List<ICommandValidator> {
-                new CommandNameValidator(),
-                new CommandNameDuplicationValidator(argsMapperSettings),
-                new CommandAndPositionalOptionConflictValidator()
-            };
+            _argsMapperSettings = argsMapperSettings;
         }
 
-        private IEnumerable<ICommandValidator> Validators { get; }
-
-        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
+            where TCommand : class
         {
-            foreach (var validator in Validators)
+            if (commandSettings.SubCommands.Any(x => string.Equals(x.Name,
+                command.Name, _argsMapperSettings.StringComparison)))
             {
-                validator.Validate(mapper, command);
+                throw new SubCommandNameAlreadyExistsException(command.Name);
             }
         }
     }

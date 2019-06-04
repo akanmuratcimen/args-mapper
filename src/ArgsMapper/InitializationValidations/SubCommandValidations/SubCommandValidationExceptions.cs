@@ -21,36 +21,40 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.CommandValidations.Validators;
-using ArgsMapper.Models;
+using System;
+using System.Reflection;
 
-namespace ArgsMapper.InitializationValidations.CommandValidations
+namespace ArgsMapper.InitializationValidations.SubCommandValidations
 {
-    internal interface ICommandValidationService
+    public class SubCommandConflictsWithPositionalOptionException : Exception
     {
-        void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class;
+        public SubCommandConflictsWithPositionalOptionException() :
+            base("Commands cannot be used while using a positional option.")
+        {
+        }
     }
 
-    internal class CommandValidationService : ICommandValidationService
+    public class InvalidSubCommandNameException : Exception
     {
-        public CommandValidationService(IArgsMapperSettings argsMapperSettings)
+        public InvalidSubCommandNameException(string name) :
+            base($"'{name}' has invalid characters.")
         {
-            Validators = new List<ICommandValidator> {
-                new CommandNameValidator(),
-                new CommandNameDuplicationValidator(argsMapperSettings),
-                new CommandAndPositionalOptionConflictValidator()
-            };
         }
+    }
 
-        private IEnumerable<ICommandValidator> Validators { get; }
-
-        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
+    public class SubCommandNameRequiredException : Exception
+    {
+        public SubCommandNameRequiredException(MemberInfo propertyInfo) :
+            base($"'{propertyInfo.Name}' command name can not be empty.")
         {
-            foreach (var validator in Validators)
-            {
-                validator.Validate(mapper, command);
-            }
+        }
+    }
+
+    public class SubCommandNameAlreadyExistsException : Exception
+    {
+        public SubCommandNameAlreadyExistsException(string name) :
+            base($"A command with '{name}' name already exists.")
+        {
         }
     }
 }

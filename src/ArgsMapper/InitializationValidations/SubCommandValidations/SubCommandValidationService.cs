@@ -22,34 +22,35 @@
  */
 
 using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.CommandValidations.Validators;
+using ArgsMapper.InitializationValidations.SubCommandValidations.Validators;
 using ArgsMapper.Models;
 
-namespace ArgsMapper.InitializationValidations.CommandValidations
+namespace ArgsMapper.InitializationValidations.SubCommandValidations
 {
-    internal interface ICommandValidationService
+    internal interface ISubCommandValidationService
     {
-        void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class;
+        void Validate<T>(IArgsCommandSettings<T> commandSettings, Command command) where T : class;
     }
 
-    internal class CommandValidationService : ICommandValidationService
+    internal class SubCommandValidationService : ISubCommandValidationService
     {
-        public CommandValidationService(IArgsMapperSettings argsMapperSettings)
+        public SubCommandValidationService(IArgsMapperSettings argsMapperSettings)
         {
-            Validators = new List<ICommandValidator> {
-                new CommandNameValidator(),
-                new CommandNameDuplicationValidator(argsMapperSettings),
-                new CommandAndPositionalOptionConflictValidator()
+            Validators = new List<ISubCommandValidator> {
+                new SubCommandNameValidator(),
+                new SubCommandNameDuplicationValidator(argsMapperSettings),
+                new SubCommandAndPositionalOptionConflictValidator()
             };
         }
 
-        private IEnumerable<ICommandValidator> Validators { get; }
+        private IEnumerable<ISubCommandValidator> Validators { get; }
 
-        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
+            where TCommand : class
         {
             foreach (var validator in Validators)
             {
-                validator.Validate(mapper, command);
+                validator.Validate(commandSettings, command);
             }
         }
     }

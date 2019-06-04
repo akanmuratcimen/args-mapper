@@ -28,9 +28,16 @@ namespace ArgsMapper.InitializationValidations.CommandValidations.Validators
 {
     internal class CommandNameDuplicationValidator : ICommandValidator
     {
+        private readonly IArgsMapperSettings _argsMapperSettings;
+
+        public CommandNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
+        {
+            _argsMapperSettings = argsMapperSettings;
+        }
+
         public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
         {
-            if (mapper.Commands.Any(x => string.Equals(x.Name, command.Name, mapper.Settings.StringComparison)))
+            if (mapper.Commands.Any(x => string.Equals(x.Name, command.Name, _argsMapperSettings.StringComparison)))
             {
                 throw new CommandNameAlreadyExistsException(command.Name);
             }

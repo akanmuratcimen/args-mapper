@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
+using ArgsMapper.InitializationValidations.SubCommandValidations;
 using ArgsMapper.Models;
 using ArgsMapper.PageBuilding;
 using ArgsMapper.ValueConversion;
@@ -36,6 +37,7 @@ namespace ArgsMapper
         bool IsDisabled { get; set; }
         ICommandPageBuilder<TCommand> Usage { get; }
         List<Option> Options { get; }
+        List<Command> SubCommands { get; }
     }
 
     public class ArgsCommandSettings<TCommand> : IArgsCommandSettings<TCommand> where TCommand : class
@@ -44,28 +46,34 @@ namespace ArgsMapper
             IArgsMapperSettings argsMapperSettings,
             ICommandOptionValidationService commandOptionValidationService,
             ICommandValidationService commandValidationService,
+            ISubCommandValidationService subCommandValidationService,
             IOptionValidationService optionValidationService,
             IValueConverterFactory valueConverterFactory)
         {
             ArgsMapperSettings = argsMapperSettings;
             CommandOptionValidationService = commandOptionValidationService;
             CommandValidationService = commandValidationService;
+            SubCommandValidationService = subCommandValidationService;
             OptionValidationService = optionValidationService;
             ValueConverterFactory = valueConverterFactory;
 
             Options = new List<Option>();
+            SubCommands = new List<Command>();
             Usage = new CommandPageBuilder<TCommand>(Options);
         }
 
         internal ICommandOptionValidationService CommandOptionValidationService { get; }
         internal ICommandValidationService CommandValidationService { get; }
+        internal ISubCommandValidationService SubCommandValidationService { get; }
         internal IOptionValidationService OptionValidationService { get; }
         internal IValueConverterFactory ValueConverterFactory { get; }
         internal IArgsMapperSettings ArgsMapperSettings { get; }
 
         List<Option> IArgsCommandSettings<TCommand>.Options => Options;
+        List<Command> IArgsCommandSettings<TCommand>.SubCommands => SubCommands;
 
         internal List<Option> Options { get; }
+        internal List<Command> SubCommands { get; }
 
         public bool IsDisabled { get; set; }
         public ICommandPageBuilder<TCommand> Usage { get; }

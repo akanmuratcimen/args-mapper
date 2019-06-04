@@ -178,6 +178,69 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void Mapper_AddCommand_AddSubCommand_AddSubCommand_AddSubCommand_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<FourLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddSubCommand(x => x.Command, level2SubCommandSettings => {
+                        level2SubCommandSettings.AddSubCommand(x => x.Command);
+                    });
+                });
+            });
+        }
+
+        [Fact]
+        internal void Mapper_AddCommand_AddSubCommand_AddSubCommand_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddSubCommand(x => x.Command);
+                });
+            });
+        }
+
+        [Fact]
+        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command);
+            });
+        }
+
+        [Fact]
+        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized_With_Property_LongName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, "command");
+            });
+        }
+
+        [Fact]
+        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized_With_Property_LongName_Settings()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, "command", subCommandSettings => {
+                    subCommandSettings.IsDisabled = false;
+                });
+            });
+        }
+
+        [Fact]
         internal void Mapper_AddCommand_Should_Be_Initialized_With_Property()
         {
             // Arrange

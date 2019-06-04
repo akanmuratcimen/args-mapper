@@ -30,6 +30,48 @@ namespace ArgsMapper
 {
     public static class ArgsCommandSettingsExtensions
     {
+        public static void AddSubCommand<TCommand, TSubCommand>(
+            this ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TSubCommand>> propertySelector)
+            where TCommand : class
+            where TSubCommand : class
+        {
+            AddSubCommand(commandSettings, propertySelector, null, null);
+        }
+
+        public static void AddSubCommand<TCommand, TSubCommand>(
+            this ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TSubCommand>> propertySelector,
+            Action<ArgsCommandSettings<TSubCommand>> subCommandSettings)
+            where TCommand : class
+            where TSubCommand : class
+        {
+            AddSubCommand(commandSettings, propertySelector, null, subCommandSettings);
+        }
+
+        public static void AddSubCommand<TCommand, TSubCommand>(
+            this ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TSubCommand>> propertySelector, string name)
+            where TCommand : class
+            where TSubCommand : class
+        {
+            AddSubCommand(commandSettings, propertySelector, name, null);
+        }
+
+        public static void AddSubCommand<TCommand, TSubCommand>(
+            this ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TSubCommand>> propertySelector,
+            string name, Action<ArgsCommandSettings<TSubCommand>> subCommandSettings)
+            where TCommand : class
+            where TSubCommand : class
+        {
+            var command = SubCommandInitializer.Initialize(commandSettings, 
+                propertySelector, name, subCommandSettings);
+
+            commandSettings.SubCommandValidationService.Validate(commandSettings, command);
+            commandSettings.SubCommands.Add(command);
+        }
+
         public static void AddOption<TCommand, TOption>(
             this ArgsCommandSettings<TCommand> commandSettings,
             Expression<Func<TCommand, TOption>> propertySelector) where TCommand : class
