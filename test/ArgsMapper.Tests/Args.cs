@@ -352,6 +352,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneBoolOptionAndOneBoolOptionArgs
+    {
+        public OneCommandWithOneBoolOptionAndOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class ThreeLevelNestedCommandArgs
     {
         public TwoLevelNestedCommandArgs Command { get; set; }

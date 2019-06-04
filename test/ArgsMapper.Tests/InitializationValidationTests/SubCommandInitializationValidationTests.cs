@@ -33,7 +33,7 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         [InlineData("command:")]
         [InlineData("command=")]
         [InlineData("command ")]
-        internal void AddCommand_Should_Throw_InvalidCommandNameException(string commandName)
+        internal void AddCommand_AddSubCommand_Should_Throw_InvalidCommandNameException(string commandName)
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
