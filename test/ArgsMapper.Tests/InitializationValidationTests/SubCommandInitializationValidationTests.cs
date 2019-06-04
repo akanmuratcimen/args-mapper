@@ -21,6 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System;
 using ArgsMapper.InitializationValidations.SubCommandValidations;
 using Xunit;
 
@@ -28,6 +29,65 @@ namespace ArgsMapper.Tests.InitializationValidationTests
 {
     public class SubCommandInitializationValidationTests
     {
+        [Theory]
+        [InlineData("command:")]
+        [InlineData("command=")]
+        [InlineData("command ")]
+        internal void AddCommand_Should_Throw_InvalidCommandNameException(string commandName)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                Assert.Throws<InvalidSubCommandNameException>(() =>
+                    commandSettings.AddSubCommand(x => x.Command, commandName)
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddSubCommand_Should_Throw_ArgumentException_When_Property_Has_No_Setter()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneCommandWithoutSetterWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                Assert.Throws<ArgumentException>(() =>
+                    commandSettings.AddSubCommand(x => x.Command)
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddSubCommand_Should_Throw_ArgumentException_When_Property_Internal()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneInternalCommandWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                Assert.Throws<ArgumentException>(() =>
+                    commandSettings.AddSubCommand(x => x.Command)
+                );
+            });
+        }
+
+        [Fact]
+        internal void AddCommand_AddSubCommand_Should_Throw_ArgumentException_When_Property_Method()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneCommandMethodWithOneBoolOptionArgs>();
+
+            // Assert
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                Assert.Throws<ArgumentException>(() =>
+                    commandSettings.AddSubCommand(x => x.Command())
+                );
+            });
+        }
+
         [Fact]
         internal void AddCommand_AddSubCommand_Should_Throw_CommandNameAlreadyExistsException()
         {
@@ -51,11 +111,11 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             // Assert
-            Assert.Throws<SubCommandNameRequiredException>(() =>
-                mapper.AddCommand(x => x.Command, commandSettings => {
-                    commandSettings.AddSubCommand(x => x.Command, string.Empty);
-                })
-            );
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                Assert.Throws<SubCommandNameRequiredException>(() =>
+                    commandSettings.AddSubCommand(x => x.Command, string.Empty)
+                );
+            });
         }
     }
 }

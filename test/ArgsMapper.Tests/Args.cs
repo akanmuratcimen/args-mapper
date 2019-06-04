@@ -334,6 +334,24 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandMethodWithOneBoolOptionArgs
+    {
+        public OneCommandMethodWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneInternalCommandWithOneBoolOptionArgs
+    {
+        public OneInternalCommandWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithoutSetterWithOneBoolOptionArgs
+    {
+        public OneCommandWithoutSetterWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class ThreeLevelNestedCommandArgs
     {
         public TwoLevelNestedCommandArgs Command { get; set; }

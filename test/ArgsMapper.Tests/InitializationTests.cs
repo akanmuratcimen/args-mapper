@@ -241,6 +241,19 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized_With_Property_Settings()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.IsDisabled = false;
+                });
+            });
+        }
+
+        [Fact]
         internal void Mapper_AddCommand_Should_Be_Initialized_With_Property()
         {
             // Arrange
