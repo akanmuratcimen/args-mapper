@@ -35,13 +35,13 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
             _argsMapperSettings = argsMapperSettings;
         }
 
-        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption)
             where TCommand : class
         {
             if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                option.LongName, _argsMapperSettings.StringComparison)))
+                commandOption.LongName, _argsMapperSettings.StringComparison)))
             {
-                throw new CommandOptionLongNameAlreadyExistsException(option.LongName);
+                throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
             }
         }
     }

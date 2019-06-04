@@ -32,10 +32,10 @@ namespace ArgsMapper.Mapping
 {
     internal class ArgumentMapper<T> where T : class
     {
-        private readonly ArgsMapper<T> _mapper;
+        private readonly IArgsMapper<T> _mapper;
         private readonly IReflectionService _reflectionService;
 
-        internal ArgumentMapper(ArgsMapper<T> mapper, IReflectionService reflectionService)
+        internal ArgumentMapper(IArgsMapper<T> mapper, IReflectionService reflectionService)
         {
             _mapper = mapper;
             _reflectionService = reflectionService;

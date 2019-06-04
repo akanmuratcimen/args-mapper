@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class PositionalOptionAndCommandConflictValidator : IOptionValidator
     {
-        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
         {
             if (option.IsPositionalOption && mapper.Commands.Any())
             {

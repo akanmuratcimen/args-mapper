@@ -35,12 +35,12 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
             _valueConverterFactory = valueConverterFactory;
         }
 
-        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption)
             where TCommand : class
         {
-            if (!_valueConverterFactory.IsSupportedBaseType(option.Type))
+            if (!_valueConverterFactory.IsSupportedBaseType(commandOption.Type))
             {
-                throw new UnsupportedCommandOptionPropertyTypeException(option.Type);
+                throw new UnsupportedCommandOptionPropertyTypeException(commandOption.Type);
             }
         }
     }

@@ -27,6 +27,6 @@ namespace ArgsMapper.InitializationValidations.OptionValidations
 {
     internal interface IOptionValidator
     {
-        void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class;
+        void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class;
     }
 }

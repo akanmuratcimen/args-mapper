@@ -30,7 +30,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
 {
     internal interface ICommandOptionValidationService
     {
-        void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option) 
+        void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
             where TCommand : class;
     }
 
@@ -52,12 +52,12 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
 
         private IEnumerable<ICommandOptionValidator> Validators { get; }
 
-        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option) 
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
             where TCommand : class
         {
             foreach (var validator in Validators)
             {
-                validator.Validate(commandSettings, option);
+                validator.Validate(commandSettings, commandOption);
             }
         }
     }

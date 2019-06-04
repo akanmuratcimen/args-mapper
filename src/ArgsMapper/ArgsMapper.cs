@@ -36,7 +36,16 @@ using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
-    public sealed class ArgsMapper<T> where T : class
+    internal interface IArgsMapper<T> where T : class
+    {
+        IList<Command> Commands { get; }
+        IList<Option> Options { get; }
+        IGeneralPageBuilder<T> Introduction { get; }
+        IGeneralPageBuilder<T> Usage { get; }
+        IArgsMapperSettings Settings { get; }
+    }
+
+    public sealed class ArgsMapper<T> : IArgsMapper<T> where T : class
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
@@ -48,15 +57,12 @@ namespace ArgsMapper
         {
             Introduction = new GeneralPageBuilder<T>(Commands, Options);
             Usage = new GeneralPageBuilder<T>(Commands, Options);
-            OptionValidationService = new OptionValidationService();
-            CommandValidationService = new CommandValidationService();
             ValueConverterFactory = new ValueConverterFactory();
+            OptionValidationService = new OptionValidationService(ValueConverterFactory);
+            CommandValidationService = new CommandValidationService();
             ReflectionService = new ReflectionService(ValueConverterFactory);
             CommandOptionValidationService = new CommandOptionValidationService(ValueConverterFactory, Settings);
         }
-
-        public IGeneralPageBuilder<T> Introduction { get; }
-        public IGeneralPageBuilder<T> Usage { get; }
 
         internal List<Command> Commands { get; } = new List<Command>();
         internal List<Option> Options { get; } = new List<Option>();
@@ -65,6 +71,13 @@ namespace ArgsMapper
         ///     Settings of the mapper.
         /// </summary>
         public ArgsMapperSettings Settings { get; } = new ArgsMapperSettings();
+
+        public IGeneralPageBuilder<T> Introduction { get; }
+        public IGeneralPageBuilder<T> Usage { get; }
+
+        IList<Command> IArgsMapper<T>.Commands => Commands;
+        IList<Option> IArgsMapper<T>.Options => Options;
+        IArgsMapperSettings IArgsMapper<T>.Settings => Settings;
 
         public void Execute(string[] args, Action<T> onSuccess,
             Action<ArgsMapperErrorResult> onError = null)

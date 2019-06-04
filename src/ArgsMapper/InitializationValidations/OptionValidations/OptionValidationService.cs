@@ -24,20 +24,21 @@
 using System.Collections.Generic;
 using ArgsMapper.InitializationValidations.OptionValidations.Validators;
 using ArgsMapper.Models;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations
 {
     internal interface IOptionValidationService
     {
-        void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class;
+        void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class;
     }
 
     internal class OptionValidationService : IOptionValidationService
     {
-        public OptionValidationService()
+        public OptionValidationService(IValueConverterFactory valueConverterFactory)
         {
             Validators = new List<IOptionValidator> {
-                new OptionPropertyTypeValidator(),
+                new OptionPropertyTypeValidator(valueConverterFactory),
                 new OptionLongNameValidator(),
                 new OptionLongNameDuplicationValidator(),
                 new OptionShortNameValidator(),
@@ -49,7 +50,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations
 
         private IEnumerable<IOptionValidator> Validators { get; }
 
-        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
         {
             foreach (var validator in Validators)
             {
