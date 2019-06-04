@@ -79,9 +79,9 @@ namespace ArgsMapper
             AddOption(commandSettings, propertySelector, shortName, longName, false, optionSettings);
         }
 
-        private static void AddOption<TCommand, TProperty>(this ArgsCommandSettings<TCommand> commandSettings,
-            Expression<Func<TCommand, TProperty>> propertySelector, char? shortName, string longName,
-            bool isPositional, Action<ArgsOptionSettings<TProperty>> optionSettings)
+        private static void AddOption<TCommand, TOption>(this ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TOption>> propertySelector, char? shortName, string longName,
+            bool isPositional, Action<ArgsOptionSettings<TOption>> optionSettings)
             where TCommand : class
         {
             ushort? position = null;
@@ -95,7 +95,6 @@ namespace ArgsMapper
                 position, optionSettings, commandSettings.ArgsMapperSettings.Culture);
 
             commandSettings.CommandOptionValidationService.Validate(commandSettings, commandOption);
-
             commandSettings.Options.Add(commandOption);
         }
 

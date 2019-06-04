@@ -29,11 +29,11 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandPositionalOptionListConflictValidator : ICommandOptionValidator
     {
-        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
             where TCommand : class
         {
             // ReSharper disable once InvertIf
-            if (commandOption.IsPositionalOption)
+            if (option.IsPositionalOption)
             {
                 if (commandSettings.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
                 {
@@ -41,7 +41,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
                 }
 
                 // ReSharper disable once InvertIf
-                if (commandOption.Type.IsList())
+                if (option.Type.IsList())
                 {
                     if (commandSettings.Options.Any(x => x.IsPositionalOption))
                     {

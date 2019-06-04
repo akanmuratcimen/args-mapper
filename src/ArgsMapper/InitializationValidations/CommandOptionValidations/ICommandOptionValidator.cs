@@ -27,7 +27,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
 {
     internal interface ICommandOptionValidator
     {
-        void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
+        void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
             where TCommand : class;
     }
 }

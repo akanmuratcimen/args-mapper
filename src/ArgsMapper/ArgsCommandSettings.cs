@@ -31,7 +31,14 @@ using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
-    public class ArgsCommandSettings<TCommand> where TCommand : class
+    internal interface IArgsCommandSettings<TCommand> where TCommand : class
+    {
+        bool IsDisabled { get; set; }
+        ICommandPageBuilder<TCommand> Usage { get; }
+        List<Option> Options { get; }
+    }
+
+    public class ArgsCommandSettings<TCommand> : IArgsCommandSettings<TCommand> where TCommand : class
     {
         internal ArgsCommandSettings(
             IArgsMapperSettings argsMapperSettings,
@@ -55,6 +62,8 @@ namespace ArgsMapper
         internal IOptionValidationService OptionValidationService { get; }
         internal IValueConverterFactory ValueConverterFactory { get; }
         internal IArgsMapperSettings ArgsMapperSettings { get; }
+
+        List<Option> IArgsCommandSettings<TCommand>.Options => Options;
 
         internal List<Option> Options { get; }
 

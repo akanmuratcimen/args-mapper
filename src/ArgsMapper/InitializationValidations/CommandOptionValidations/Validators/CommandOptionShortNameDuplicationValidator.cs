@@ -28,18 +28,18 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandOptionShortNameDuplicationValidator : ICommandOptionValidator
     {
-        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption)
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
             where TCommand : class
         {
-            if (!commandOption.HasShortName)
+            if (!option.HasShortName)
             {
                 return;
             }
 
-            if (commandSettings.Options.Where(x => x.HasShortName).Any(x => x.ShortName == commandOption.ShortName))
+            if (commandSettings.Options.Where(x => x.HasShortName).Any(x => x.ShortName == option.ShortName))
             {
                 // ReSharper disable once PossibleInvalidOperationException
-                throw new CommandOptionShortNameAlreadyExistsException(commandOption.ShortName.Value);
+                throw new CommandOptionShortNameAlreadyExistsException(option.ShortName.Value);
             }
         }
     }

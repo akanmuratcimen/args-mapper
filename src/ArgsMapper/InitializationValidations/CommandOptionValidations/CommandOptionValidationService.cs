@@ -24,23 +24,26 @@
 using System.Collections.Generic;
 using ArgsMapper.InitializationValidations.CommandOptionValidations.Validators;
 using ArgsMapper.Models;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.InitializationValidations.CommandOptionValidations
 {
     internal interface ICommandOptionValidationService
     {
-        void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option option)
+        void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option) 
             where TCommand : class;
     }
 
     internal class CommandOptionValidationService : ICommandOptionValidationService
     {
-        internal CommandOptionValidationService()
+        internal CommandOptionValidationService(
+            IValueConverterFactory valueConverterFactory,
+            IArgsMapperSettings argsMapperSettings)
         {
             Validators = new List<ICommandOptionValidator> {
-                new CommandOptionPropertyTypeValidator(),
+                new CommandOptionPropertyTypeValidator(valueConverterFactory),
                 new CommandOptionLongNameValidator(),
-                new CommandOptionLongNameDuplicationValidator(),
+                new CommandOptionLongNameDuplicationValidator(argsMapperSettings),
                 new CommandOptionShortNameDuplicationValidator(),
                 new CommandOptionShortNameValidator(),
                 new CommandPositionalOptionListConflictValidator()
@@ -49,7 +52,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations
 
         private IEnumerable<ICommandOptionValidator> Validators { get; }
 
-        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option option)
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option) 
             where TCommand : class
         {
             foreach (var validator in Validators)

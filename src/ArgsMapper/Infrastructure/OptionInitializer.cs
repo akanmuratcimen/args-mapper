@@ -31,8 +31,8 @@ namespace ArgsMapper.Infrastructure
 {
     internal static class OptionInitializer
     {
-        internal static Option Initialize<T, TProperty>(Expression<Func<T, TProperty>> propertySelector,
-            char? shortName, string longName, ushort? position, Action<ArgsOptionSettings<TProperty>> optionSettings,
+        internal static Option Initialize<T, TOption>(Expression<Func<T, TOption>> propertySelector,
+            char? shortName, string longName, ushort? position, Action<ArgsOptionSettings<TOption>> optionSettings,
             CultureInfo cultureInfo)
         {
             var option = new Option();
@@ -51,7 +51,7 @@ namespace ArgsMapper.Infrastructure
                 return option;
             }
 
-            var argsOption = new ArgsOptionSettings<TProperty>();
+            var argsOption = new ArgsOptionSettings<TOption>();
 
             optionSettings(argsOption);
 

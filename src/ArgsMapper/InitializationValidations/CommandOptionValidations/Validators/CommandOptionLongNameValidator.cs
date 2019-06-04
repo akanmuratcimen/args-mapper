@@ -29,22 +29,22 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandOptionLongNameValidator : ICommandOptionValidator
     {
-        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
             where TCommand : class
         {
-            if (string.IsNullOrEmpty(commandOption.LongName) || string.IsNullOrWhiteSpace(commandOption.LongName))
+            if (string.IsNullOrEmpty(option.LongName) || string.IsNullOrWhiteSpace(option.LongName))
             {
-                throw new CommandOptionLongNameRequiredException(commandOption.PropertyInfo.Name);
+                throw new CommandOptionLongNameRequiredException(option.PropertyInfo.Name);
             }
 
-            if (!commandOption.HasValidLongName())
+            if (!option.HasValidLongName())
             {
-                throw new InvalidCommandOptionLongNameException(commandOption.LongName);
+                throw new InvalidCommandOptionLongNameException(option.LongName);
             }
 
-            if (Constants.ReservedOptionLongNames.Contains(commandOption.LongName))
+            if (Constants.ReservedOptionLongNames.Contains(option.LongName))
             {
-                throw new ReservedCommandOptionLongNameException(commandOption.LongName);
+                throw new ReservedCommandOptionLongNameException(option.LongName);
             }
         }
     }

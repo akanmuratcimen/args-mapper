@@ -52,7 +52,7 @@ namespace ArgsMapper
             CommandValidationService = new CommandValidationService();
             ValueConverterFactory = new ValueConverterFactory();
             ReflectionService = new ReflectionService(ValueConverterFactory);
-            CommandOptionValidationService = new CommandOptionValidationService();
+            CommandOptionValidationService = new CommandOptionValidationService(ValueConverterFactory, Settings);
         }
 
         public IGeneralPageBuilder<T> Introduction { get; }

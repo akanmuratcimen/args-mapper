@@ -22,17 +22,25 @@
  */
 
 using ArgsMapper.Models;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validators
 {
     internal class CommandOptionPropertyTypeValidator : ICommandOptionValidator
     {
-        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
+        private readonly IValueConverterFactory _valueConverterFactory;
+
+        public CommandOptionPropertyTypeValidator(IValueConverterFactory valueConverterFactory)
+        {
+            _valueConverterFactory = valueConverterFactory;
+        }
+
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
             where TCommand : class
         {
-            if (!commandSettings.ValueConverterFactory.IsSupportedBaseType(commandOption.Type))
+            if (!_valueConverterFactory.IsSupportedBaseType(option.Type))
             {
-                throw new UnsupportedCommandOptionPropertyTypeException(commandOption.Type);
+                throw new UnsupportedCommandOptionPropertyTypeException(option.Type);
             }
         }
     }

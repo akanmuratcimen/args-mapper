@@ -28,21 +28,21 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandOptionShortNameValidator : ICommandOptionValidator
     {
-        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option option)
             where TCommand : class
         {
             // ReSharper disable once InvertIf
-            if (commandOption.HasShortName)
+            if (option.HasShortName)
             {
                 // ReSharper disable once PossibleInvalidOperationException
-                if (!char.IsLetter(commandOption.ShortName.Value))
+                if (!char.IsLetter(option.ShortName.Value))
                 {
-                    throw new InvalidCommandOptionShortNameException(commandOption.ShortName.Value);
+                    throw new InvalidCommandOptionShortNameException(option.ShortName.Value);
                 }
 
-                if (Constants.ReservedOptionShortNames.Contains(commandOption.ShortName.Value))
+                if (Constants.ReservedOptionShortNames.Contains(option.ShortName.Value))
                 {
-                    throw new ReservedCommandOptionShortNameException(commandOption.ShortName.Value);
+                    throw new ReservedCommandOptionShortNameException(option.ShortName.Value);
                 }
             }
         }
