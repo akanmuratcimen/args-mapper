@@ -30,10 +30,10 @@ namespace ArgsMapper.Infrastructure
 {
     internal static class CommandInitializer
     {
-        internal static Command Initialize<T, TProperty>(ArgsMapper<T> mapper, 
-            Expression<Func<T, TProperty>> propertySelector, string name, 
-            Action<ArgsCommandSettings<T, TProperty>> commandSettings) 
-            where T : class where TProperty : class
+        internal static Command Initialize<T, TCommand>(ArgsMapper<T> mapper,
+            Expression<Func<T, TCommand>> propertySelector, string name,
+            Action<ArgsCommandSettings<TCommand>> commandSettings)
+            where T : class where TCommand : class
         {
             var command = new Command();
 
@@ -43,9 +43,12 @@ namespace ArgsMapper.Infrastructure
             command.Name = name ?? propertyInfos.GetName(mapper.Settings.Culture);
             command.CultureInfo = mapper.Settings.Culture;
 
-            var settings = new ArgsCommandSettings<T, TProperty>();
-
-            settings.Mapper = mapper;
+            var settings = new ArgsCommandSettings<TCommand>(
+                mapper.Settings,
+                mapper.CommandOptionValidationService,
+                mapper.CommandValidationService,
+                mapper.OptionValidationService,
+                mapper.ValueConverterFactory);
 
             if (commandSettings is null)
             {

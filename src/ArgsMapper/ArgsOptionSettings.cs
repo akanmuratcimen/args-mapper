@@ -23,25 +23,10 @@
 
 namespace ArgsMapper
 {
-    /// <summary>
-    ///     Args Option Settings.
-    /// </summary>
-    /// <typeparam name="T">The type of the arguments model.</typeparam>
     public class ArgsOptionSettings<T>
     {
-        /// <summary>
-        ///     The value to set if no value is found whilst parsing this option.
-        /// </summary>
         public T DefaultValue { get; set; }
-
-        /// <summary>
-        ///     Ignores the option if true.
-        /// </summary>
         public bool IsDisabled { get; set; }
-
-        /// <summary>
-        ///     Whether the option is required.
-        /// </summary>
         public bool IsRequired { get; set; }
     }
 }

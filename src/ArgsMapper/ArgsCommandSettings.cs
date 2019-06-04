@@ -22,35 +22,43 @@
  */
 
 using System.Collections.Generic;
+using ArgsMapper.InitializationValidations.CommandOptionValidations;
+using ArgsMapper.InitializationValidations.CommandValidations;
+using ArgsMapper.InitializationValidations.OptionValidations;
 using ArgsMapper.Models;
 using ArgsMapper.PageBuilding;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
-    /// <summary>
-    ///     Args Command Settings.
-    /// </summary>
-    /// <typeparam name="T">The type of the arguments model.</typeparam>
-    /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
-    public class ArgsCommandSettings<T, TProperty> where T : class where TProperty : class
+    public class ArgsCommandSettings<TCommand> where TCommand : class
     {
-        public ArgsCommandSettings()
+        internal ArgsCommandSettings(
+            IArgsMapperSettings argsMapperSettings,
+            ICommandOptionValidationService commandOptionValidationService,
+            ICommandValidationService commandValidationService,
+            IOptionValidationService optionValidationService,
+            IValueConverterFactory valueConverterFactory)
         {
+            ArgsMapperSettings = argsMapperSettings;
+            CommandOptionValidationService = commandOptionValidationService;
+            CommandValidationService = commandValidationService;
+            OptionValidationService = optionValidationService;
+            ValueConverterFactory = valueConverterFactory;
+
             Options = new List<Option>();
-            Usage = new CommandPageBuilder<TProperty>(Options);
+            Usage = new CommandPageBuilder<TCommand>(Options);
         }
 
-        /// <summary>
-        ///     Ignores the option if true.
-        /// </summary>
-        public bool IsDisabled { get; set; }
+        internal ICommandOptionValidationService CommandOptionValidationService { get; }
+        internal ICommandValidationService CommandValidationService { get; }
+        internal IOptionValidationService OptionValidationService { get; }
+        internal IValueConverterFactory ValueConverterFactory { get; }
+        internal IArgsMapperSettings ArgsMapperSettings { get; }
 
         internal List<Option> Options { get; }
-        internal ArgsMapper<T> Mapper { get; set; }
 
-        /// <summary>
-        ///     Command usage builder.
-        /// </summary>
-        public ICommandPageBuilder<TProperty> Usage { get; }
+        public bool IsDisabled { get; set; }
+        public ICommandPageBuilder<TCommand> Usage { get; }
     }
 }

@@ -27,10 +27,10 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandOptionPropertyTypeValidator : ICommandOptionValidator
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
-            Option commandOption) where T : class where TProperty : class
+        public void Validate<TCommand>(ArgsCommandSettings<TCommand> commandSettings, Option commandOption) 
+            where TCommand : class
         {
-            if (!commandSettings.Mapper.ValueConverterFactory.IsSupportedBaseType(commandOption.Type))
+            if (!commandSettings.ValueConverterFactory.IsSupportedBaseType(commandOption.Type))
             {
                 throw new UnsupportedCommandOptionPropertyTypeException(commandOption.Type);
             }
