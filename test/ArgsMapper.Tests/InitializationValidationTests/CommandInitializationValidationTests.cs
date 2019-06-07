@@ -23,7 +23,7 @@
 
 using System;
 using ArgsMapper.InitializationValidations.CommandValidations;
-using ArgsMapper.InitializationValidations.SubCommandValidations;
+using ArgsMapper.InitializationValidations.SubcommandValidations;
 using Xunit;
 
 namespace ArgsMapper.Tests.InitializationValidationTests
@@ -46,7 +46,7 @@ namespace ArgsMapper.Tests.InitializationValidationTests
         }
 
         [Fact]
-        internal void AddCommand_AddSubCommand_Should_Throw_CommandConflictsWithPositionalOptionException()
+        internal void AddCommand_AddSubcommand_Should_Throw_CommandConflictsWithPositionalOptionException()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
@@ -55,8 +55,8 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             mapper.AddCommand(x => x.Command, commandSettings => {
                 commandSettings.AddPositionalOption(x => x.Option);
 
-                Assert.Throws<SubCommandConflictsWithPositionalOptionException>(() =>
-                    commandSettings.AddSubCommand(x => x.Command)
+                Assert.Throws<SubcommandConflictsWithPositionalOptionException>(() =>
+                    commandSettings.AddSubcommand(x => x.Command)
                 );
             });
         }

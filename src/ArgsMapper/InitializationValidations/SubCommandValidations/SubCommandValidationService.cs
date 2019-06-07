@@ -22,28 +22,28 @@
  */
 
 using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.SubCommandValidations.Validators;
+using ArgsMapper.InitializationValidations.SubcommandValidations.Validators;
 using ArgsMapper.Models;
 
-namespace ArgsMapper.InitializationValidations.SubCommandValidations
+namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
-    internal interface ISubCommandValidationService
+    internal interface ISubcommandValidationService
     {
         void Validate<T>(IArgsCommandSettings<T> commandSettings, Command command) where T : class;
     }
 
-    internal class SubCommandValidationService : ISubCommandValidationService
+    internal class SubcommandValidationService : ISubcommandValidationService
     {
-        public SubCommandValidationService(IArgsMapperSettings argsMapperSettings)
+        public SubcommandValidationService(IArgsMapperSettings argsMapperSettings)
         {
-            Validators = new List<ISubCommandValidator> {
-                new SubCommandNameValidator(),
-                new SubCommandNameDuplicationValidator(argsMapperSettings),
-                new SubCommandAndPositionalOptionConflictValidator()
+            Validators = new List<ISubcommandValidator> {
+                new SubcommandNameValidator(),
+                new SubcommandNameDuplicationValidator(argsMapperSettings),
+                new SubcommandAndPositionalOptionConflictValidator()
             };
         }
 
-        private IEnumerable<ISubCommandValidator> Validators { get; }
+        private IEnumerable<ISubcommandValidator> Validators { get; }
 
         public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
             where TCommand : class

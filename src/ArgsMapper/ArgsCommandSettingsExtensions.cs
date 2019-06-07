@@ -30,46 +30,46 @@ namespace ArgsMapper
 {
     public static class ArgsCommandSettingsExtensions
     {
-        public static void AddSubCommand<TCommand, TSubCommand>(
+        public static void AddSubcommand<TCommand, TSubcommand>(
             this ArgsCommandSettings<TCommand> commandSettings,
-            Expression<Func<TCommand, TSubCommand>> propertySelector)
+            Expression<Func<TCommand, TSubcommand>> propertySelector)
             where TCommand : class
-            where TSubCommand : class
+            where TSubcommand : class
         {
-            AddSubCommand(commandSettings, propertySelector, null, null);
+            AddSubcommand(commandSettings, propertySelector, null, null);
         }
 
-        public static void AddSubCommand<TCommand, TSubCommand>(
+        public static void AddSubcommand<TCommand, TSubcommand>(
             this ArgsCommandSettings<TCommand> commandSettings,
-            Expression<Func<TCommand, TSubCommand>> propertySelector,
-            Action<ArgsCommandSettings<TSubCommand>> subCommandSettings)
+            Expression<Func<TCommand, TSubcommand>> propertySelector,
+            Action<ArgsCommandSettings<TSubcommand>> subcommandSettings)
             where TCommand : class
-            where TSubCommand : class
+            where TSubcommand : class
         {
-            AddSubCommand(commandSettings, propertySelector, null, subCommandSettings);
+            AddSubcommand(commandSettings, propertySelector, null, subcommandSettings);
         }
 
-        public static void AddSubCommand<TCommand, TSubCommand>(
+        public static void AddSubcommand<TCommand, TSubcommand>(
             this ArgsCommandSettings<TCommand> commandSettings,
-            Expression<Func<TCommand, TSubCommand>> propertySelector, string name)
+            Expression<Func<TCommand, TSubcommand>> propertySelector, string name)
             where TCommand : class
-            where TSubCommand : class
+            where TSubcommand : class
         {
-            AddSubCommand(commandSettings, propertySelector, name, null);
+            AddSubcommand(commandSettings, propertySelector, name, null);
         }
 
-        public static void AddSubCommand<TCommand, TSubCommand>(
+        public static void AddSubcommand<TCommand, TSubcommand>(
             this ArgsCommandSettings<TCommand> commandSettings,
-            Expression<Func<TCommand, TSubCommand>> propertySelector,
-            string name, Action<ArgsCommandSettings<TSubCommand>> subCommandSettings)
+            Expression<Func<TCommand, TSubcommand>> propertySelector,
+            string name, Action<ArgsCommandSettings<TSubcommand>> subcommandSettings)
             where TCommand : class
-            where TSubCommand : class
+            where TSubcommand : class
         {
-            var command = SubCommandInitializer.Initialize(commandSettings, 
-                propertySelector, name, subCommandSettings);
+            var command = SubcommandInitializer.Initialize(commandSettings, 
+                propertySelector, name, subcommandSettings);
 
-            commandSettings.SubCommandValidationService.Validate(commandSettings, command);
-            commandSettings.SubCommands.Add(command);
+            commandSettings.SubcommandValidationService.Validate(commandSettings, command);
+            commandSettings.Subcommands.Add(command);
         }
 
         public static void AddOption<TCommand, TOption>(

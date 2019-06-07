@@ -24,13 +24,13 @@
 using System.Linq;
 using ArgsMapper.Models;
 
-namespace ArgsMapper.InitializationValidations.SubCommandValidations.Validators
+namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
 {
-    internal class SubCommandNameDuplicationValidator : ISubCommandValidator
+    internal class SubcommandNameDuplicationValidator : ISubcommandValidator
     {
         private readonly IArgsMapperSettings _argsMapperSettings;
 
-        public SubCommandNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
+        public SubcommandNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
         {
             _argsMapperSettings = argsMapperSettings;
         }
@@ -38,10 +38,10 @@ namespace ArgsMapper.InitializationValidations.SubCommandValidations.Validators
         public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
             where TCommand : class
         {
-            if (commandSettings.SubCommands.Any(x => string.Equals(x.Name,
+            if (commandSettings.Subcommands.Any(x => string.Equals(x.Name,
                 command.Name, _argsMapperSettings.StringComparison)))
             {
-                throw new SubCommandNameAlreadyExistsException(command.Name);
+                throw new SubcommandNameAlreadyExistsException(command.Name);
             }
         }
     }

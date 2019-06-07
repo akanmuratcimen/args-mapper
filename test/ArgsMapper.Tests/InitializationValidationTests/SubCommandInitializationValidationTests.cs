@@ -22,32 +22,32 @@
  */
 
 using System;
-using ArgsMapper.InitializationValidations.SubCommandValidations;
+using ArgsMapper.InitializationValidations.SubcommandValidations;
 using Xunit;
 
 namespace ArgsMapper.Tests.InitializationValidationTests
 {
-    public class SubCommandInitializationValidationTests
+    public class SubcommandInitializationValidationTests
     {
         [Theory]
         [InlineData("command:")]
         [InlineData("command=")]
         [InlineData("command ")]
-        internal void AddCommand_AddSubCommand_Should_Throw_InvalidCommandNameException(string commandName)
+        internal void AddCommand_AddSubcommand_Should_Throw_InvalidCommandNameException(string commandName)
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             // Assert
             mapper.AddCommand(x => x.Command, commandSettings => {
-                Assert.Throws<InvalidSubCommandNameException>(() =>
-                    commandSettings.AddSubCommand(x => x.Command, commandName)
+                Assert.Throws<InvalidSubcommandNameException>(() =>
+                    commandSettings.AddSubcommand(x => x.Command, commandName)
                 );
             });
         }
 
         [Fact]
-        internal void AddCommand_AddSubCommand_Should_Throw_ArgumentException_When_Property_Has_No_Setter()
+        internal void AddCommand_AddSubcommand_Should_Throw_ArgumentException_When_Property_Has_No_Setter()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneCommandWithoutSetterWithOneBoolOptionArgs>();
@@ -55,13 +55,13 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             // Assert
             mapper.AddCommand(x => x.Command, commandSettings => {
                 Assert.Throws<ArgumentException>(() =>
-                    commandSettings.AddSubCommand(x => x.Command)
+                    commandSettings.AddSubcommand(x => x.Command)
                 );
             });
         }
 
         [Fact]
-        internal void AddCommand_AddSubCommand_Should_Throw_ArgumentException_When_Property_Internal()
+        internal void AddCommand_AddSubcommand_Should_Throw_ArgumentException_When_Property_Internal()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneInternalCommandWithOneBoolOptionArgs>();
@@ -69,13 +69,13 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             // Assert
             mapper.AddCommand(x => x.Command, commandSettings => {
                 Assert.Throws<ArgumentException>(() =>
-                    commandSettings.AddSubCommand(x => x.Command)
+                    commandSettings.AddSubcommand(x => x.Command)
                 );
             });
         }
 
         [Fact]
-        internal void AddCommand_AddSubCommand_Should_Throw_ArgumentException_When_Property_Method()
+        internal void AddCommand_AddSubcommand_Should_Throw_ArgumentException_When_Property_Method()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneCommandMethodWithOneBoolOptionArgs>();
@@ -83,37 +83,37 @@ namespace ArgsMapper.Tests.InitializationValidationTests
             // Assert
             mapper.AddCommand(x => x.Command, commandSettings => {
                 Assert.Throws<ArgumentException>(() =>
-                    commandSettings.AddSubCommand(x => x.Command())
+                    commandSettings.AddSubcommand(x => x.Command())
                 );
             });
         }
 
         [Fact]
-        internal void AddCommand_AddSubCommand_Should_Throw_CommandNameAlreadyExistsException()
+        internal void AddCommand_AddSubcommand_Should_Throw_CommandNameAlreadyExistsException()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             // Assert
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, "command");
+                commandSettings.AddSubcommand(x => x.Command, "command");
 
-                Assert.Throws<SubCommandNameAlreadyExistsException>(() => {
-                    commandSettings.AddSubCommand(x => x.Command, "command");
+                Assert.Throws<SubcommandNameAlreadyExistsException>(() => {
+                    commandSettings.AddSubcommand(x => x.Command, "command");
                 });
             });
         }
 
         [Fact]
-        internal void AddCommand_AddSubCommand_Should_Throw_CommandNameRequiredException()
+        internal void AddCommand_AddSubcommand_Should_Throw_CommandNameRequiredException()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             // Assert
             mapper.AddCommand(x => x.Command, commandSettings => {
-                Assert.Throws<SubCommandNameRequiredException>(() =>
-                    commandSettings.AddSubCommand(x => x.Command, string.Empty)
+                Assert.Throws<SubcommandNameRequiredException>(() =>
+                    commandSettings.AddSubcommand(x => x.Command, string.Empty)
                 );
             });
         }

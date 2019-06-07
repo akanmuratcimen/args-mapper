@@ -78,17 +78,17 @@ namespace ArgsMapper.Mapping
                     break;
                 }
 
-                var subCommand = command.SubCommands.Get(arg, _mapper.Settings.StringComparison);
+                var subcommand = command.Subcommands.Get(arg, _mapper.Settings.StringComparison);
 
-                if (subCommand is null || subCommand.IsDisabled)
+                if (subcommand is null || subcommand.IsDisabled)
                 {
                     throw new UnknownCommandException(arg);
                 }
 
-                var subCommandInstance = _reflectionService.SetValue(subCommand, commandInstance);
+                var subcommandInstance = _reflectionService.SetValue(subcommand, commandInstance);
 
-                command = subCommand;
-                commandInstance = subCommandInstance;
+                command = subcommand;
+                commandInstance = subcommandInstance;
             }
 
             var proceededOptions = new HashSet<Option>();

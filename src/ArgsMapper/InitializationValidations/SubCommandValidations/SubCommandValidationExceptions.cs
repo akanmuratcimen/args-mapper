@@ -24,35 +24,35 @@
 using System;
 using System.Reflection;
 
-namespace ArgsMapper.InitializationValidations.SubCommandValidations
+namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
-    public class SubCommandConflictsWithPositionalOptionException : Exception
+    public class SubcommandConflictsWithPositionalOptionException : Exception
     {
-        public SubCommandConflictsWithPositionalOptionException() :
+        public SubcommandConflictsWithPositionalOptionException() :
             base("Commands cannot be used while using a positional option.")
         {
         }
     }
 
-    public class InvalidSubCommandNameException : Exception
+    public class InvalidSubcommandNameException : Exception
     {
-        public InvalidSubCommandNameException(string name) :
+        public InvalidSubcommandNameException(string name) :
             base($"'{name}' has invalid characters.")
         {
         }
     }
 
-    public class SubCommandNameRequiredException : Exception
+    public class SubcommandNameRequiredException : Exception
     {
-        public SubCommandNameRequiredException(MemberInfo propertyInfo) :
+        public SubcommandNameRequiredException(MemberInfo propertyInfo) :
             base($"'{propertyInfo.Name}' command name can not be empty.")
         {
         }
     }
 
-    public class SubCommandNameAlreadyExistsException : Exception
+    public class SubcommandNameAlreadyExistsException : Exception
     {
-        public SubCommandNameAlreadyExistsException(string name) :
+        public SubcommandNameAlreadyExistsException(string name) :
             base($"A command with '{name}' name already exists.")
         {
         }

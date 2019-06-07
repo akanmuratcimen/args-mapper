@@ -24,21 +24,21 @@
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
 
-namespace ArgsMapper.InitializationValidations.SubCommandValidations.Validators
+namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
 {
-    internal class SubCommandNameValidator : ISubCommandValidator
+    internal class SubcommandNameValidator : ISubcommandValidator
     {
         public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
             where TCommand : class
         {
             if (string.IsNullOrEmpty(command.Name) || string.IsNullOrWhiteSpace(command.Name))
             {
-                throw new SubCommandNameRequiredException(command.PropertyInfo);
+                throw new SubcommandNameRequiredException(command.PropertyInfo);
             }
 
             if (!command.HasValidName())
             {
-                throw new InvalidSubCommandNameException(command.Name);
+                throw new InvalidSubcommandNameException(command.Name);
             }
         }
     }

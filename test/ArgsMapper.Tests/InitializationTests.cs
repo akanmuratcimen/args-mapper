@@ -178,77 +178,77 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
-        internal void Mapper_AddCommand_AddSubCommand_AddSubCommand_AddSubCommand_Should_Be_Initialized()
+        internal void Mapper_AddCommand_AddSubcommand_AddSubcommand_AddSubcommand_Should_Be_Initialized()
         {
             // Arrange
             var mapper = new ArgsMapper<FourLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddSubCommand(x => x.Command, level2SubCommandSettings => {
-                        level2SubCommandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddSubcommand(x => x.Command, level2SubcommandSettings => {
+                        level2SubcommandSettings.AddSubcommand(x => x.Command);
                     });
                 });
             });
         }
 
         [Fact]
-        internal void Mapper_AddCommand_AddSubCommand_AddSubCommand_Should_Be_Initialized()
+        internal void Mapper_AddCommand_AddSubcommand_AddSubcommand_Should_Be_Initialized()
         {
             // Arrange
             var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddSubcommand(x => x.Command);
                 });
             });
         }
 
         [Fact]
-        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized()
+        internal void Mapper_AddCommand_AddSubcommand_Should_Be_Initialized()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command);
             });
         }
 
         [Fact]
-        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized_With_Property_LongName()
+        internal void Mapper_AddCommand_AddSubcommand_Should_Be_Initialized_With_Property_LongName()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, "command");
+                commandSettings.AddSubcommand(x => x.Command, "command");
             });
         }
 
         [Fact]
-        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized_With_Property_LongName_Settings()
+        internal void Mapper_AddCommand_AddSubcommand_Should_Be_Initialized_With_Property_LongName_Settings()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, "command", subCommandSettings => {
-                    subCommandSettings.IsDisabled = false;
+                commandSettings.AddSubcommand(x => x.Command, "command", subcommandSettings => {
+                    subcommandSettings.IsDisabled = false;
                 });
             });
         }
 
         [Fact]
-        internal void Mapper_AddCommand_AddSubCommand_Should_Be_Initialized_With_Property_Settings()
+        internal void Mapper_AddCommand_AddSubcommand_Should_Be_Initialized_With_Property_Settings()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.IsDisabled = false;
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.IsDisabled = false;
                 });
             });
         }

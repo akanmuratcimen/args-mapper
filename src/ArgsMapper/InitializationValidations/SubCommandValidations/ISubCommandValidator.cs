@@ -23,9 +23,9 @@
 
 using ArgsMapper.Models;
 
-namespace ArgsMapper.InitializationValidations.SubCommandValidations
+namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
-    internal interface ISubCommandValidator
+    internal interface ISubcommandValidator
     {
         void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command) where TCommand : class;
     }

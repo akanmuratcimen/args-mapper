@@ -47,7 +47,7 @@ namespace ArgsMapper.Infrastructure
                 mapper.Settings,
                 mapper.CommandOptionValidationService,
                 mapper.CommandValidationService,
-                mapper.SubCommandValidationService,
+                mapper.SubcommandValidationService,
                 mapper.OptionValidationService,
                 mapper.ValueConverterFactory);
 
@@ -61,7 +61,7 @@ namespace ArgsMapper.Infrastructure
             command.Usage = settings.Usage;
             command.IsDisabled = settings.IsDisabled;
             command.Options = settings.Options;
-            command.SubCommands = settings.SubCommands;
+            command.Subcommands = settings.Subcommands;
 
             return command;
         }

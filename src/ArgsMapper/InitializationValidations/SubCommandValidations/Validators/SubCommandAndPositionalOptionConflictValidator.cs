@@ -24,16 +24,16 @@
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
 
-namespace ArgsMapper.InitializationValidations.SubCommandValidations.Validators
+namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
 {
-    internal class SubCommandAndPositionalOptionConflictValidator : ISubCommandValidator
+    internal class SubcommandAndPositionalOptionConflictValidator : ISubcommandValidator
     {
         public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
             where TCommand : class
         {
             if (commandSettings.Options.HasPositionalOption())
             {
-                throw new SubCommandConflictsWithPositionalOptionException();
+                throw new SubcommandConflictsWithPositionalOptionException();
             }
         }
     }

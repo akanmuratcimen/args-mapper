@@ -28,13 +28,13 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Infrastructure
 {
-    internal class SubCommandInitializer
+    internal class SubcommandInitializer
     {
-        internal static Command Initialize<TCommand, TSubCommand>(
+        internal static Command Initialize<TCommand, TSubcommand>(
             ArgsCommandSettings<TCommand> commandSettings,
-            Expression<Func<TCommand, TSubCommand>> propertySelector, string name,
-            Action<ArgsCommandSettings<TSubCommand>> subCommandSettings)
-            where TCommand : class where TSubCommand : class
+            Expression<Func<TCommand, TSubcommand>> propertySelector, string name,
+            Action<ArgsCommandSettings<TSubcommand>> subcommandSettings)
+            where TCommand : class where TSubcommand : class
         {
             var command = new Command();
 
@@ -44,25 +44,25 @@ namespace ArgsMapper.Infrastructure
             command.Name = name ?? propertyInfos.GetName(commandSettings.ArgsMapperSettings.Culture);
             command.CultureInfo = commandSettings.ArgsMapperSettings.Culture;
 
-            var settings = new ArgsCommandSettings<TSubCommand>(
+            var settings = new ArgsCommandSettings<TSubcommand>(
                 commandSettings.ArgsMapperSettings,
                 commandSettings.CommandOptionValidationService,
                 commandSettings.CommandValidationService,
-                commandSettings.SubCommandValidationService,
+                commandSettings.SubcommandValidationService,
                 commandSettings.OptionValidationService,
                 commandSettings.ValueConverterFactory);
 
-            if (subCommandSettings is null)
+            if (subcommandSettings is null)
             {
                 return command;
             }
 
-            subCommandSettings(settings);
+            subcommandSettings(settings);
 
             command.Usage = settings.Usage;
             command.IsDisabled = settings.IsDisabled;
             command.Options = settings.Options;
-            command.SubCommands = settings.SubCommands;
+            command.Subcommands = settings.Subcommands;
 
             return command;
         }

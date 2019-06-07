@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using ArgsMapper.InitializationValidations.CommandOptionValidations;
 using ArgsMapper.InitializationValidations.CommandValidations;
 using ArgsMapper.InitializationValidations.OptionValidations;
-using ArgsMapper.InitializationValidations.SubCommandValidations;
+using ArgsMapper.InitializationValidations.SubcommandValidations;
 using ArgsMapper.Mapping;
 using ArgsMapper.Models;
 using ArgsMapper.PageBuilding;
@@ -50,7 +50,7 @@ namespace ArgsMapper
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
-        internal ISubCommandValidationService SubCommandValidationService;
+        internal ISubcommandValidationService SubcommandValidationService;
         internal IOptionValidationService OptionValidationService;
         internal IReflectionService ReflectionService;
         internal IValueConverterFactory ValueConverterFactory;
@@ -62,7 +62,7 @@ namespace ArgsMapper
             ValueConverterFactory = new ValueConverterFactory();
             OptionValidationService = new OptionValidationService(ValueConverterFactory);
             CommandValidationService = new CommandValidationService(Settings);
-            SubCommandValidationService = new SubCommandValidationService(Settings);
+            SubcommandValidationService = new SubcommandValidationService(Settings);
             ReflectionService = new ReflectionService(ValueConverterFactory);
             CommandOptionValidationService = new CommandOptionValidationService(ValueConverterFactory, Settings);
         }

@@ -25,7 +25,7 @@ using Xunit;
 
 namespace ArgsMapper.Tests.MapperTests
 {
-    public class SubCommandTests
+    public class SubcommandTests
     {
         [Fact]
         internal void Command_PositionalOption_Should_Be_Matched()
@@ -34,8 +34,8 @@ namespace ArgsMapper.Tests.MapperTests
             var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneIntOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddPositionalOption(x => x.Option);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddPositionalOption(x => x.Option);
                 });
             });
 
@@ -47,14 +47,14 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_Option_Should_Be_Matched_With_Default_LongName()
+        internal void Command_Subcommand_Option_Should_Be_Matched_With_Default_LongName()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddOption(x => x.Option);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.Option);
                 });
             });
 
@@ -66,14 +66,14 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_PositionalOption_List_Should_Have_Arg_Values()
+        internal void Command_Subcommand_PositionalOption_List_Should_Have_Arg_Values()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneListStringOption>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddPositionalOption(x => x.Option);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddPositionalOption(x => x.Option);
                 });
             });
 
@@ -85,15 +85,15 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_PositionalOption_List_Should_Have_Arg_Values_With_Option()
+        internal void Command_Subcommand_PositionalOption_List_Should_Have_Arg_Values_With_Option()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddPositionalOption(x => x.Options);
-                    subCommandSettings.AddOption(x => x.Option);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddPositionalOption(x => x.Options);
+                    subcommandSettings.AddOption(x => x.Option);
                 });
             });
 
@@ -106,13 +106,13 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_Should_Be_Matched_With_Default_Name()
+        internal void Command_Subcommand_Should_Be_Matched_With_Default_Name()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command);
             });
 
             // Act
@@ -127,14 +127,14 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_Should_Be_Matched_With_Nested_Option()
+        internal void Command_Subcommand_Should_Be_Matched_With_Nested_Option()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneCommandWithTwoLevelNestedClass>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddOption(x => x.NestedA.NestedB.Option);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.NestedA.NestedB.Option);
                 });
             });
 
@@ -146,14 +146,14 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_SubCommand_Should_Be_Matched_With_CustomName()
+        internal void Command_Subcommand_Subcommand_Should_Be_Matched_With_CustomName()
         {
             // Arrange
             var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, "sub-command-1", subCommandSettings => {
-                    subCommandSettings.AddSubCommand(x => x.Command, "sub-command-2");
+                commandSettings.AddSubcommand(x => x.Command, "sub-command-1", subcommandSettings => {
+                    subcommandSettings.AddSubcommand(x => x.Command, "sub-command-2");
                 });
             });
 
@@ -171,14 +171,14 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_SubCommand_Should_Be_Matched_With_Default_LongName()
+        internal void Command_Subcommand_Subcommand_Should_Be_Matched_With_Default_LongName()
         {
             // Arrange
             var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddSubcommand(x => x.Command);
                 });
             });
 
@@ -196,15 +196,15 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_SubCommand_SubCommand_Should_Be_Matched_With_Default_Name()
+        internal void Command_Subcommand_Subcommand_Subcommand_Should_Be_Matched_With_Default_Name()
         {
             // Arrange
             var mapper = new ArgsMapper<FourLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings0 => {
-                    subCommandSettings0.AddSubCommand(x => x.Command, subCommandSettings1 => {
-                        subCommandSettings1.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings0 => {
+                    subcommandSettings0.AddSubcommand(x => x.Command, subcommandSettings1 => {
+                        subcommandSettings1.AddSubcommand(x => x.Command);
                     });
                 });
             });
@@ -225,13 +225,13 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void MapperResult_Should_Have_Error_When_SubCommand_Defined_But_Not_Matched()
+        internal void MapperResult_Should_Have_Error_When_Subcommand_Defined_But_Not_Matched()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command);
             });
 
             // Act
@@ -243,7 +243,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void MapperResult_Should_Have_Error_When_SubCommand_Not_Found()
+        internal void MapperResult_Should_Have_Error_When_Subcommand_Not_Found()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
@@ -259,14 +259,14 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void SubCommand_Should_Be_Null_When_Disabled()
+        internal void Subcommand_Should_Be_Null_When_Disabled()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
-                    subCommandSettings.IsDisabled = true;
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.IsDisabled = true;
                 });
             });
 
@@ -279,7 +279,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void SubCommand_Should_Be_Null_When_Its_Parent_Disabled()
+        internal void Subcommand_Should_Be_Null_When_Its_Parent_Disabled()
         {
             // Arrange
             var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
@@ -287,7 +287,7 @@ namespace ArgsMapper.Tests.MapperTests
             mapper.AddCommand(x => x.Command, commandSettings => {
                 commandSettings.IsDisabled = true;
 
-                commandSettings.AddSubCommand(x => x.Command);
+                commandSettings.AddSubcommand(x => x.Command);
             });
 
             // Act
