@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ArgsMapper.Utilities
 {
@@ -76,15 +77,7 @@ namespace ArgsMapper.Utilities
 
             var genericTypeDefinition = type.GetGenericTypeDefinition();
 
-            foreach (var listType in listTypes)
-            {
-                if (genericTypeDefinition == listType)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return listTypes.Any(x => genericTypeDefinition == x);
         }
 
         internal static bool IsNullable(this Type type)

@@ -115,6 +115,35 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.Equal(value, result.Model.Option);
         }
 
+        [Theory]
+        [InlineData("-xyz.", ".")]
+        [InlineData("-.xyz", ".")]
+        [InlineData("-xy+z", "+")]
+        [InlineData("-xyz--", "-")]
+        [InlineData("-xyz++", "+")]
+        [InlineData("-+xyz*+", "+")]
+        [InlineData("-xyz*+", "*")]
+        [InlineData("-xyz+-", "+")]
+        [InlineData("-xyk", "k")]
+        [InlineData("-xk", "k")]
+        [InlineData("-xkz", "k")]
+        internal void MapperResult_Should_Have_Error_When_Stacked_Options_Invalid(string arg, string invalidOption)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeBoolOptionsArgs>();
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            // Act
+            var result = mapper.Map(arg);
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal($"Unknown option '-{invalidOption}'.", result.ErrorMessage);
+        }
+
         [Fact]
         internal void MapperResult_Should_Have_Error_When_Args_Exceeded_PositionalOption_Definitions()
         {
@@ -301,6 +330,43 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.True(result.HasError);
             Assert.Equal("Unknown option '--foobar'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Same_Option_Multiple_Times_In_Non_Collection_Stacked_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddOption(x => x.Option, 'o', "option-1");
+
+            // Act
+            var result = mapper.Map("-ooo", "1");
+
+            // Assert
+            Assert.True(result.HasError);
+
+            Assert.Equal("Option '-o|--option-1' only accepts a " +
+                "single argument but 3 were provided.",
+                result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Stacked_Options_Have_Invalid_Value()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            // Act
+            var result = mapper.Map("-xyz", "invalid-integer-value");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("'invalid-integer-value' not a valid value for '-x|--option-1' option.", result.ErrorMessage);
         }
 
         [Fact]
@@ -641,6 +707,40 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.True(result.Model.Option2);
             Assert.False(result.Model.Option3);
             Assert.True(result.Model.Option4);
+        }
+
+        [Fact]
+        internal void Stacked_Option_Values_Should_Be_Equal_As_Much_As_Occurrences_If_It_Is_A_Collection_Type()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListIntOptionArgs>();
+
+            mapper.AddOption(x => x.Option, 'o', "option-1");
+
+            // Act
+            var result = mapper.Map("-ooo", "555");
+
+            // Assert
+            Assert.Equal(new[] { 555, 555, 555 }, result.Model.Option);
+        }
+
+        [Fact]
+        internal void Stacked_Options_Value_Should_Be_Given_Value()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            // Act
+            var result = mapper.Map("-xyz", "999");
+
+            // Assert
+            Assert.Equal(999, result.Model.Option1);
+            Assert.Equal(999, result.Model.Option2);
+            Assert.Equal(999, result.Model.Option3);
         }
     }
 }

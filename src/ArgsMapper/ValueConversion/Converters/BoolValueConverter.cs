@@ -29,8 +29,8 @@ namespace ArgsMapper.ValueConversion.Converters
 {
     internal class BoolValueConverter : ISystemTypeValueConverter
     {
-        private static readonly string[] _falseValues = { "0", "off", "false" };
-        private static readonly string[] _trueValues = { null, string.Empty, "1", "on", "true" };
+        private static readonly string[] FalseValues = { "0", "off", "false" };
+        private static readonly string[] TrueValues = { null, string.Empty, "1", "on", "true" };
 
         public object Convert(string value, IFormatProvider formatProvider)
         {
@@ -50,13 +50,13 @@ namespace ArgsMapper.ValueConversion.Converters
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidFalseValue(string value)
         {
-            return _falseValues.Contains(value, StringComparer.InvariantCultureIgnoreCase);
+            return FalseValues.Contains(value, StringComparer.InvariantCultureIgnoreCase);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsValidTrueValue(string value)
         {
-            return _trueValues.Contains(value, StringComparer.InvariantCultureIgnoreCase);
+            return TrueValues.Contains(value, StringComparer.InvariantCultureIgnoreCase);
         }
     }
 }

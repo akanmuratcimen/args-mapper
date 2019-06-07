@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using ArgsMapper.Models;
 using ArgsMapper.Parsing;
 using Xunit;
@@ -298,6 +299,25 @@ namespace ArgsMapper.Tests
 
             // Assert
             Assert.Equal(arg, result[("-o", OptionMatchType.ByShortName)][0]);
+        }
+
+        [Theory]
+        [InlineData(null, "-xyz")]
+        [InlineData("1", "-xyz", "1")]
+        [InlineData("foobar", "-xyz", "foobar")]
+        internal void RawParser_ParseOptions_Should_Parse_Stacked_Options(string expectedValue, params string[] args)
+        {
+            // Act
+            var result = RawParser.ParseOptions(args);
+
+            // Assert
+            Assert.Contains(("-x", OptionMatchType.ByShortName), result.Keys);
+            Assert.Contains(("-y", OptionMatchType.ByShortName), result.Keys);
+            Assert.Contains(("-z", OptionMatchType.ByShortName), result.Keys);
+
+            Assert.Equal(expectedValue, result[("-x", OptionMatchType.ByShortName)].FirstOrDefault());
+            Assert.Equal(expectedValue, result[("-y", OptionMatchType.ByShortName)].FirstOrDefault());
+            Assert.Equal(expectedValue, result[("-z", OptionMatchType.ByShortName)].FirstOrDefault());
         }
 
         [Fact]
