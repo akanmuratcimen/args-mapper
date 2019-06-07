@@ -72,6 +72,28 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
+        internal void Mapper_Output_Should_Be_Subcommand_Usage_Content()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.Usage.AddText("sample subcommand usage text.");
+                });
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "command", "--help" }, null);
+
+            // Assert
+            Assert.Equal("sample subcommand usage text.", output.ToString().TrimEnd());
+        }
+
+        [Fact]
         internal void Mapper_Output_Should_Unknown_Option_Error()
         {
             // Arrange
@@ -87,6 +109,26 @@ namespace ArgsMapper.Tests.PageTests
 
             // Assert
             Assert.StartsWith("Unknown 'command' command option", output.ToString());
+        }
+
+        [Fact]
+        internal void Mapper_Subcommand_Output_Should_Unknown_Option_Error()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, "sub-command");
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "sub-command", "--help" }, null);
+
+            // Assert
+            Assert.StartsWith("Unknown 'sub-command' command option", output.ToString());
         }
     }
 }

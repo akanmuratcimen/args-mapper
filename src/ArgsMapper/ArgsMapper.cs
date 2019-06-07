@@ -124,13 +124,39 @@ namespace ArgsMapper
                     return;
                 }
 
-                if (Commands.Any())
+                if (Commands.Any() && args.Length > 1)
                 {
                     var command = Commands.Get(args[0], Settings.StringComparison);
 
-                    if (command != null && !command.IsDisabled && args.Length > 1)
+                    if (command != null && !command.IsDisabled)
                     {
-                        if (args[1].IsHelpOption() && command.Usage != null)
+                        short optionsStartIndex = 1;
+
+                        for (; optionsStartIndex < args.Length; optionsStartIndex++)
+                        {
+                            if (command.Options.Any(x => x.IsPositionalOption))
+                            {
+                                break;
+                            }
+
+                            var arg = args[optionsStartIndex];
+
+                            if (arg.IsValidOption())
+                            {
+                                break;
+                            }
+
+                            var subcommand = command.Subcommands.Get(arg, Settings.StringComparison);
+
+                            if (subcommand is null || subcommand.IsDisabled)
+                            {
+                                break;
+                            }
+
+                            command = subcommand;
+                        }
+
+                        if (args[optionsStartIndex].IsHelpOption() && command.Usage != null)
                         {
                             var commandUsageContent = command.Usage.Content;
 
