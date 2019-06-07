@@ -412,4 +412,8 @@ namespace ArgsMapper.Tests
         Value2,
         Value3
     }
+
+    internal enum EmptyEnum
+    {
+    }
 }

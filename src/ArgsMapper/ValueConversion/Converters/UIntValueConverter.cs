@@ -30,6 +30,11 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return default(uint);
+            }
+
             return uint.Parse(value, NumberStyles.Any, formatProvider);
         }
     }

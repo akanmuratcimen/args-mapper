@@ -38,6 +38,32 @@ namespace ArgsMapper.Tests
             _valueConverterFactory = new ValueConverterFactory();
         }
 
+        public static IEnumerable<object[]> EmptyValues
+        {
+            get
+            {
+                yield return new object[] { typeof(bool), true };
+                yield return new object[] { typeof(char), default(char) };
+                yield return new object[] { typeof(decimal), default(decimal) };
+                yield return new object[] { typeof(double), default(double) };
+                yield return new object[] { typeof(float), default(float) };
+                yield return new object[] { typeof(int), default(int) };
+                yield return new object[] { typeof(long), default(long) };
+                yield return new object[] { typeof(short), default(short) };
+                yield return new object[] { typeof(string), default(string) };
+                yield return new object[] { typeof(uint), default(uint) };
+                yield return new object[] { typeof(ulong), default(ulong) };
+                yield return new object[] { typeof(ushort), default(ushort) };
+                yield return new object[] { typeof(Guid), default(Guid) };
+                yield return new object[] { typeof(TimeSpan), default(TimeSpan) };
+                yield return new object[] { typeof(DateTime), default(DateTime) };
+                yield return new object[] { typeof(Uri), default(Uri) };
+                yield return new object[] { typeof(SampleEnum), default(SampleEnum) };
+                yield return new object[] { typeof(SampleUshortEnum), default(SampleUshortEnum) };
+                yield return new object[] { typeof(EmptyEnum), default(EmptyEnum) };
+            }
+        }
+
         [Theory]
         [InlineData(typeof(List<bool?>))]
         [InlineData(typeof(List<char?>))]
@@ -168,6 +194,14 @@ namespace ArgsMapper.Tests
         {
             Assert.ThrowsAny<Exception>(() => _valueConverterFactory.Convert(
                 values, type, CultureInfo.InvariantCulture));
+        }
+
+        [Theory]
+        [MemberData(nameof(EmptyValues))]
+        internal void ValueConverterFactory_Convert_Types_With_Empty_Values(Type type, object expectedValue)
+        {
+            Assert.Equal(expectedValue, _valueConverterFactory.Convert(
+                new[] { (string)null }, type, CultureInfo.InvariantCulture));
         }
     }
 }
