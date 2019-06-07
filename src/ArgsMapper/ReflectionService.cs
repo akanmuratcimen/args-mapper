@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ArgsMapper.Models;
+using ArgsMapper.Utilities;
 using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
@@ -49,19 +50,20 @@ namespace ArgsMapper
 
         public void SetValue(Option option, object model, IList<string> values, IFormatProvider formatProvider)
         {
-            object value;
+            if (!option.Type.IsList() && values.Count > 1)
+            {
+                throw new MultipleValueForNotCollectionType(option.ToString(), values.Count);
+            }
 
             try
             {
-                value = _valueConverterFactory.Convert(values, option.Type, formatProvider);
+                SetValue(option, model, _valueConverterFactory.Convert(values, option.Type, formatProvider));
             }
             catch (Exception e) when (e is FormatException || e is OverflowException ||
                 e is ArgumentOutOfRangeException)
             {
                 throw new InvalidOptionValueException(option.ToString(), values);
             }
-
-            SetValue(option, model, value);
         }
 
         public void SetValue(Option option, object model, string value, IFormatProvider formatProvider)

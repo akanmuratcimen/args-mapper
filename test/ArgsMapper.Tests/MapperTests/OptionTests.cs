@@ -413,21 +413,6 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Option_Value_Should_Be_Last_Value_In_The_Args()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneIntOptionArgs>();
-
-            mapper.AddOption(x => x.Option, "option-1");
-
-            // Act
-            var result = mapper.Map("--option-1", "1", "--option-1", "2");
-
-            // Assert
-            Assert.Equal(2, result.Model.Option);
-        }
-
-        [Fact]
         internal void Option_Values_Should_Be_Matched_With_One_Level_Nested_Class()
         {
             // Arrange
@@ -624,6 +609,22 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.True(result.Model.Option2);
             Assert.False(result.Model.Option3);
             Assert.True(result.Model.Option4);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_In_Collection_Type_But_Have_Multiple_Value_In_Args()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("--option", "1", "2");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Option '--option' only accepts a single argument but 2 were provided.", result.ErrorMessage);
         }
     }
 }
