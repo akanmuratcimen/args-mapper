@@ -28,10 +28,88 @@ namespace ArgsMapper.Tests.MapperTests
     public class SubCommandTests
     {
         [Fact]
-        internal void Command_SubCommand_Should_Be_Matched_With_Default_LongName()
+        internal void Command_PositionalOption_Should_Be_Matched()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneIntOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddPositionalOption(x => x.Option);
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command", "1");
+
+            // Assert
+            Assert.Equal(1, result.Model.Command.Command.Option);
+        }
+
+        [Fact]
+        internal void Command_SubCommand_Option_Should_Be_Matched_With_Default_LongName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddOption(x => x.Option);
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command", "--option");
+
+            // Assert
+            Assert.True(result.Model.Command.Command.Option);
+        }
+
+        [Fact]
+        internal void Command_SubCommand_PositionalOption_List_Should_Have_Arg_Values()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneListStringOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddPositionalOption(x => x.Option);
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command", "foo", "bar");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.Command.Option);
+        }
+
+        [Fact]
+        internal void Command_SubCommand_PositionalOption_List_Should_Have_Arg_Values_With_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddPositionalOption(x => x.Options);
+                    subCommandSettings.AddOption(x => x.Option);
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command", "foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.Command.Options);
+            Assert.Equal(1, result.Model.Command.Command.Option);
+        }
+
+        [Fact]
+        internal void Command_SubCommand_Should_Be_Matched_With_Default_Name()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
                 commandSettings.AddSubCommand(x => x.Command);
@@ -44,8 +122,52 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.NotNull(result.Model.Command);
             Assert.NotNull(result.Model.Command.Command);
 
-            Assert.IsType<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>(result.Model.Command);
+            Assert.IsType<OneCommandWithOneBoolOptionArgs>(result.Model.Command);
             Assert.IsType<OneBoolOptionArgs>(result.Model.Command.Command);
+        }
+
+        [Fact]
+        internal void Command_SubCommand_Should_Be_Matched_With_Nested_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneCommandWithTwoLevelNestedClass>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.AddOption(x => x.NestedA.NestedB.Option);
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command", "--nested-a.nested-b.option");
+
+            // Assert
+            Assert.True(result.Model.Command.Command.NestedA.NestedB.Option);
+        }
+
+        [Fact]
+        internal void Command_SubCommand_SubCommand_Should_Be_Matched_With_CustomName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, "sub-command-1", subCommandSettings => {
+                    subCommandSettings.AddSubCommand(x => x.Command, "sub-command-2");
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "sub-command-1", "sub-command-2");
+
+            // Assert
+            Assert.NotNull(result.Model.Command);
+            Assert.NotNull(result.Model.Command.Command);
+            Assert.NotNull(result.Model.Command.Command.Command);
+
+            Assert.IsType<TwoLevelNestedCommandArgs>(result.Model.Command);
+            Assert.IsType<OneCommandWithOneBoolOptionArgs>(result.Model.Command.Command);
+            Assert.IsType<OneBoolOptionArgs>(result.Model.Command.Command.Command);
         }
 
         [Fact]
@@ -74,7 +196,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_SubCommand_SubCommand_SubCommand_Should_Be_Matched_With_Default_LongName()
+        internal void Command_SubCommand_SubCommand_SubCommand_Should_Be_Matched_With_Default_Name()
         {
             // Arrange
             var mapper = new ArgsMapper<FourLevelNestedCommandArgs>();
@@ -100,6 +222,79 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.IsType<TwoLevelNestedCommandArgs>(result.Model.Command.Command);
             Assert.IsType<OneCommandWithOneBoolOptionArgs>(result.Model.Command.Command.Command);
             Assert.IsType<OneBoolOptionArgs>(result.Model.Command.Command.Command.Command);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_SubCommand_Defined_But_Not_Matched()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command);
+            });
+
+            // Act
+            var result = mapper.Map("command", "unknown-command");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("'unknown-command' is not a valid command.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_SubCommand_Not_Found()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command);
+
+            // Act
+            var result = mapper.Map("command", "unknown-command");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("'unknown-command' is not a valid command.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void SubCommand_Should_Be_Null_When_Disabled()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubCommand(x => x.Command, subCommandSettings => {
+                    subCommandSettings.IsDisabled = true;
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command");
+
+            // Assert
+            Assert.NotNull(result.Model.Command);
+            Assert.Null(result.Model.Command.Command);
+        }
+
+        [Fact]
+        internal void SubCommand_Should_Be_Null_When_Its_Parent_Disabled()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<TwoLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.IsDisabled = true;
+
+                commandSettings.AddSubCommand(x => x.Command);
+            });
+
+            // Act
+            var result = mapper.Map("command", "command");
+
+            // Assert
+            Assert.Null(result.Model.Command);
         }
     }
 }

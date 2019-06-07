@@ -127,6 +127,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneListStringOptionWithOneBoolOptionArgs
+    {
+        public OneCommandWithOneListStringOptionWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class TwoListStringOptionArgs
     {
         public List<string> Options1 { get; set; }
@@ -164,6 +170,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneIntOptionArgs
+    {
+        public OneCommandWithOneIntOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneClassWithOneBoolOption
     {
         public OneCommandWithOneBoolOptionArgs Command { get; set; }
@@ -173,6 +185,12 @@ namespace ArgsMapper.Tests
     internal class OneCommandWithOneListStringOption
     {
         public OneListStringOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneListStringOption
+    {
+        public OneCommandWithOneListStringOption Command { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
@@ -295,6 +313,12 @@ namespace ArgsMapper.Tests
     internal class OneCommandWithTwoLevelNestedClass
     {
         public TwoLevelNestedClass Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithTwoLevelNestedClass
+    {
+        public OneCommandWithTwoLevelNestedClass Command { get; set; }
     }
 
     [ExcludeFromCodeCoverage]

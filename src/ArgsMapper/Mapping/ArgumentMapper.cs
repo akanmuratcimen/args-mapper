@@ -64,29 +64,31 @@ namespace ArgsMapper.Mapping
 
             short optionsStartIndex = 1;
 
-            if (!command.Options.Any(x => x.IsPositionalOption))
+            for (; optionsStartIndex < args.Length; optionsStartIndex++)
             {
-                for (; optionsStartIndex < args.Length; optionsStartIndex++)
+                if (command.Options.Any(x => x.IsPositionalOption))
                 {
-                    var arg = args[optionsStartIndex];
-
-                    if (arg.IsValidOption())
-                    {
-                        break;
-                    }
-
-                    var subCommand = command.SubCommands.Get(arg, _mapper.Settings.StringComparison);
-
-                    if (subCommand is null || subCommand.IsDisabled)
-                    {
-                        throw new UnknownCommandException(arg);
-                    }
-
-                    var subCommandInstance = _reflectionService.SetValue(subCommand, commandInstance);
-
-                    command = subCommand;
-                    commandInstance = subCommandInstance;
+                    break;
                 }
+
+                var arg = args[optionsStartIndex];
+
+                if (arg.IsValidOption())
+                {
+                    break;
+                }
+
+                var subCommand = command.SubCommands.Get(arg, _mapper.Settings.StringComparison);
+
+                if (subCommand is null || subCommand.IsDisabled)
+                {
+                    throw new UnknownCommandException(arg);
+                }
+
+                var subCommandInstance = _reflectionService.SetValue(subCommand, commandInstance);
+
+                command = subCommand;
+                commandInstance = subCommandInstance;
             }
 
             var proceededOptions = new HashSet<Option>();
@@ -141,7 +143,7 @@ namespace ArgsMapper.Mapping
                         break;
                     }
 
-                    var option = command.Options.GetByPosition((short)(i - 1));
+                    var option = command.Options.GetByPosition((short)(i - optionsStartIndex));
 
                     if (option is null)
                     {

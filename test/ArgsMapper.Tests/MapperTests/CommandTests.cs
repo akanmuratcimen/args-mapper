@@ -279,7 +279,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_Should_Be_Matched_With_Custom_LongName()
+        internal void Command_Should_Be_Matched_With_Name()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
@@ -295,7 +295,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_Should_Be_Matched_With_Default_LongName()
+        internal void Command_Should_Be_Matched_With_Default_Name()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
@@ -311,7 +311,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_Should_Be_Matched_With_Default_LongName_HyphenCase()
+        internal void Command_Should_Be_Matched_With_Default_Name_HyphenCase()
         {
             // Arrange
             var mapper = new ArgsMapper<OneLongNamedCommandWithOneBoolOptionArgs>();
@@ -530,7 +530,7 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void MapperResult_Should_Have_Required_Error_Even_When_Same_Property_Mapped_By_Another_Command_Option()
+        internal void MapperResult_Should_Have_Required_Error_When_Same_Property_Mapped_By_Another_Command_Option()
         {
             // Arrange
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
