@@ -35,6 +35,7 @@ namespace ArgsMapper.Models
         internal bool IsDisabled { get; set; }
         internal string Name { get; set; }
         internal IList<Option> Options { get; set; } = new List<Option>();
+        internal IList<Command> SubCommands { get; set; } = new List<Command>();
         internal PropertyInfo PropertyInfo => PropertyInfos[PropertyInfos.Length - 1];
         internal PropertyInfo[] PropertyInfos { get; set; }
         internal Type Type => PropertyInfo.PropertyType;

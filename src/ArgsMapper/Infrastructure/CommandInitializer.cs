@@ -61,6 +61,7 @@ namespace ArgsMapper.Infrastructure
             command.Usage = settings.Usage;
             command.IsDisabled = settings.IsDisabled;
             command.Options = settings.Options;
+            command.SubCommands = settings.SubCommands;
 
             return command;
         }

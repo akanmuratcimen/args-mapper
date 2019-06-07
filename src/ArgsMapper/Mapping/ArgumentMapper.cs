@@ -62,8 +62,35 @@ namespace ArgsMapper.Mapping
 
             var commandInstance = _reflectionService.SetValue(command, model);
 
+            short optionsStartIndex = 1;
+
+            if (!command.Options.Any(x => x.IsPositionalOption))
+            {
+                for (; optionsStartIndex < args.Length; optionsStartIndex++)
+                {
+                    var arg = args[optionsStartIndex];
+
+                    if (arg.IsValidOption())
+                    {
+                        break;
+                    }
+
+                    var subCommand = command.SubCommands.Get(arg, _mapper.Settings.StringComparison);
+
+                    if (subCommand is null || subCommand.IsDisabled)
+                    {
+                        throw new UnknownCommandException(arg);
+                    }
+
+                    var subCommandInstance = _reflectionService.SetValue(subCommand, commandInstance);
+
+                    command = subCommand;
+                    commandInstance = subCommandInstance;
+                }
+            }
+
             var proceededOptions = new HashSet<Option>();
-            var parsedOptions = RawParser.ParseOptions(args, 1);
+            var parsedOptions = RawParser.ParseOptions(args, optionsStartIndex);
 
             var groupedOptions = new Dictionary<Option, List<string>>(
                 new OptionPropertyInfoEqualityComparer());
@@ -85,7 +112,7 @@ namespace ArgsMapper.Mapping
             {
                 var listPositionalOptionValues = new List<string>();
 
-                for (short i = 1; i < args.Length; i++)
+                for (var i = optionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
@@ -107,7 +134,7 @@ namespace ArgsMapper.Mapping
             }
             else
             {
-                for (short i = 1; i < args.Length; i++)
+                for (var i = optionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
