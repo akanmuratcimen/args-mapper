@@ -45,7 +45,7 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.Equal(1, result.Model.Command.Command.Option);
         }
-
+        
         [Fact]
         internal void Command_Subcommand_Option_Should_Be_Matched_With_Default_LongName()
         {

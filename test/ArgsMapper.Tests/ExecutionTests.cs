@@ -76,6 +76,48 @@ namespace ArgsMapper.Tests
         }
 
         [Fact]
+        internal void Execute_Output_Should_Be_Unknown_Command_Message()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command);
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "unknown-command" }, null);
+
+            // Assert
+            Assert.StartsWith("'unknown-command' is not a valid command.", output.ToString());
+        }
+
+        [Fact]
+        internal void Execute_Output_Should_Be_Unknown_Command_Message_When_Subcommand_Disabled()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.IsDisabled = true;
+                });
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "command" }, null);
+
+            // Assert
+            Assert.StartsWith("'command' is not a valid command.", output.ToString());
+        }
+
+        [Fact]
         internal void Execute_Should_Write_Error_Text_When_OnError_Null()
         {
             // Arrange
@@ -88,6 +130,28 @@ namespace ArgsMapper.Tests
             mapper.Execute(new[] { "--option" }, null);
 
             Assert.Equal("Unknown option 'option'.", output.ToString());
+        }
+
+        [Fact]
+        internal void Execute_Success_Model_Option_Should_Be_True()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddPositionalOption(x => x.Option);
+                });
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "command", "on" }, args => {
+                // Assert
+                Assert.True(args.Command.Command.Option);
+            });
         }
 
         [Fact]

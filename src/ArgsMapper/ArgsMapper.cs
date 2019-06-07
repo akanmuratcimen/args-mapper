@@ -50,9 +50,9 @@ namespace ArgsMapper
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
-        internal ISubcommandValidationService SubcommandValidationService;
         internal IOptionValidationService OptionValidationService;
         internal IReflectionService ReflectionService;
+        internal ISubcommandValidationService SubcommandValidationService;
         internal IValueConverterFactory ValueConverterFactory;
 
         public ArgsMapper()
@@ -156,7 +156,9 @@ namespace ArgsMapper
                             command = subcommand;
                         }
 
-                        if (args[optionsStartIndex].IsHelpOption() && command.Usage != null)
+                        if (args.Length > optionsStartIndex &&
+                            args[optionsStartIndex].IsHelpOption() &&
+                            command.Usage != null)
                         {
                             var commandUsageContent = command.Usage.Content;
 

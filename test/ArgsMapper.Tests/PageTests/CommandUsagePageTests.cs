@@ -112,6 +112,30 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
+        internal void Mapper_Subcommand_Output_Should_Be_Empty()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddPositionalOption(x => x.Option);
+
+                    subcommandSettings.Usage.AddText("sample usage text");
+                });
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "command" }, null);
+
+            // Assert
+            Assert.Equal(string.Empty, output.ToString());
+        }
+
+        [Fact]
         internal void Mapper_Subcommand_Output_Should_Unknown_Option_Error()
         {
             // Arrange
