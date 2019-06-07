@@ -92,6 +92,29 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.Equal(expected, result.Model.Option);
         }
 
+        [Theory]
+        [InlineData("value:value")]
+        [InlineData("value=value:value")]
+        [InlineData(":value")]
+        [InlineData("=value")]
+        [InlineData("::value")]
+        [InlineData("==value")]
+        [InlineData("value:")]
+        [InlineData("value=")]
+        internal void PositionalOption_Should_Be_Matched_With_Assignment_Operator_Included_Values(string value)
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneStringOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map(value);
+
+            // Assert
+            Assert.Equal(value, result.Model.Option);
+        }
+
         [Fact]
         internal void MapperResult_Should_Have_Error_When_Args_Exceeded_PositionalOption_Definitions()
         {
@@ -181,6 +204,22 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("--option1");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown option 'option1'.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_PositionalOption_Is_Required()
         {
             // Arrange
@@ -214,22 +253,6 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.True(result.HasError);
             Assert.Equal("Required option 'option' is missing.", result.ErrorMessage);
-        }
-
-        [Fact]
-        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneIntOptionArgs>();
-
-            mapper.AddOption(x => x.Option);
-
-            // Act
-            var result = mapper.Map("--option1");
-
-            // Assert
-            Assert.True(result.HasError);
-            Assert.Equal("Unknown option 'option1'.", result.ErrorMessage);
         }
 
         [Fact]

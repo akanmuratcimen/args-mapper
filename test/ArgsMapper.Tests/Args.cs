@@ -40,6 +40,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneStringOptionArgs
+    {
+        public string Option { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class OneDoubleOptionArgs
     {
         public double Option { get; set; }
