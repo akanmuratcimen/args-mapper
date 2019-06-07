@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B4AF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "samples\Basic\Basic.csproj", "{902C42FE-996D-48D5-9220-20A9EF9D0493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math", "samples\Math\Math.csproj", "{A1F869A5-D419-4A66-80A2-9D2EBC821860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math", "samples\Math\Math.csproj", "{A1F869A5-D419-4A66-80A2-9D2EBC821860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubcommandSample", "samples\SubcommandSample\SubcommandSample.csproj", "{36AAE4BF-1D3D-4F58-B44F-0BCD5759F270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A1F869A5-D419-4A66-80A2-9D2EBC821860}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1F869A5-D419-4A66-80A2-9D2EBC821860}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1F869A5-D419-4A66-80A2-9D2EBC821860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36AAE4BF-1D3D-4F58-B44F-0BCD5759F270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36AAE4BF-1D3D-4F58-B44F-0BCD5759F270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36AAE4BF-1D3D-4F58-B44F-0BCD5759F270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36AAE4BF-1D3D-4F58-B44F-0BCD5759F270}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{868DC994-23C9-4CC5-A0F8-CFFAEEC8FCB4} = {41B8427C-B6EE-42D2-B25D-F986EDD7FB0A}
 		{902C42FE-996D-48D5-9220-20A9EF9D0493} = {B4AF1641-CA15-4907-A512-DC90EC3C1425}
 		{A1F869A5-D419-4A66-80A2-9D2EBC821860} = {B4AF1641-CA15-4907-A512-DC90EC3C1425}
+		{36AAE4BF-1D3D-4F58-B44F-0BCD5759F270} = {B4AF1641-CA15-4907-A512-DC90EC3C1425}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A7AE76E-9A34-4C2D-86EA-D6A6587D0B18}
