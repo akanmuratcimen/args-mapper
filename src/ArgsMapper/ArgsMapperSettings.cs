@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -27,30 +27,17 @@ using System.IO;
 
 namespace ArgsMapper
 {
-    /// <summary>
-    ///     Args Mapper Settings
-    /// </summary>
-    public class ArgsMapperSettings
+    public class ArgsMapperSettings : IArgsMapperSettings
     {
-        /// <summary>
-        ///     The version of the application.
-        /// </summary>
         public Version ApplicationVersion { get; set; } = new Version(1, 0, 0, 0);
-
-        /// <summary>
-        ///     Culture settings for value conversion and text-case transformation.
-        /// </summary>
-        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
-
-        /// <summary>
-        ///     Default writer for error messages and help screen. Default value is <see cref="Console.Out" />
-        /// </summary>
         public TextWriter DefaultWriter { get; set; } = Console.Out;
-
-        /// <summary>
-        ///     Specifies how to compare option and command names. Default value is
-        ///     <see cref="System.StringComparison.CurrentCultureIgnoreCase" />
-        /// </summary>
+        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
         public StringComparison StringComparison { get; set; } = StringComparison.CurrentCultureIgnoreCase;
+    }
+
+    internal interface IArgsMapperSettings
+    {
+        CultureInfo Culture { get; set; }
+        StringComparison StringComparison { get; set; }
     }
 }

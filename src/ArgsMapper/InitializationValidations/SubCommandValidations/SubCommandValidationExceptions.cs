@@ -21,12 +21,40 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace ArgsMapper
+using System;
+using System.Reflection;
+
+namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
-    public class ArgsOptionSettings<T>
+    public class SubcommandConflictsWithPositionalOptionException : Exception
     {
-        public T DefaultValue { get; set; }
-        public bool IsDisabled { get; set; }
-        public bool IsRequired { get; set; }
+        public SubcommandConflictsWithPositionalOptionException() :
+            base("Commands cannot be used while using a positional option.")
+        {
+        }
+    }
+
+    public class InvalidSubcommandNameException : Exception
+    {
+        public InvalidSubcommandNameException(string name) :
+            base($"'{name}' has invalid characters.")
+        {
+        }
+    }
+
+    public class SubcommandNameRequiredException : Exception
+    {
+        public SubcommandNameRequiredException(MemberInfo propertyInfo) :
+            base($"'{propertyInfo.Name}' command name can not be empty.")
+        {
+        }
+    }
+
+    public class SubcommandNameAlreadyExistsException : Exception
+    {
+        public SubcommandNameAlreadyExistsException(string name) :
+            base($"A command with '{name}' name already exists.")
+        {
+        }
     }
 }

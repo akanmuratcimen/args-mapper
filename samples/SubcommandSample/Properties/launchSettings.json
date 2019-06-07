@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SubcommandSample": {
+      "commandName": "Project",
+      "commandLineArgs": "math pow 2 6"
+    }
+  }
+}

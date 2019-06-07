@@ -127,6 +127,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneListStringOptionWithOneBoolOptionArgs
+    {
+        public OneCommandWithOneListStringOptionWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class TwoListStringOptionArgs
     {
         public List<string> Options1 { get; set; }
@@ -164,6 +170,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneIntOptionArgs
+    {
+        public OneCommandWithOneIntOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneClassWithOneBoolOption
     {
         public OneCommandWithOneBoolOptionArgs Command { get; set; }
@@ -173,6 +185,12 @@ namespace ArgsMapper.Tests
     internal class OneCommandWithOneListStringOption
     {
         public OneListStringOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneListStringOption
+    {
+        public OneCommandWithOneListStringOption Command { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
@@ -298,6 +316,12 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithTwoLevelNestedClass
+    {
+        public OneCommandWithTwoLevelNestedClass Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class OneLongNamedBoolOptionArgs
     {
         public bool SomeOptionProperty { get; set; }
@@ -325,6 +349,48 @@ namespace ArgsMapper.Tests
         }
 
         public bool Option { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class TwoLevelNestedCommandArgs
+    {
+        public OneCommandWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandMethodWithOneBoolOptionArgs
+    {
+        public OneCommandMethodWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneInternalCommandWithOneBoolOptionArgs
+    {
+        public OneInternalCommandWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithoutSetterWithOneBoolOptionArgs
+    {
+        public OneCommandWithoutSetterWithOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithOneBoolOptionAndOneBoolOptionArgs
+    {
+        public OneCommandWithOneBoolOptionAndOneBoolOptionArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class ThreeLevelNestedCommandArgs
+    {
+        public TwoLevelNestedCommandArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class FourLevelNestedCommandArgs
+    {
+        public ThreeLevelNestedCommandArgs Command { get; set; }
     }
 
     internal enum SampleEnum

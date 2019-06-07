@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.CommandValidations.Validators
 {
     internal class CommandAndPositionalOptionConflictValidator : ICommandValidator
     {
-        public void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class
+        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
         {
             if (mapper.Options.HasPositionalOption())
             {

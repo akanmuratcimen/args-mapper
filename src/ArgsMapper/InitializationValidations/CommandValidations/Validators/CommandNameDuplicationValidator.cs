@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -28,9 +28,16 @@ namespace ArgsMapper.InitializationValidations.CommandValidations.Validators
 {
     internal class CommandNameDuplicationValidator : ICommandValidator
     {
-        public void Validate<T>(ArgsMapper<T> mapper, Command command) where T : class
+        private readonly IArgsMapperSettings _argsMapperSettings;
+
+        public CommandNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
         {
-            if (mapper.Commands.Any(x => string.Equals(x.Name, command.Name, mapper.Settings.StringComparison)))
+            _argsMapperSettings = argsMapperSettings;
+        }
+
+        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
+        {
+            if (mapper.Commands.Any(x => string.Equals(x.Name, command.Name, _argsMapperSettings.StringComparison)))
             {
                 throw new CommandNameAlreadyExistsException(command.Name);
             }

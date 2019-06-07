@@ -21,12 +21,25 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace ArgsMapper
+using ArgsMapper.Models;
+using ArgsMapper.Utilities;
+
+namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
 {
-    public class ArgsOptionSettings<T>
+    internal class SubcommandNameValidator : ISubcommandValidator
     {
-        public T DefaultValue { get; set; }
-        public bool IsDisabled { get; set; }
-        public bool IsRequired { get; set; }
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
+            where TCommand : class
+        {
+            if (string.IsNullOrEmpty(command.Name) || string.IsNullOrWhiteSpace(command.Name))
+            {
+                throw new SubcommandNameRequiredException(command.PropertyInfo);
+            }
+
+            if (!command.HasValidName())
+            {
+                throw new InvalidSubcommandNameException(command.Name);
+            }
+        }
     }
 }

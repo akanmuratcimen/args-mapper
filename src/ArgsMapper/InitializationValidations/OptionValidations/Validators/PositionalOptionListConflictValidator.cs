@@ -29,7 +29,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class PositionalOptionListConflictValidator : IOptionValidator
     {
-        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
         {
             // ReSharper disable once InvertIf
             if (option.IsPositionalOption)

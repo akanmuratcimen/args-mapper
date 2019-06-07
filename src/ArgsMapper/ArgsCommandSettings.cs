@@ -22,35 +22,60 @@
  */
 
 using System.Collections.Generic;
+using ArgsMapper.InitializationValidations.CommandOptionValidations;
+using ArgsMapper.InitializationValidations.CommandValidations;
+using ArgsMapper.InitializationValidations.OptionValidations;
+using ArgsMapper.InitializationValidations.SubcommandValidations;
 using ArgsMapper.Models;
 using ArgsMapper.PageBuilding;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
-    /// <summary>
-    ///     Args Command Settings.
-    /// </summary>
-    /// <typeparam name="T">The type of the arguments model.</typeparam>
-    /// <typeparam name="TProperty">The type of the property of the command.</typeparam>
-    public class ArgsCommandSettings<T, TProperty> where T : class where TProperty : class
+    internal interface IArgsCommandSettings<TCommand> where TCommand : class
     {
-        public ArgsCommandSettings()
+        bool IsDisabled { get; set; }
+        ICommandPageBuilder<TCommand> Usage { get; }
+        List<Option> Options { get; }
+        List<Command> Subcommands { get; }
+    }
+
+    public class ArgsCommandSettings<TCommand> : IArgsCommandSettings<TCommand> where TCommand : class
+    {
+        internal ArgsCommandSettings(
+            IArgsMapperSettings argsMapperSettings,
+            ICommandOptionValidationService commandOptionValidationService,
+            ICommandValidationService commandValidationService,
+            ISubcommandValidationService subcommandValidationService,
+            IOptionValidationService optionValidationService,
+            IValueConverterFactory valueConverterFactory)
         {
+            ArgsMapperSettings = argsMapperSettings;
+            CommandOptionValidationService = commandOptionValidationService;
+            CommandValidationService = commandValidationService;
+            SubcommandValidationService = subcommandValidationService;
+            OptionValidationService = optionValidationService;
+            ValueConverterFactory = valueConverterFactory;
+
             Options = new List<Option>();
-            Usage = new CommandPageBuilder<TProperty>(Options);
+            Subcommands = new List<Command>();
+            Usage = new CommandPageBuilder<TCommand>(Options);
         }
 
-        /// <summary>
-        ///     Ignores the option if true.
-        /// </summary>
-        public bool IsDisabled { get; set; }
+        internal ICommandOptionValidationService CommandOptionValidationService { get; }
+        internal ICommandValidationService CommandValidationService { get; }
+        internal ISubcommandValidationService SubcommandValidationService { get; }
+        internal IOptionValidationService OptionValidationService { get; }
+        internal IValueConverterFactory ValueConverterFactory { get; }
+        internal IArgsMapperSettings ArgsMapperSettings { get; }
+
+        List<Option> IArgsCommandSettings<TCommand>.Options => Options;
+        List<Command> IArgsCommandSettings<TCommand>.Subcommands => Subcommands;
 
         internal List<Option> Options { get; }
-        internal ArgsMapper<T> Mapper { get; set; }
+        internal List<Command> Subcommands { get; }
 
-        /// <summary>
-        ///     Command usage builder.
-        /// </summary>
-        public ICommandPageBuilder<TProperty> Usage { get; }
+        public bool IsDisabled { get; set; }
+        public ICommandPageBuilder<TCommand> Usage { get; }
     }
 }

@@ -22,44 +22,49 @@
  */
 
 using System;
-using System.Globalization;
 using System.Linq.Expressions;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Infrastructure
 {
-    internal static class OptionInitializer
+    internal class SubcommandInitializer
     {
-        internal static Option Initialize<T, TOption>(Expression<Func<T, TOption>> propertySelector,
-            char? shortName, string longName, ushort? position, Action<ArgsOptionSettings<TOption>> optionSettings,
-            CultureInfo cultureInfo)
+        internal static Command Initialize<TCommand, TSubcommand>(
+            ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TSubcommand>> propertySelector, string name,
+            Action<ArgsCommandSettings<TSubcommand>> subcommandSettings)
+            where TCommand : class where TSubcommand : class
         {
-            var option = new Option();
+            var command = new Command();
 
             var propertyInfos = propertySelector.GetPropertyInfos();
 
-            option.PropertyInfos = propertyInfos;
+            command.PropertyInfos = propertyInfos;
+            command.Name = name ?? propertyInfos.GetName(commandSettings.ArgsMapperSettings.Culture);
+            command.CultureInfo = commandSettings.ArgsMapperSettings.Culture;
 
-            option.LongName = longName ?? propertyInfos.GetName(cultureInfo);
-            option.ShortName = shortName.HasValue && shortName == '\0' ? null : shortName;
-            option.Position = position;
-            option.CultureInfo = cultureInfo;
+            var settings = new ArgsCommandSettings<TSubcommand>(
+                commandSettings.ArgsMapperSettings,
+                commandSettings.CommandOptionValidationService,
+                commandSettings.CommandValidationService,
+                commandSettings.SubcommandValidationService,
+                commandSettings.OptionValidationService,
+                commandSettings.ValueConverterFactory);
 
-            if (optionSettings is null)
+            if (subcommandSettings is null)
             {
-                return option;
+                return command;
             }
 
-            var argsOption = new ArgsOptionSettings<TOption>();
+            subcommandSettings(settings);
 
-            optionSettings(argsOption);
+            command.Usage = settings.Usage;
+            command.IsDisabled = settings.IsDisabled;
+            command.Options = settings.Options;
+            command.Subcommands = settings.Subcommands;
 
-            option.DefaultValue = argsOption.DefaultValue;
-            option.IsDisabled = argsOption.IsDisabled;
-            option.IsRequired = argsOption.IsRequired;
-
-            return option;
+            return command;
         }
     }
 }

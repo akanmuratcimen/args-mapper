@@ -28,11 +28,18 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandOptionLongNameDuplicationValidator : ICommandOptionValidator
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings, 
-            Option commandOption) where T : class where TProperty : class
+        private readonly IArgsMapperSettings _argsMapperSettings;
+
+        public CommandOptionLongNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
+        {
+            _argsMapperSettings = argsMapperSettings;
+        }
+
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption)
+            where TCommand : class
         {
             if (commandSettings.Options.Any(x => string.Equals(x.LongName,
-                commandOption.LongName, commandSettings.Mapper.Settings.StringComparison)))
+                commandOption.LongName, _argsMapperSettings.StringComparison)))
             {
                 throw new CommandOptionLongNameAlreadyExistsException(commandOption.LongName);
             }

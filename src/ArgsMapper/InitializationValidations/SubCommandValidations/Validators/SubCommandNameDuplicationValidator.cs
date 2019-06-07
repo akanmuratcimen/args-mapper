@@ -21,12 +21,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace ArgsMapper
+using System.Linq;
+using ArgsMapper.Models;
+
+namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
 {
-    public class ArgsOptionSettings<T>
+    internal class SubcommandNameDuplicationValidator : ISubcommandValidator
     {
-        public T DefaultValue { get; set; }
-        public bool IsDisabled { get; set; }
-        public bool IsRequired { get; set; }
+        private readonly IArgsMapperSettings _argsMapperSettings;
+
+        public SubcommandNameDuplicationValidator(IArgsMapperSettings argsMapperSettings)
+        {
+            _argsMapperSettings = argsMapperSettings;
+        }
+
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
+            where TCommand : class
+        {
+            if (commandSettings.Subcommands.Any(x => string.Equals(x.Name,
+                command.Name, _argsMapperSettings.StringComparison)))
+            {
+                throw new SubcommandNameAlreadyExistsException(command.Name);
+            }
+        }
     }
 }
