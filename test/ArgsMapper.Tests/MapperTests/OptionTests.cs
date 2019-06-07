@@ -148,7 +148,7 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown 'command' command option 'foobar'.", result.ErrorMessage);
+            Assert.Equal("Unknown 'command' command option '--foobar'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -182,7 +182,7 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown option 'option'.", result.ErrorMessage);
+            Assert.Equal("Unknown option '--option'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -216,7 +216,39 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown option 'option1'.", result.ErrorMessage);
+            Assert.Equal("Unknown option '--option1'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined_ShortName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("-i");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown option '-i'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_In_Collection_Type_But_Have_Multiple_Value_In_Args()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntOptionArgs>();
+
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("--option", "1", "2");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Option '--option' only accepts a single argument but 2 were provided.", result.ErrorMessage);
         }
 
         [Fact]
@@ -268,7 +300,7 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown option 'foobar'.", result.ErrorMessage);
+            Assert.Equal("Unknown option '--foobar'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -609,22 +641,6 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.True(result.Model.Option2);
             Assert.False(result.Model.Option3);
             Assert.True(result.Model.Option4);
-        }
-
-        [Fact]
-        internal void MapperResult_Should_Have_Error_When_Option_Not_In_Collection_Type_But_Have_Multiple_Value_In_Args()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneIntOptionArgs>();
-
-            mapper.AddOption(x => x.Option);
-
-            // Act
-            var result = mapper.Map("--option", "1", "2");
-
-            // Assert
-            Assert.True(result.HasError);
-            Assert.Equal("Option '--option' only accepts a single argument but 2 were provided.", result.ErrorMessage);
         }
     }
 }

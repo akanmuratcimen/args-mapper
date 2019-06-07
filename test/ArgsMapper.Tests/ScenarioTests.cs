@@ -68,7 +68,7 @@ namespace ArgsMapper.Tests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown option 'option'.", result.ErrorMessage);
+            Assert.Equal("Unknown option '--option'.", result.ErrorMessage);
         }
 
         [Fact]

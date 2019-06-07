@@ -53,7 +53,7 @@ namespace ArgsMapper.Parsing
                 {
                     if (arg.IsValidOption())
                     {
-                        key = arg.RemoveOptionPrefix().TrimEnd(Constants.AssignmentOperators);
+                        key = arg.TrimEnd(Constants.AssignmentOperators);
                         matchType = arg.GetOptionMatchType();
 
                         if (result.ContainsKey((key, matchType)))

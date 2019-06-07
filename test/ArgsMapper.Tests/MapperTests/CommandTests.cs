@@ -430,7 +430,7 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown 'command' command option 'option'.", result.ErrorMessage);
+            Assert.Equal("Unknown 'command' command option '--option'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -526,7 +526,7 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown 'command' command option 'option1'.", result.ErrorMessage);
+            Assert.Equal("Unknown 'command' command option '--option1'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -549,6 +549,24 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.True(result.HasError);
             Assert.Equal("Required 'command' command option '--option-2' is missing.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined_ShortName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneIntOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "-o");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown 'command' command option '-o'.", result.ErrorMessage);
         }
     }
 }

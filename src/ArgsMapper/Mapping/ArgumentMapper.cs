@@ -99,7 +99,8 @@ namespace ArgsMapper.Mapping
 
             foreach (var ((key, matchType), values) in parsedOptions)
             {
-                var option = command.Options.Get(matchType, key, _mapper.Settings.StringComparison);
+                var option = command.Options.Get(matchType, 
+                    key.RemoveOptionPrefix(), _mapper.Settings.StringComparison);
 
                 if (option is null || option.IsDisabled)
                 {
@@ -192,7 +193,8 @@ namespace ArgsMapper.Mapping
 
             foreach (var ((key, matchType), values) in parsedOptions)
             {
-                var option = _mapper.Options.Get(matchType, key, _mapper.Settings.StringComparison);
+                var option = _mapper.Options.Get(matchType, 
+                    key.RemoveOptionPrefix(), _mapper.Settings.StringComparison);
 
                 if (option is null || option.IsDisabled)
                 {
