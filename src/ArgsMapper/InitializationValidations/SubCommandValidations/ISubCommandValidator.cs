@@ -21,12 +21,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-namespace ArgsMapper
+using ArgsMapper.Models;
+
+namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
-    public class ArgsOptionSettings<T>
+    internal interface ISubcommandValidator
     {
-        public T DefaultValue { get; set; }
-        public bool IsDisabled { get; set; }
-        public bool IsRequired { get; set; }
+        void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command) where TCommand : class;
     }
 }

@@ -22,39 +22,35 @@
  */
 
 using System.Collections.Generic;
-using ArgsMapper.InitializationValidations.OptionValidations.Validators;
+using ArgsMapper.InitializationValidations.SubcommandValidations.Validators;
 using ArgsMapper.Models;
-using ArgsMapper.ValueConversion;
 
-namespace ArgsMapper.InitializationValidations.OptionValidations
+namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
-    internal interface IOptionValidationService
+    internal interface ISubcommandValidationService
     {
-        void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class;
+        void Validate<T>(IArgsCommandSettings<T> commandSettings, Command command) where T : class;
     }
 
-    internal class OptionValidationService : IOptionValidationService
+    internal class SubcommandValidationService : ISubcommandValidationService
     {
-        public OptionValidationService(IValueConverterFactory valueConverterFactory)
+        public SubcommandValidationService(IArgsMapperSettings argsMapperSettings)
         {
-            Validators = new List<IOptionValidator> {
-                new OptionPropertyTypeValidator(valueConverterFactory),
-                new OptionLongNameValidator(),
-                new OptionLongNameDuplicationValidator(),
-                new OptionShortNameValidator(),
-                new OptionShortNameDuplicationValidator(),
-                new PositionalOptionAndCommandConflictValidator(),
-                new PositionalOptionListConflictValidator()
+            Validators = new List<ISubcommandValidator> {
+                new SubcommandNameValidator(),
+                new SubcommandNameDuplicationValidator(argsMapperSettings),
+                new SubcommandAndPositionalOptionConflictValidator()
             };
         }
 
-        private IEnumerable<IOptionValidator> Validators { get; }
+        private IEnumerable<ISubcommandValidator> Validators { get; }
 
-        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
+            where TCommand : class
         {
             foreach (var validator in Validators)
             {
-                validator.Validate(mapper, option);
+                validator.Validate(commandSettings, command);
             }
         }
     }

@@ -22,14 +22,22 @@
  */
 
 using ArgsMapper.Models;
+using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class OptionPropertyTypeValidator : IOptionValidator
     {
-        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        private readonly IValueConverterFactory _valueConverterFactory;
+
+        public OptionPropertyTypeValidator(IValueConverterFactory valueConverterFactory)
         {
-            if (!mapper.ValueConverterFactory.IsSupportedBaseType(option.Type))
+            _valueConverterFactory = valueConverterFactory;
+        }
+
+        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        {
+            if (!_valueConverterFactory.IsSupportedBaseType(option.Type))
             {
                 throw new UnsupportedOptionPropertyTypeException(option.Type);
             }

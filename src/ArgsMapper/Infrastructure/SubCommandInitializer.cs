@@ -28,35 +28,36 @@ using ArgsMapper.Utilities;
 
 namespace ArgsMapper.Infrastructure
 {
-    internal static class CommandInitializer
+    internal class SubcommandInitializer
     {
-        internal static Command Initialize<T, TCommand>(ArgsMapper<T> mapper,
-            Expression<Func<T, TCommand>> propertySelector, string name,
-            Action<ArgsCommandSettings<TCommand>> commandSettings)
-            where T : class where TCommand : class
+        internal static Command Initialize<TCommand, TSubcommand>(
+            ArgsCommandSettings<TCommand> commandSettings,
+            Expression<Func<TCommand, TSubcommand>> propertySelector, string name,
+            Action<ArgsCommandSettings<TSubcommand>> subcommandSettings)
+            where TCommand : class where TSubcommand : class
         {
             var command = new Command();
 
             var propertyInfos = propertySelector.GetPropertyInfos();
 
             command.PropertyInfos = propertyInfos;
-            command.Name = name ?? propertyInfos.GetName(mapper.Settings.Culture);
-            command.CultureInfo = mapper.Settings.Culture;
+            command.Name = name ?? propertyInfos.GetName(commandSettings.ArgsMapperSettings.Culture);
+            command.CultureInfo = commandSettings.ArgsMapperSettings.Culture;
 
-            var settings = new ArgsCommandSettings<TCommand>(
-                mapper.Settings,
-                mapper.CommandOptionValidationService,
-                mapper.CommandValidationService,
-                mapper.SubcommandValidationService,
-                mapper.OptionValidationService,
-                mapper.ValueConverterFactory);
+            var settings = new ArgsCommandSettings<TSubcommand>(
+                commandSettings.ArgsMapperSettings,
+                commandSettings.CommandOptionValidationService,
+                commandSettings.CommandValidationService,
+                commandSettings.SubcommandValidationService,
+                commandSettings.OptionValidationService,
+                commandSettings.ValueConverterFactory);
 
-            if (commandSettings is null)
+            if (subcommandSettings is null)
             {
                 return command;
             }
 
-            commandSettings(settings);
+            subcommandSettings(settings);
 
             command.Usage = settings.Usage;
             command.IsDisabled = settings.IsDisabled;

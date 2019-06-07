@@ -106,4 +106,12 @@ namespace ArgsMapper
         {
         }
     }
+
+    internal class MultipleValueForNotCollectionType : UsageException
+    {
+        public MultipleValueForNotCollectionType(string option, int count)
+            : base($"Option '{option}' only accepts a single argument but {count} were provided.")
+        {
+        }
+    }
 }

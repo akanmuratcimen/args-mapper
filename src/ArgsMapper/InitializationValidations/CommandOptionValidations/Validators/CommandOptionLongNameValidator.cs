@@ -29,8 +29,8 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
 {
     internal class CommandOptionLongNameValidator : ICommandOptionValidator
     {
-        public void Validate<T, TProperty>(ArgsCommandSettings<T, TProperty> commandSettings,
-            Option commandOption) where T : class where TProperty : class
+        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption)
+            where TCommand : class
         {
             if (string.IsNullOrEmpty(commandOption.LongName) || string.IsNullOrWhiteSpace(commandOption.LongName))
             {

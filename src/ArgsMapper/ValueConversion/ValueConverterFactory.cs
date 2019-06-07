@@ -73,7 +73,7 @@ namespace ArgsMapper.ValueConversion
                 return CreateListWithValues(type, values, formatProvider);
             }
 
-            var value = values.LastOrDefault();
+            var value = values.FirstOrDefault();
 
             if (type.IsNullable() && string.IsNullOrEmpty(value))
             {

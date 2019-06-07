@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class OptionLongNameDuplicationValidator : IOptionValidator
     {
-        public void Validate<T>(ArgsMapper<T> mapper, Option option) where T : class
+        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
         {
             if (mapper.Options.Any(x => string.Equals(x.LongName, option.LongName, mapper.Settings.StringComparison)))
             {

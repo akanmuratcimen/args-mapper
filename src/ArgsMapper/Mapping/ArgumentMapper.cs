@@ -32,10 +32,10 @@ namespace ArgsMapper.Mapping
 {
     internal class ArgumentMapper<T> where T : class
     {
-        private readonly ArgsMapper<T> _mapper;
+        private readonly IArgsMapper<T> _mapper;
         private readonly IReflectionService _reflectionService;
 
-        internal ArgumentMapper(ArgsMapper<T> mapper, IReflectionService reflectionService)
+        internal ArgumentMapper(IArgsMapper<T> mapper, IReflectionService reflectionService)
         {
             _mapper = mapper;
             _reflectionService = reflectionService;
@@ -62,8 +62,37 @@ namespace ArgsMapper.Mapping
 
             var commandInstance = _reflectionService.SetValue(command, model);
 
+            short optionsStartIndex = 1;
+
+            for (; optionsStartIndex < args.Length; optionsStartIndex++)
+            {
+                if (command.Options.Any(x => x.IsPositionalOption))
+                {
+                    break;
+                }
+
+                var arg = args[optionsStartIndex];
+
+                if (arg.IsValidOption())
+                {
+                    break;
+                }
+
+                var subcommand = command.Subcommands.Get(arg, _mapper.Settings.StringComparison);
+
+                if (subcommand is null || subcommand.IsDisabled)
+                {
+                    throw new UnknownCommandException(arg);
+                }
+
+                var subcommandInstance = _reflectionService.SetValue(subcommand, commandInstance);
+
+                command = subcommand;
+                commandInstance = subcommandInstance;
+            }
+
             var proceededOptions = new HashSet<Option>();
-            var parsedOptions = RawParser.ParseOptions(args, 1);
+            var parsedOptions = RawParser.ParseOptions(args, optionsStartIndex);
 
             var groupedOptions = new Dictionary<Option, List<string>>(
                 new OptionPropertyInfoEqualityComparer());
@@ -85,7 +114,7 @@ namespace ArgsMapper.Mapping
             {
                 var listPositionalOptionValues = new List<string>();
 
-                for (short i = 1; i < args.Length; i++)
+                for (var i = optionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
@@ -107,14 +136,14 @@ namespace ArgsMapper.Mapping
             }
             else
             {
-                for (short i = 1; i < args.Length; i++)
+                for (var i = optionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
                         break;
                     }
 
-                    var option = command.Options.GetByPosition((short)(i - 1));
+                    var option = command.Options.GetByPosition((short)(i - optionsStartIndex));
 
                     if (option is null)
                     {
