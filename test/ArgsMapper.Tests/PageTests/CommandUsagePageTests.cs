@@ -136,6 +136,52 @@ namespace ArgsMapper.Tests.PageTests
         }
 
         [Fact]
+        internal void Mapper_Output_Should_Be_Subcommand_Usage_Content_When_ShowUsageWhenEmptyOptions_True_And_No_Option_In_Args()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.ShowUsageWhenEmptyOptions = true;
+
+                    subcommandSettings.Usage.AddText("sample usage text");
+                });
+            });
+
+            // Act
+            mapper.Execute(new[] { "command", "command" }, null);
+
+            // Assert
+            Assert.Equal("sample usage text", output.ToString().Trim());
+        }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Command_Usage_Content_When_ShowUsageWhenEmptyOptions_True_And_No_Option_In_Args()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.ShowUsageWhenEmptyOptions = true;
+
+                commandSettings.Usage.AddText("sample usage text");
+            });
+
+            // Act
+            mapper.Execute(new[] { "command" }, null);
+
+            // Assert
+            Assert.Equal("sample usage text", output.ToString().Trim());
+        }
+
+        [Fact]
         internal void Mapper_Subcommand_Output_Should_Unknown_Option_Error()
         {
             // Arrange

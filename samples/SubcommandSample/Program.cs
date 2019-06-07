@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ArgsMapper;
 
@@ -12,10 +13,14 @@ namespace SubcommandSample
 
             mapper.AddCommand(x => x.Math, commandSettings => {
                 commandSettings.AddSubcommand(x => x.Sum, subcommandSettings => {
-                    subcommandSettings.AddPositionalOption(x => x.Values);
+                    subcommandSettings.AddPositionalOption(x => x.Values, optionSettings => {
+                        optionSettings.DefaultValue = new List<int>();
+                    });
                 });
 
                 commandSettings.AddSubcommand(x => x.Pow, subcommandSettings => {
+                    subcommandSettings.ShowUsageWhenEmptyOptions = true;
+
                     subcommandSettings.AddPositionalOption(x => x.X);
                     subcommandSettings.AddPositionalOption(x => x.Y);
 

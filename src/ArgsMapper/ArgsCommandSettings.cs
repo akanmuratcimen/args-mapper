@@ -76,6 +76,8 @@ namespace ArgsMapper
         internal List<Command> Subcommands { get; }
 
         public bool IsDisabled { get; set; }
+        public bool ShowUsageWhenEmptyOptions { get; set; }
+
         public ICommandPageBuilder<TCommand> Usage { get; }
     }
 }

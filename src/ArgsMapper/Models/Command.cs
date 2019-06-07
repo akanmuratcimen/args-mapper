@@ -33,6 +33,7 @@ namespace ArgsMapper.Models
     internal class Command
     {
         internal bool IsDisabled { get; set; }
+        internal bool ShowUsageWhenEmptyOptions { get; set; }
         internal string Name { get; set; }
         internal IList<Option> Options { get; set; } = new List<Option>();
         internal IList<Command> Subcommands { get; set; } = new List<Command>();

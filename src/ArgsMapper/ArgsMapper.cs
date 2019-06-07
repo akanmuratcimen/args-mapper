@@ -124,7 +124,7 @@ namespace ArgsMapper
                     return;
                 }
 
-                if (Commands.Any() && args.Length > 1)
+                if (Commands.Any())
                 {
                     var command = Commands.Get(args[0], Settings.StringComparison);
 
@@ -156,17 +156,19 @@ namespace ArgsMapper
                             command = subcommand;
                         }
 
-                        if (args.Length > optionsStartIndex &&
-                            args[optionsStartIndex].IsHelpOption() &&
-                            command.Usage != null)
+                        if (command.Usage != null)
                         {
-                            var commandUsageContent = command.Usage.Content;
-
-                            if (commandUsageContent != string.Empty)
+                            if (args.Length == optionsStartIndex && command.ShowUsageWhenEmptyOptions ||
+                                args.Length > optionsStartIndex && args[optionsStartIndex].IsHelpOption())
                             {
-                                Settings.DefaultWriter.Write(commandUsageContent);
+                                var commandUsageContent = command.Usage.Content;
 
-                                return;
+                                if (commandUsageContent != string.Empty)
+                                {
+                                    Settings.DefaultWriter.Write(commandUsageContent);
+
+                                    return;
+                                }
                             }
                         }
                     }
