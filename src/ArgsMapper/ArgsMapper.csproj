@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Title>args-mapper</Title>
     <PackageId>args-mapper</PackageId>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>0.3.0-alpha</Version>
+    <Version>0.5.0-alpha</Version>
     <Authors>Akan Murat Cimen</Authors>
     <PackageProjectUrl>https://github.com/akanmuratcimen/args-mapper</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/akanmuratcimen/args-mapper/master/args-mapper.png</PackageIconUrl>
