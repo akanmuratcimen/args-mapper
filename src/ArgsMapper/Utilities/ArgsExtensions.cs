@@ -84,6 +84,12 @@ namespace ArgsMapper.Utilities
             return value.Length == 1 && Constants.AssignmentOperators.Contains(value[0]);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsPositionalOptionsSeparator(this string value)
+        {
+            return value == Constants.PositionalOptionsSeparator;
+        }
+
         internal static bool IsNullOrEmpty(this string[] args)
         {
             if (args is null || args.Length == 0)

@@ -728,6 +728,23 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void PositionalOption_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddPositionalOption(x => x.Options);
+            mapper.AddOption(x => x.Option);
+
+            // Act
+            var result = mapper.Map("--option", "1", "--", "foo", "bar");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Options);
+            Assert.Equal(1, result.Model.Option);
+        }
+
+        [Fact]
         internal void Stacked_Option_Values_Should_Be_Equal_As_Much_As_Occurrences_If_It_Is_A_Collection_Type()
         {
             // Arrange
@@ -778,6 +795,25 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.Equal(999, result.Model.Option1);
             Assert.Equal(999, result.Model.Option2);
             Assert.Equal(999, result.Model.Option3);
+        }
+
+        [Fact]
+        internal void PositionalOption_Single_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeIntOptionsArgs>();
+
+            mapper.AddPositionalOption(x => x.Option1);
+            mapper.AddPositionalOption(x => x.Option2);
+            mapper.AddOption(x => x.Option3);
+
+            // Act
+            var result = mapper.Map("--option3", "3", "--", "1", "2");
+
+            // Assert
+            Assert.Equal(1, result.Model.Option1);
+            Assert.Equal(2, result.Model.Option2);
+            Assert.Equal(3, result.Model.Option3);
         }
     }
 }

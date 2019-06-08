@@ -279,6 +279,47 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void Command_PositionalOption_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--option", "1", "--", "foo", "bar");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.Options);
+            Assert.Equal(1, result.Model.Command.Option);
+        }
+
+
+        [Fact]
+        internal void Command_PositionalOption_Single_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithThreeIntOptionsArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option1);
+                commandSettings.AddPositionalOption(x => x.Option2);
+                commandSettings.AddOption(x => x.Option3);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--option3", "3", "--", "1", "2");
+
+            // Assert
+            Assert.Equal(1, result.Model.Command.Option1);
+            Assert.Equal(2, result.Model.Command.Option2);
+            Assert.Equal(3, result.Model.Command.Option3);
+        }
+
+        [Fact]
         internal void Command_Should_Be_Matched_With_Default_Name()
         {
             // Arrange

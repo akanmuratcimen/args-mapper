@@ -53,6 +53,11 @@ namespace ArgsMapper.Parsing
                     continue;
                 }
 
+                if (args[i].IsPositionalOptionsSeparator())
+                {
+                    break;
+                }
+
                 foreach (var arg in args[i].Split(Constants.AssignmentOperators, key is null ? 2 : 1))
                 {
                     if (arg.IsValidOption())

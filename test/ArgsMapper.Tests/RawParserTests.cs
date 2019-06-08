@@ -338,24 +338,5 @@ namespace ArgsMapper.Tests
             Assert.Contains("value1", result[("-o", OptionMatchType.ByShortName)]);
             Assert.Contains("value2", result[("--option1", OptionMatchType.ByLongName)]);
         }
-
-        [Fact]
-        internal void RawParser_ParseOptions_Should_Parse_Prefix_Values()
-        {
-            // Arrange
-            var args = new[] {
-                "-o", "-", "--option1", "--"
-            };
-
-            // Act
-            var result = RawParser.ParseOptions(args);
-
-            // Assert
-            Assert.Contains(("-o", OptionMatchType.ByShortName), result.Keys);
-            Assert.Contains(("--option1", OptionMatchType.ByLongName), result.Keys);
-
-            Assert.Contains("-", result[("-o", OptionMatchType.ByShortName)]);
-            Assert.Contains("--", result[("--option1", OptionMatchType.ByLongName)]);
-        }
     }
 }

@@ -21,6 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ArgsMapper.Models;
@@ -111,11 +112,27 @@ namespace ArgsMapper.Mapping
                 groupedOptions.AddOrMergeValues(option, values);
             }
 
+            var positionalOptionsStartIndex = 0;
+
+            for (var i = 0; i < args.Length; i++)
+            {
+                if (!args[i].IsPositionalOptionsSeparator())
+                {
+                    continue;
+                }
+
+                positionalOptionsStartIndex = i + 1;
+
+                break;
+            }
+
+            positionalOptionsStartIndex = Math.Max(optionsStartIndex, positionalOptionsStartIndex);
+
             if (command.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
                 var listPositionalOptionValues = new List<string>();
 
-                for (var i = optionsStartIndex; i < args.Length; i++)
+                for (var i = positionalOptionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
@@ -137,14 +154,14 @@ namespace ArgsMapper.Mapping
             }
             else
             {
-                for (var i = optionsStartIndex; i < args.Length; i++)
+                for (var i = positionalOptionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
                         break;
                     }
 
-                    var option = command.Options.GetByPosition(i - optionsStartIndex);
+                    var option = command.Options.GetByPosition(i - positionalOptionsStartIndex);
 
                     if (option is null)
                     {
@@ -205,9 +222,24 @@ namespace ArgsMapper.Mapping
                 groupedOptions.AddOrMergeValues(option, values);
             }
 
+            var positionalOptionsStartIndex = 0;
+
+            for (var i = 0; i < args.Length; i++)
+            {
+                if (!args[i].IsPositionalOptionsSeparator())
+                {
+                    continue;
+                }
+
+                positionalOptionsStartIndex = i + 1;
+
+                break;
+            }
+
             if (_mapper.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
-                var listPositionalOptionValues = args.TakeWhile(x => !x.IsValidOption()).ToList();
+                var listPositionalOptionValues = args.Skip(positionalOptionsStartIndex)
+                    .TakeWhile(x => !x.IsValidOption()).ToList();
 
                 if (listPositionalOptionValues.Any())
                 {
@@ -221,14 +253,14 @@ namespace ArgsMapper.Mapping
             }
             else
             {
-                for (var i = 0; i < args.Length; i++)
+                for (var i = positionalOptionsStartIndex; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {
                         break;
                     }
 
-                    var option = _mapper.Options.GetByPosition(i);
+                    var option = _mapper.Options.GetByPosition(i - positionalOptionsStartIndex);
 
                     if (option is null)
                     {
