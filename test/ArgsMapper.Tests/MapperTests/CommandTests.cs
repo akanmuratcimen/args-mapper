@@ -279,24 +279,25 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_PositionalOption_Values_Should_Be_Matched_After_Separator()
+        internal void Command_PositionalOption_Single_String_Values_Should_Be_Matched_After_Separator()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithThreeStringOptionsArgs>();
 
             mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddPositionalOption(x => x.Options);
-                commandSettings.AddOption(x => x.Option);
+                commandSettings.AddPositionalOption(x => x.Option1);
+                commandSettings.AddPositionalOption(x => x.Option2);
+                commandSettings.AddOption(x => x.Option3);
             });
 
             // Act
-            var result = mapper.Map("command", "--option", "1", "--", "foo", "bar");
+            var result = mapper.Map("command", "--option3", "bar", "--", "foo", "--option");
 
             // Assert
-            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.Options);
-            Assert.Equal(1, result.Model.Command.Option);
+            Assert.Equal("foo", result.Model.Command.Option1);
+            Assert.Equal("--option", result.Model.Command.Option2);
+            Assert.Equal("bar", result.Model.Command.Option3);
         }
-
 
         [Fact]
         internal void Command_PositionalOption_Single_Values_Should_Be_Matched_After_Separator()
@@ -317,6 +318,25 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.Equal(1, result.Model.Command.Option1);
             Assert.Equal(2, result.Model.Command.Option2);
             Assert.Equal(3, result.Model.Command.Option3);
+        }
+
+        [Fact]
+        internal void Command_PositionalOption_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--option", "1", "--", "foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar", "--option", "1" }, result.Model.Command.Options);
+            Assert.Equal(1, result.Model.Command.Option);
         }
 
         [Fact]

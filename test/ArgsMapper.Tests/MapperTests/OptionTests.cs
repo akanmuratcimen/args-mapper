@@ -737,10 +737,10 @@ namespace ArgsMapper.Tests.MapperTests
             mapper.AddOption(x => x.Option);
 
             // Act
-            var result = mapper.Map("--option", "1", "--", "foo", "bar");
+            var result = mapper.Map("--option", "1", "--", "foo", "bar", "--option", "1");
 
             // Assert
-            Assert.Equal(new[] { "foo", "bar" }, result.Model.Options);
+            Assert.Equal(new[] { "foo", "bar", "--option", "1" }, result.Model.Options);
             Assert.Equal(1, result.Model.Option);
         }
 
@@ -814,6 +814,25 @@ namespace ArgsMapper.Tests.MapperTests
             Assert.Equal(1, result.Model.Option1);
             Assert.Equal(2, result.Model.Option2);
             Assert.Equal(3, result.Model.Option3);
+        }
+
+        [Fact]
+        internal void PositionalOption_Single_String_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeStringOptionsArgs>();
+
+            mapper.AddPositionalOption(x => x.Option1);
+            mapper.AddPositionalOption(x => x.Option2);
+            mapper.AddOption(x => x.Option3);
+
+            // Act
+            var result = mapper.Map("--option3", "bar", "--", "foo", "--option");
+
+            // Assert
+            Assert.Equal("foo", result.Model.Option1);
+            Assert.Equal("--option", result.Model.Option2);
+            Assert.Equal("bar", result.Model.Option3);
         }
     }
 }

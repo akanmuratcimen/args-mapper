@@ -113,6 +113,7 @@ namespace ArgsMapper.Mapping
             }
 
             var positionalOptionsStartIndex = 0;
+            var hasPositionalOptionSeparator = false;
 
             for (var i = 0; i < args.Length; i++)
             {
@@ -122,6 +123,7 @@ namespace ArgsMapper.Mapping
                 }
 
                 positionalOptionsStartIndex = i + 1;
+                hasPositionalOptionSeparator = true;
 
                 break;
             }
@@ -134,7 +136,7 @@ namespace ArgsMapper.Mapping
 
                 for (var i = positionalOptionsStartIndex; i < args.Length; i++)
                 {
-                    if (args[i].IsValidOption())
+                    if (!hasPositionalOptionSeparator && args[i].IsValidOption())
                     {
                         break;
                     }
@@ -156,7 +158,7 @@ namespace ArgsMapper.Mapping
             {
                 for (var i = positionalOptionsStartIndex; i < args.Length; i++)
                 {
-                    if (args[i].IsValidOption())
+                    if (!hasPositionalOptionSeparator && args[i].IsValidOption())
                     {
                         break;
                     }
@@ -223,6 +225,7 @@ namespace ArgsMapper.Mapping
             }
 
             var positionalOptionsStartIndex = 0;
+            var hasPositionalOptionSeparator = false;
 
             for (var i = 0; i < args.Length; i++)
             {
@@ -232,14 +235,24 @@ namespace ArgsMapper.Mapping
                 }
 
                 positionalOptionsStartIndex = i + 1;
+                hasPositionalOptionSeparator = true;
 
                 break;
             }
 
             if (_mapper.Options.Any(x => x.IsPositionalOption && x.Type.IsList()))
             {
-                var listPositionalOptionValues = args.Skip(positionalOptionsStartIndex)
-                    .TakeWhile(x => !x.IsValidOption()).ToList();
+                var listPositionalOptionValues = new List<string>();
+
+                for (var i = positionalOptionsStartIndex; i < args.Length; i++)
+                {
+                    if (!hasPositionalOptionSeparator && args[i].IsValidOption())
+                    {
+                        break;
+                    }
+
+                    listPositionalOptionValues.Add(args[i]);
+                }
 
                 if (listPositionalOptionValues.Any())
                 {
@@ -255,7 +268,7 @@ namespace ArgsMapper.Mapping
             {
                 for (var i = positionalOptionsStartIndex; i < args.Length; i++)
                 {
-                    if (args[i].IsValidOption())
+                    if (!hasPositionalOptionSeparator && args[i].IsValidOption())
                     {
                         break;
                     }

@@ -254,6 +254,14 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
+    internal class ThreeStringOptionsArgs
+    {
+        public string Option1 { get; set; }
+        public string Option2 { get; set; }
+        public string Option3 { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
     internal class BoolIntStringOptionsArgs
     {
         public bool Option1 { get; set; }
@@ -282,6 +290,13 @@ namespace ArgsMapper.Tests
     internal class OneCommandWithThreeIntOptionsArgs
     {
         public ThreeIntOptionsArgs Command { get; set; }
+    }
+
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithThreeStringOptionsArgs
+    {
+        public ThreeStringOptionsArgs Command { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
