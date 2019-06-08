@@ -279,22 +279,6 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_Should_Be_Matched_With_Name()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
-
-            mapper.AddCommand(x => x.Command, "custom-named-command");
-
-            // Act
-            var result = mapper.Map("custom-named-command");
-
-            // Assert
-            Assert.NotNull(result.Model.Command);
-            Assert.IsType<OneBoolOptionArgs>(result.Model.Command);
-        }
-
-        [Fact]
         internal void Command_Should_Be_Matched_With_Default_Name()
         {
             // Arrange
@@ -324,6 +308,22 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.NotNull(result.Model.SomeCommandProperty);
             Assert.IsType<OneBoolOptionArgs>(result.Model.SomeCommandProperty);
+        }
+
+        [Fact]
+        internal void Command_Should_Be_Matched_With_Name()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, "custom-named-command");
+
+            // Act
+            var result = mapper.Map("custom-named-command");
+
+            // Assert
+            Assert.NotNull(result.Model.Command);
+            Assert.IsType<OneBoolOptionArgs>(result.Model.Command);
         }
 
         [Fact]
@@ -375,6 +375,27 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.Null(result.Model.Command);
+        }
+
+        [Fact]
+        internal void Command_Stacked_Options_Value_Should_Be_Given_Value()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithThreeBoolOptionsArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option1, 'x', "option-1");
+                commandSettings.AddOption(x => x.Option2, 'y', "option-2");
+                commandSettings.AddOption(x => x.Option3, 'z', "option-3");
+            });
+
+            // Act
+            var result = mapper.Map("command", "-xyz");
+
+            // Assert
+            Assert.True(result.Model.Command.Option1);
+            Assert.True(result.Model.Command.Option2);
+            Assert.True(result.Model.Command.Option3);
         }
 
         [Fact]
@@ -530,6 +551,24 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined_ShortName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneIntOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "-o");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown 'command' command option '-o'.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Required_Error_When_Same_Property_Mapped_By_Another_Command_Option()
         {
             // Arrange
@@ -549,24 +588,6 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.True(result.HasError);
             Assert.Equal("Required 'command' command option '--option-2' is missing.", result.ErrorMessage);
-        }
-
-        [Fact]
-        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined_ShortName()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneIntOptionArgs>();
-
-            mapper.AddCommand(x => x.Command, commandSettings => {
-                commandSettings.AddOption(x => x.Option);
-            });
-
-            // Act
-            var result = mapper.Map("command", "-o");
-
-            // Assert
-            Assert.True(result.HasError);
-            Assert.Equal("Unknown 'command' command option '-o'.", result.ErrorMessage);
         }
     }
 }

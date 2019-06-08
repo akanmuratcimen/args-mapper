@@ -21,6 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using ArgsMapper.Models;
@@ -90,15 +91,7 @@ namespace ArgsMapper.Utilities
                 return true;
             }
 
-            foreach (var arg in args)
-            {
-                if (!string.IsNullOrEmpty(arg))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return args.All(string.IsNullOrEmpty);
         }
 
         internal static bool IsValidOption(this string value)
@@ -115,14 +108,24 @@ namespace ArgsMapper.Utilities
                 return false;
             }
 
-            switch (prefix)
+            if (prefix == "-" && char.IsDigit(value[1]))
             {
-                case "-" when value.Length != 2:
-                case "-" when char.IsDigit(value[1]):
-                    return false;
+                return false;
+            }
 
-                default:
-                    return true;
+            return true;
+        }
+
+        internal static bool IsStackedOption(this string value)
+        {
+            return GetOptionPrefix(value) == "-" && !char.IsDigit(value[1]) && value.Length > 2;
+        }
+
+        internal static IEnumerable<string> SplitStackedOptions(this string value)
+        {
+            foreach (var option in value.RemoveOptionPrefix())
+            {
+                yield return option.AddShortNamePrefix();
             }
         }
 

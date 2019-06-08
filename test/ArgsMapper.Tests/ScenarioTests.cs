@@ -22,12 +22,58 @@
  */
 
 using System;
+using System.IO;
+using System.Text;
 using Xunit;
 
 namespace ArgsMapper.Tests
 {
     public class ScenarioTests
     {
+        [Fact]
+        internal void Mapper_Output_Should_Be_Unknown_Option_Error_When_Help_Alias_In_Stacked_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeBoolOptionsArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            mapper.Usage.AddText("sample usage text.");
+
+            // Act
+            mapper.Execute(new[] { "-hxyz" }, null);
+
+            // Assert
+            Assert.Equal("Unknown option '-h'.", output.ToString().TrimEnd());
+        }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Unknown_Option_Error_When_Version_Alias_In_Stacked_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeBoolOptionsArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            mapper.Usage.AddText("sample usage text.");
+
+            // Act
+            mapper.Execute(new[] { "-vxyz" }, null);
+
+            // Assert
+            Assert.Equal("Unknown option '-v'.", output.ToString().TrimEnd());
+        }
+
         [Fact]
         internal void Mapper_Should_Throw_MissingMethodException_When_There_Is_No_Default_Constructor()
         {

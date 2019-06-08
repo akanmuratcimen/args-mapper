@@ -34,6 +34,11 @@ namespace ArgsMapper.Utilities
         internal static Option Get(this IEnumerable<Option> options,
             OptionMatchType matchType, string key, StringComparison stringComparison)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return null;
+            }
+
             switch (matchType)
             {
                 case OptionMatchType.ByShortName:

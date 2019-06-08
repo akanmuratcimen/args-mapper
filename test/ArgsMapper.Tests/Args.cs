@@ -254,11 +254,19 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    internal class ThreeListOfIntOptionsArgs
+    internal class BoolIntStringOptionsArgs
     {
-        public List<int> Options1 { get; set; }
-        public List<int> Options2 { get; set; }
-        public List<int> Options3 { get; set; }
+        public bool Option1 { get; set; }
+        public int Option2 { get; set; }
+        public string Option3 { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class ThreeBoolOptionsArgs
+    {
+        public bool Option1 { get; set; }
+        public bool Option2 { get; set; }
+        public bool Option3 { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
@@ -274,6 +282,18 @@ namespace ArgsMapper.Tests
     internal class OneCommandWithThreeIntOptionsArgs
     {
         public ThreeIntOptionsArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithThreeBoolOptionsArgs
+    {
+        public ThreeBoolOptionsArgs Command { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneCommandWithOneCommandWithThreeBoolOptionsArgs
+    {
+        public OneCommandWithThreeBoolOptionsArgs Command { get; set; }
     }
 
     [ExcludeFromCodeCoverage]
@@ -399,6 +419,7 @@ namespace ArgsMapper.Tests
         public ThreeLevelNestedCommandArgs Command { get; set; }
     }
 
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     internal enum SampleEnum
     {
         Value1,
@@ -406,6 +427,7 @@ namespace ArgsMapper.Tests
         Value3
     }
 
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     internal enum SampleUshortEnum : ushort
     {
         Value1,

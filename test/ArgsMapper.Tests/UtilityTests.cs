@@ -50,6 +50,8 @@ namespace ArgsMapper.Tests
 
         [Theory]
         [InlineData("-o", true)]
+        [InlineData("-o-", true)]
+        [InlineData("-o+", true)]
         [InlineData("--option", true)]
         [InlineData("----option", true)]
         [InlineData("", false)]
@@ -57,7 +59,9 @@ namespace ArgsMapper.Tests
         [InlineData("option", false)]
         [InlineData("-", false)]
         [InlineData("--", false)]
-        [InlineData("-oo", false)]
+        [InlineData("-xyz", true)]
+        [InlineData("-xyz+", true)]
+        [InlineData("-xyz-", true)]
         internal void ArgsExtensions_IsValidOption(string value, bool expected)
         {
             Assert.Equal(expected, value.IsValidOption());
