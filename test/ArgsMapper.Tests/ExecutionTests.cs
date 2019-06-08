@@ -40,7 +40,7 @@ namespace ArgsMapper.Tests
             // Act
             mapper.Execute(new[] { "--option" }, null, errorResult => {
                 // Assert
-                Assert.Equal("Unknown option 'option'.", errorResult.ErrorMessage);
+                Assert.Equal("Unknown option '--option'.", errorResult.ErrorMessage);
             });
         }
 
@@ -129,7 +129,7 @@ namespace ArgsMapper.Tests
             // Act
             mapper.Execute(new[] { "--option" }, null);
 
-            Assert.Equal("Unknown option 'option'.", output.ToString());
+            Assert.Equal("Unknown option '--option'.", output.ToString());
         }
 
         [Fact]

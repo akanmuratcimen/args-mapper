@@ -40,6 +40,8 @@ namespace ArgsMapper
         internal static readonly string[] VersionOptionLongNames = { "version" };
         internal static readonly string VersionOptionString = "-v|--version";
 
+        internal static readonly string PositionalOptionsSeparator = "--";
+
         internal static IEnumerable<char> ReservedOptionShortNames
         {
             get

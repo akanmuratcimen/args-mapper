@@ -34,6 +34,11 @@ namespace ArgsMapper.Utilities
         internal static Option Get(this IEnumerable<Option> options,
             OptionMatchType matchType, string key, StringComparison stringComparison)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return null;
+            }
+
             switch (matchType)
             {
                 case OptionMatchType.ByShortName:
@@ -71,14 +76,14 @@ namespace ArgsMapper.Utilities
             return options.FirstOrDefault(x => string.Equals(x.LongName, key, stringComparison));
         }
 
-        internal static Option GetByPosition(this IEnumerable<Option> options, short position)
+        internal static Option GetByPosition(this IEnumerable<Option> options, int position)
         {
             return options.FirstOrDefault(x => x.Position == position);
         }
 
-        internal static ushort GetNextPositionalOptionPosition(this IEnumerable<Option> options)
+        internal static int GetNextPositionalOptionPosition(this IEnumerable<Option> options)
         {
-            ushort result = 0;
+            var result = 0;
 
             foreach (var option in options)
             {

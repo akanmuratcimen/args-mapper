@@ -29,6 +29,11 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, Type type, IFormatProvider formatProvider)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return Activator.CreateInstance(type);
+            }
+
             return ToEnum(type, value) ?? throw new ArgumentOutOfRangeException(nameof(value));
         }
 

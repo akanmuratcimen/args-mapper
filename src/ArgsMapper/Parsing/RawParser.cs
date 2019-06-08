@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using ArgsMapper.Models;
 using ArgsMapper.Utilities;
 
@@ -41,6 +42,9 @@ namespace ArgsMapper.Parsing
 
             string key = null;
             var matchType = OptionMatchType.None;
+            
+            var isStackedOption = false;
+            IList<string> stackedOptionKeys = null;
 
             for (var i = startIndex; i < args.Length; i++)
             {
@@ -49,15 +53,39 @@ namespace ArgsMapper.Parsing
                     continue;
                 }
 
+                if (args[i].IsPositionalOptionsSeparator())
+                {
+                    break;
+                }
+
                 foreach (var arg in args[i].Split(Constants.AssignmentOperators, key is null ? 2 : 1))
                 {
                     if (arg.IsValidOption())
                     {
-                        key = arg.RemoveOptionPrefix().TrimEnd(Constants.AssignmentOperators);
+                        key = arg.TrimEnd(Constants.AssignmentOperators);
                         matchType = arg.GetOptionMatchType();
 
                         if (result.ContainsKey((key, matchType)))
                         {
+                            continue;
+                        }
+
+                        isStackedOption = arg.IsStackedOption();
+
+                        if (isStackedOption)
+                        {
+                            stackedOptionKeys = arg.SplitStackedOptions().ToList();
+
+                            foreach (var stackedOptionKey in stackedOptionKeys)
+                            {
+                                if (result.ContainsKey((stackedOptionKey, matchType)))
+                                {
+                                    continue;
+                                }
+
+                                result.Add((stackedOptionKey, matchType), new List<string>());
+                            }
+
                             continue;
                         }
 
@@ -68,6 +96,16 @@ namespace ArgsMapper.Parsing
 
                     if (key == null)
                     {
+                        continue;
+                    }
+
+                    if (isStackedOption)
+                    {
+                        foreach (var stackedOptionKey in stackedOptionKeys)
+                        {
+                            result[(stackedOptionKey, matchType)].Add(arg);
+                        }
+
                         continue;
                     }
 

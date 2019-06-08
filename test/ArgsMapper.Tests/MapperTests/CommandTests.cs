@@ -279,19 +279,64 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
-        internal void Command_Should_Be_Matched_With_Name()
+        internal void Command_PositionalOption_Single_String_Values_Should_Be_Matched_After_Separator()
         {
             // Arrange
-            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+            var mapper = new ArgsMapper<OneCommandWithThreeStringOptionsArgs>();
 
-            mapper.AddCommand(x => x.Command, "custom-named-command");
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option1);
+                commandSettings.AddPositionalOption(x => x.Option2);
+                commandSettings.AddOption(x => x.Option3);
+            });
 
             // Act
-            var result = mapper.Map("custom-named-command");
+            var result = mapper.Map("command", "--option3", "bar", "--", "foo", "--option");
 
             // Assert
-            Assert.NotNull(result.Model.Command);
-            Assert.IsType<OneBoolOptionArgs>(result.Model.Command);
+            Assert.Equal("foo", result.Model.Command.Option1);
+            Assert.Equal("--option", result.Model.Command.Option2);
+            Assert.Equal("bar", result.Model.Command.Option3);
+        }
+
+        [Fact]
+        internal void Command_PositionalOption_Single_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithThreeIntOptionsArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Option1);
+                commandSettings.AddPositionalOption(x => x.Option2);
+                commandSettings.AddOption(x => x.Option3);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--option3", "3", "--", "1", "2");
+
+            // Assert
+            Assert.Equal(1, result.Model.Command.Option1);
+            Assert.Equal(2, result.Model.Command.Option2);
+            Assert.Equal(3, result.Model.Command.Option3);
+        }
+
+        [Fact]
+        internal void Command_PositionalOption_Values_Should_Be_Matched_After_Separator()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneListStringOptionWithOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddPositionalOption(x => x.Options);
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "--option", "1", "--", "foo", "bar", "--option", "1");
+
+            // Assert
+            Assert.Equal(new[] { "foo", "bar", "--option", "1" }, result.Model.Command.Options);
+            Assert.Equal(1, result.Model.Command.Option);
         }
 
         [Fact]
@@ -324,6 +369,22 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.NotNull(result.Model.SomeCommandProperty);
             Assert.IsType<OneBoolOptionArgs>(result.Model.SomeCommandProperty);
+        }
+
+        [Fact]
+        internal void Command_Should_Be_Matched_With_Name()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneBoolOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, "custom-named-command");
+
+            // Act
+            var result = mapper.Map("custom-named-command");
+
+            // Assert
+            Assert.NotNull(result.Model.Command);
+            Assert.IsType<OneBoolOptionArgs>(result.Model.Command);
         }
 
         [Fact]
@@ -375,6 +436,27 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.Null(result.Model.Command);
+        }
+
+        [Fact]
+        internal void Command_Stacked_Options_Value_Should_Be_Given_Value()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithThreeBoolOptionsArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option1, 'x', "option-1");
+                commandSettings.AddOption(x => x.Option2, 'y', "option-2");
+                commandSettings.AddOption(x => x.Option3, 'z', "option-3");
+            });
+
+            // Act
+            var result = mapper.Map("command", "-xyz");
+
+            // Assert
+            Assert.True(result.Model.Command.Option1);
+            Assert.True(result.Model.Command.Option2);
+            Assert.True(result.Model.Command.Option3);
         }
 
         [Fact]
@@ -430,7 +512,7 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown 'command' command option 'option'.", result.ErrorMessage);
+            Assert.Equal("Unknown 'command' command option '--option'.", result.ErrorMessage);
         }
 
         [Fact]
@@ -526,7 +608,25 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown 'command' command option 'option1'.", result.ErrorMessage);
+            Assert.Equal("Unknown 'command' command option '--option1'.", result.ErrorMessage);
+        }
+
+        [Fact]
+        internal void MapperResult_Should_Have_Error_When_Option_Not_Defined_ShortName()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneBoolOptionAndOneIntOptionArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddOption(x => x.Option);
+            });
+
+            // Act
+            var result = mapper.Map("command", "-o");
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Unknown 'command' command option '-o'.", result.ErrorMessage);
         }
 
         [Fact]

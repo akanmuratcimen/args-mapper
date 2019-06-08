@@ -119,7 +119,7 @@ namespace ArgsMapper
             bool isPositional, Action<ArgsOptionSettings<TOption>> optionSettings)
             where T : class
         {
-            ushort? position = null;
+            int? position = null;
 
             if (isPositional)
             {

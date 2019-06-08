@@ -22,12 +22,98 @@
  */
 
 using System;
+using System.IO;
+using System.Text;
 using Xunit;
 
 namespace ArgsMapper.Tests
 {
     public class ScenarioTests
     {
+        [Fact]
+        internal void Complex_Type_Scenario_Test_1()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ComplexType1>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.SubCommand, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.Option1);
+                    subcommandSettings.AddOption(x => x.Option2);
+                    subcommandSettings.AddOption(x => x.Option3);
+
+                    subcommandSettings.AddOption(x => x.Option4, 'a', "option-4");
+                    subcommandSettings.AddOption(x => x.Option5, 'b', "option-5");
+                    subcommandSettings.AddOption(x => x.Option6, 'c', "option-6");
+
+                    subcommandSettings.AddPositionalOption(x => x.Option7);
+                });
+            });
+
+            // Act
+            var result = mapper.Map(
+                "command", "sub-command", "--option1", "1", "1.1", "-4", "xyz",
+                "--option2", "2", "--option3", "-abc", "--", "foo", "bar"
+            );
+
+            // Assert
+            Assert.NotNull(result.Model.Command);
+            Assert.NotNull(result.Model.Command.SubCommand);
+            Assert.Equal(new[] { "1", "1.1", "-4", "xyz" }, result.Model.Command.SubCommand.Option1);
+            Assert.Equal(2, result.Model.Command.SubCommand.Option2);
+            Assert.True(result.Model.Command.SubCommand.Option3);
+
+            Assert.True(result.Model.Command.SubCommand.Option4);
+            Assert.True(result.Model.Command.SubCommand.Option5);
+            Assert.True(result.Model.Command.SubCommand.Option6);
+
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.SubCommand.Option7);
+        }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Unknown_Option_Error_When_Help_Alias_In_Stacked_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeBoolOptionsArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            mapper.Usage.AddText("sample usage text.");
+
+            // Act
+            mapper.Execute(new[] { "-hxyz" }, null);
+
+            // Assert
+            Assert.Equal("Unknown option '-h'.", output.ToString().TrimEnd());
+        }
+
+        [Fact]
+        internal void Mapper_Output_Should_Be_Unknown_Option_Error_When_Version_Alias_In_Stacked_Option()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ThreeBoolOptionsArgs>();
+            var output = new StringBuilder();
+
+            mapper.Settings.DefaultWriter = new StringWriter(output);
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            mapper.Usage.AddText("sample usage text.");
+
+            // Act
+            mapper.Execute(new[] { "-vxyz" }, null);
+
+            // Assert
+            Assert.Equal("Unknown option '-v'.", output.ToString().TrimEnd());
+        }
+
         [Fact]
         internal void Mapper_Should_Throw_MissingMethodException_When_There_Is_No_Default_Constructor()
         {
@@ -68,7 +154,7 @@ namespace ArgsMapper.Tests
 
             // Assert
             Assert.True(result.HasError);
-            Assert.Equal("Unknown option 'option'.", result.ErrorMessage);
+            Assert.Equal("Unknown option '--option'.", result.ErrorMessage);
         }
 
         [Fact]

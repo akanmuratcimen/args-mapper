@@ -22,6 +22,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using ArgsMapper.Models;
 using ArgsMapper.Parsing;
 using Xunit;
@@ -37,16 +38,16 @@ namespace ArgsMapper.Tests
                 yield return new object[] {
                     new[] { "--option1", "--option2" },
                     new[] {
-                        ("option1", OptionMatchType.ByLongName),
-                        ("option2", OptionMatchType.ByLongName)
+                        ("--option1", OptionMatchType.ByLongName),
+                        ("--option2", OptionMatchType.ByLongName)
                     }
                 };
 
                 yield return new object[] {
                     new[] { "-x", "-y" },
                     new[] {
-                        ("x", OptionMatchType.ByShortName),
-                        ("y", OptionMatchType.ByShortName)
+                        ("-x", OptionMatchType.ByShortName),
+                        ("-y", OptionMatchType.ByShortName)
                     }
                 };
             }
@@ -58,13 +59,13 @@ namespace ArgsMapper.Tests
             {
                 yield return new object[] {
                     new[] { "--option", "value1", "value2", "--option", "value3" },
-                    ("option", OptionMatchType.ByLongName),
+                    ("--option", OptionMatchType.ByLongName),
                     new[] { "value1", "value2", "value3" }
                 };
 
                 yield return new object[] {
                     new[] { "-o", "value1", "value2", "-o", "value3" },
-                    ("o", OptionMatchType.ByShortName),
+                    ("-o", OptionMatchType.ByShortName),
                     new[] { "value1", "value2", "value3" }
                 };
             }
@@ -81,11 +82,11 @@ namespace ArgsMapper.Tests
                         "--option3", "value7", "--option3", "value8", "--option1", "value9"
                     },
                     new object[] {
-                        ("option1", OptionMatchType.ByLongName),
+                        ("--option1", OptionMatchType.ByLongName),
                         new[] { "value1", "value2", "value3", "value5", "value9" },
-                        ("option2", OptionMatchType.ByLongName),
+                        ("--option2", OptionMatchType.ByLongName),
                         new[] { "value4", "value6" },
-                        ("option3", OptionMatchType.ByLongName),
+                        ("--option3", OptionMatchType.ByLongName),
                         new[] { "value7", "value8" }
                     }
                 };
@@ -97,11 +98,11 @@ namespace ArgsMapper.Tests
                         "-c", "value7", "-c", "value8", "-a", "value9"
                     },
                     new object[] {
-                        ("a", OptionMatchType.ByShortName),
+                        ("-a", OptionMatchType.ByShortName),
                         new[] { "value1", "value2", "value3", "value5", "value9" },
-                        ("b", OptionMatchType.ByShortName),
+                        ("-b", OptionMatchType.ByShortName),
                         new[] { "value4", "value6" },
-                        ("c", OptionMatchType.ByShortName),
+                        ("-c", OptionMatchType.ByShortName),
                         new[] { "value7", "value8" }
                     }
                 };
@@ -114,13 +115,13 @@ namespace ArgsMapper.Tests
             {
                 yield return new object[] {
                     new[] { "--option", "value1", "value2" },
-                    ("option", OptionMatchType.ByLongName),
+                    ("--option", OptionMatchType.ByLongName),
                     new[] { "value1", "value2" }
                 };
 
                 yield return new object[] {
                     new[] { "-o", "value1", "value2" },
-                    ("o", OptionMatchType.ByShortName),
+                    ("-o", OptionMatchType.ByShortName),
                     new[] { "value1", "value2" }
                 };
             }
@@ -154,8 +155,8 @@ namespace ArgsMapper.Tests
             var result = RawParser.ParseOptions(args);
 
             // Assert
-            Assert.Contains(("o", OptionMatchType.ByShortName), result.Keys);
-            Assert.Contains(expected, result[("o", OptionMatchType.ByShortName)]);
+            Assert.Contains(("-o", OptionMatchType.ByShortName), result.Keys);
+            Assert.Contains(expected, result[("-o", OptionMatchType.ByShortName)]);
         }
 
         [Theory]
@@ -234,7 +235,7 @@ namespace ArgsMapper.Tests
             var result = RawParser.ParseOptions(new[] { "-o", value });
 
             // Assert
-            Assert.Contains(value, result[("o", OptionMatchType.ByShortName)]);
+            Assert.Contains(value, result[("-o", OptionMatchType.ByShortName)]);
         }
 
         [Theory]
@@ -255,11 +256,11 @@ namespace ArgsMapper.Tests
             get
             {
                 yield return new object[] {
-                    new[] { "--option", "value" }, ("option", OptionMatchType.ByLongName), "value"
+                    new[] { "--option", "value" }, ("--option", OptionMatchType.ByLongName), "value"
                 };
 
                 yield return new object[] {
-                    new[] { "-o", "value" }, ("o", OptionMatchType.ByShortName), "value"
+                    new[] { "-o", "value" }, ("-o", OptionMatchType.ByShortName), "value"
                 };
             }
         }
@@ -280,7 +281,7 @@ namespace ArgsMapper.Tests
             var result = RawParser.ParseOptions(new[] { "-o", path });
 
             // Assert
-            Assert.Equal(path, result[("o", OptionMatchType.ByShortName)][0]);
+            Assert.Equal(path, result[("-o", OptionMatchType.ByShortName)][0]);
         }
 
         [Theory]
@@ -297,25 +298,26 @@ namespace ArgsMapper.Tests
             var result = RawParser.ParseOptions(new[] { "-o", arg });
 
             // Assert
-            Assert.Equal(arg, result[("o", OptionMatchType.ByShortName)][0]);
+            Assert.Equal(arg, result[("-o", OptionMatchType.ByShortName)][0]);
         }
 
-        [Fact]
-        internal void RawParser_ParseOptions_Should_Merge_Mixed_Prefixes()
+        [Theory]
+        [InlineData(null, "-xyz")]
+        [InlineData("1", "-xyz", "1")]
+        [InlineData("foobar", "-xyz", "foobar")]
+        internal void RawParser_ParseOptions_Should_Parse_Stacked_Options(string expectedValue, params string[] args)
         {
-            // Arrange
-            var args = new[] {
-                "--option", "value1", "/option", "value2"
-            };
-
             // Act
             var result = RawParser.ParseOptions(args);
 
             // Assert
-            Assert.Contains(("option", OptionMatchType.ByLongName), result.Keys);
+            Assert.Contains(("-x", OptionMatchType.ByShortName), result.Keys);
+            Assert.Contains(("-y", OptionMatchType.ByShortName), result.Keys);
+            Assert.Contains(("-z", OptionMatchType.ByShortName), result.Keys);
 
-            Assert.Contains("value1", result[("option", OptionMatchType.ByLongName)]);
-            Assert.Contains("value2", result[("option", OptionMatchType.ByLongName)]);
+            Assert.Equal(expectedValue, result[("-x", OptionMatchType.ByShortName)].FirstOrDefault());
+            Assert.Equal(expectedValue, result[("-y", OptionMatchType.ByShortName)].FirstOrDefault());
+            Assert.Equal(expectedValue, result[("-z", OptionMatchType.ByShortName)].FirstOrDefault());
         }
 
         [Fact]
@@ -330,30 +332,11 @@ namespace ArgsMapper.Tests
             var result = RawParser.ParseOptions(args);
 
             // Assert
-            Assert.Contains(("o", OptionMatchType.ByShortName), result.Keys);
-            Assert.Contains(("option1", OptionMatchType.ByLongName), result.Keys);
+            Assert.Contains(("-o", OptionMatchType.ByShortName), result.Keys);
+            Assert.Contains(("--option1", OptionMatchType.ByLongName), result.Keys);
 
-            Assert.Contains("value1", result[("o", OptionMatchType.ByShortName)]);
-            Assert.Contains("value2", result[("option1", OptionMatchType.ByLongName)]);
-        }
-
-        [Fact]
-        internal void RawParser_ParseOptions_Should_Parse_Prefix_Values()
-        {
-            // Arrange
-            var args = new[] {
-                "-o", "-", "--option1", "--"
-            };
-
-            // Act
-            var result = RawParser.ParseOptions(args);
-
-            // Assert
-            Assert.Contains(("o", OptionMatchType.ByShortName), result.Keys);
-            Assert.Contains(("option1", OptionMatchType.ByLongName), result.Keys);
-
-            Assert.Contains("-", result[("o", OptionMatchType.ByShortName)]);
-            Assert.Contains("--", result[("option1", OptionMatchType.ByLongName)]);
+            Assert.Contains("value1", result[("-o", OptionMatchType.ByShortName)]);
+            Assert.Contains("value2", result[("--option1", OptionMatchType.ByLongName)]);
         }
     }
 }

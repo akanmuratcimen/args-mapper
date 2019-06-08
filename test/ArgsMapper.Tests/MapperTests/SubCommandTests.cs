@@ -45,7 +45,7 @@ namespace ArgsMapper.Tests.MapperTests
             // Assert
             Assert.Equal(1, result.Model.Command.Command.Option);
         }
-        
+
         [Fact]
         internal void Command_Subcommand_Option_Should_Be_Matched_With_Default_LongName()
         {
@@ -295,6 +295,29 @@ namespace ArgsMapper.Tests.MapperTests
 
             // Assert
             Assert.Null(result.Model.Command);
+        }
+
+        [Fact]
+        internal void Subcommand_Stacked_Options_Value_Should_Be_Given_Value()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneCommandWithOneCommandWithThreeBoolOptionsArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.Option1, 'x', "option-1");
+                    subcommandSettings.AddOption(x => x.Option2, 'y', "option-2");
+                    subcommandSettings.AddOption(x => x.Option3, 'z', "option-3");
+                });
+            });
+
+            // Act
+            var result = mapper.Map("command", "command", "-xyz");
+
+            // Assert
+            Assert.True(result.Model.Command.Command.Option1);
+            Assert.True(result.Model.Command.Command.Option2);
+            Assert.True(result.Model.Command.Command.Option3);
         }
     }
 }
