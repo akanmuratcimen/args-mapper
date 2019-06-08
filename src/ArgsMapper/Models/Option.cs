@@ -38,7 +38,7 @@ namespace ArgsMapper.Models
         internal bool IsPositionalOption => Position.HasValue;
         internal bool IsRequired { get; set; }
         internal string LongName { get; set; }
-        internal ushort? Position { get; set; }
+        internal int? Position { get; set; }
         internal PropertyInfo PropertyInfo => PropertyInfos[PropertyInfos.Length - 1];
         internal PropertyInfo[] PropertyInfos { get; set; }
         internal Type Type => PropertyInfo.PropertyType;

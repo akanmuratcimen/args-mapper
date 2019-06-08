@@ -62,7 +62,7 @@ namespace ArgsMapper.Mapping
 
             var commandInstance = _reflectionService.SetValue(command, model);
 
-            short optionsStartIndex = 1;
+            var optionsStartIndex = 1;
 
             for (; optionsStartIndex < args.Length; optionsStartIndex++)
             {
@@ -144,7 +144,7 @@ namespace ArgsMapper.Mapping
                         break;
                     }
 
-                    var option = command.Options.GetByPosition((short)(i - optionsStartIndex));
+                    var option = command.Options.GetByPosition(i - optionsStartIndex);
 
                     if (option is null)
                     {
@@ -221,7 +221,7 @@ namespace ArgsMapper.Mapping
             }
             else
             {
-                for (short i = 0; i < args.Length; i++)
+                for (var i = 0; i < args.Length; i++)
                 {
                     if (args[i].IsValidOption())
                     {

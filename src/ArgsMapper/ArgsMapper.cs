@@ -130,7 +130,7 @@ namespace ArgsMapper
 
                     if (command != null && !command.IsDisabled)
                     {
-                        short optionsStartIndex = 1;
+                        var optionsStartIndex = 1;
 
                         for (; optionsStartIndex < args.Length; optionsStartIndex++)
                         {

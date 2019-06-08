@@ -32,7 +32,7 @@ namespace ArgsMapper.Infrastructure
     internal static class OptionInitializer
     {
         internal static Option Initialize<T, TOption>(Expression<Func<T, TOption>> propertySelector,
-            char? shortName, string longName, ushort? position, Action<ArgsOptionSettings<TOption>> optionSettings,
+            char? shortName, string longName, int? position, Action<ArgsOptionSettings<TOption>> optionSettings,
             CultureInfo cultureInfo)
         {
             var option = new Option();
