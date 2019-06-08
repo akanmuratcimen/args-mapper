@@ -163,6 +163,24 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void MapperResult_Should_Have_Error_When_Bool_Option_Is_Required()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneBoolOptionArgs>();
+
+            mapper.AddOption(x => x.Option, optionSettings => {
+                optionSettings.IsRequired = true;
+            });
+
+            // Act
+            var result = mapper.Map();
+
+            // Assert
+            Assert.True(result.HasError);
+            Assert.Equal("Required option '--option' is missing.", result.ErrorMessage);
+        }
+
+        [Fact]
         internal void MapperResult_Should_Have_Error_When_CommandPositionalOption_Value_Valid_Option()
         {
             // Arrange
