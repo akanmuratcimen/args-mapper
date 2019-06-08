@@ -31,6 +31,46 @@ namespace ArgsMapper.Tests
     public class ScenarioTests
     {
         [Fact]
+        internal void Complex_Type_Scenario_Test_1()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<ComplexType1>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.SubCommand, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.Option1);
+                    subcommandSettings.AddOption(x => x.Option2);
+                    subcommandSettings.AddOption(x => x.Option3);
+
+                    subcommandSettings.AddOption(x => x.Option4, 'a', "option-4");
+                    subcommandSettings.AddOption(x => x.Option5, 'b', "option-5");
+                    subcommandSettings.AddOption(x => x.Option6, 'c', "option-6");
+
+                    subcommandSettings.AddPositionalOption(x => x.Option7);
+                });
+            });
+
+            // Act
+            var result = mapper.Map(
+                "command", "sub-command", "--option1", "1", "1.1", "-4", "xyz",
+                "--option2", "2", "--option3", "-abc", "--", "foo", "bar"
+            );
+
+            // Assert
+            Assert.NotNull(result.Model.Command);
+            Assert.NotNull(result.Model.Command.SubCommand);
+            Assert.Equal(new[] { "1", "1.1", "-4", "xyz" }, result.Model.Command.SubCommand.Option1);
+            Assert.Equal(2, result.Model.Command.SubCommand.Option2);
+            Assert.True(result.Model.Command.SubCommand.Option3);
+
+            Assert.True(result.Model.Command.SubCommand.Option4);
+            Assert.True(result.Model.Command.SubCommand.Option5);
+            Assert.True(result.Model.Command.SubCommand.Option6);
+
+            Assert.Equal(new[] { "foo", "bar" }, result.Model.Command.SubCommand.Option7);
+        }
+
+        [Fact]
         internal void Mapper_Output_Should_Be_Unknown_Option_Error_When_Help_Alias_In_Stacked_Option()
         {
             // Arrange
