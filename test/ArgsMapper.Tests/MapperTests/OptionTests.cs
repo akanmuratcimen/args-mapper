@@ -725,6 +725,25 @@ namespace ArgsMapper.Tests.MapperTests
         }
 
         [Fact]
+        internal void Stacked_Options_Different_Typed_Values_Should_Be_Given_Values()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<BoolIntStringOptionsArgs>();
+
+            mapper.AddOption(x => x.Option1, 'x', "option-1");
+            mapper.AddOption(x => x.Option2, 'y', "option-2");
+            mapper.AddOption(x => x.Option3, 'z', "option-3");
+
+            // Act
+            var result = mapper.Map("-xyz");
+
+            // Assert
+            Assert.True(result.Model.Option1);
+            Assert.Equal(0, result.Model.Option2);
+            Assert.Null(result.Model.Option3);
+        }
+
+        [Fact]
         internal void Stacked_Options_Value_Should_Be_Given_Value()
         {
             // Arrange
