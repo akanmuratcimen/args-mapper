@@ -30,18 +30,20 @@ namespace ArgsMapper.PageBuilding
     internal class CommandPageBuilder<TCommand> : DefaultPageBuilder,
         ICommandPageBuilder<TCommand> where TCommand : class
     {
-        private readonly IEnumerable<Option> _commandOptions;
+        private readonly IEnumerable<Command> _subcommands;
+        private readonly IEnumerable<Option> _options;
 
-        public CommandPageBuilder(IEnumerable<Option> commandOptions) :
+        public CommandPageBuilder(IEnumerable<Command> subcommands, IEnumerable<Option> options) :
             base(new PageRenderer())
         {
-            _commandOptions = commandOptions;
+            _subcommands = subcommands;
+            _options = options;
         }
 
         public void AddSection(string header, Action<ICommandPageSectionSettings<TCommand>> sectionSettings)
         {
             var contentRenderer = new PageRenderer();
-            var settings = new CommandPageSectionSettings<TCommand>(_commandOptions, contentRenderer);
+            var settings = new CommandPageSectionSettings<TCommand>(_subcommands, _options, contentRenderer);
 
             sectionSettings(settings);
 

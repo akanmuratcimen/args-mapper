@@ -59,7 +59,7 @@ namespace ArgsMapper
 
             Options = new List<Option>();
             Subcommands = new List<Command>();
-            Usage = new CommandPageBuilder<TCommand>(Options);
+            Usage = new CommandPageBuilder<TCommand>(Subcommands, Options);
         }
 
         internal ICommandOptionValidationService CommandOptionValidationService { get; }

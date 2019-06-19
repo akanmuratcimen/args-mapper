@@ -292,7 +292,6 @@ namespace ArgsMapper.Tests
         public ThreeIntOptionsArgs Command { get; set; }
     }
 
-
     [ExcludeFromCodeCoverage]
     internal class OneCommandWithThreeStringOptionsArgs
     {
