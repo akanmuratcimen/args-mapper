@@ -32,15 +32,13 @@ using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
-    internal interface IArgsCommandSettings<TCommand> where TCommand : class
+    internal interface IArgsCommandSettings
     {
-        bool IsDisabled { get; set; }
-        ICommandPageBuilder<TCommand> Usage { get; }
         List<Option> Options { get; }
         List<Command> Subcommands { get; }
     }
 
-    public class ArgsCommandSettings<TCommand> : IArgsCommandSettings<TCommand> where TCommand : class
+    public class ArgsCommandSettings<TCommand> : IArgsCommandSettings where TCommand : class
     {
         internal ArgsCommandSettings(
             IArgsMapperSettings argsMapperSettings,
@@ -69,8 +67,8 @@ namespace ArgsMapper
         internal IValueConverterFactory ValueConverterFactory { get; }
         internal IArgsMapperSettings ArgsMapperSettings { get; }
 
-        List<Option> IArgsCommandSettings<TCommand>.Options => Options;
-        List<Command> IArgsCommandSettings<TCommand>.Subcommands => Subcommands;
+        List<Option> IArgsCommandSettings.Options => Options;
+        List<Command> IArgsCommandSettings.Subcommands => Subcommands;
 
         internal List<Option> Options { get; }
         internal List<Command> Subcommands { get; }

@@ -35,8 +35,7 @@ namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
             _argsMapperSettings = argsMapperSettings;
         }
 
-        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
-            where TCommand : class
+        public void Validate(IArgsCommandSettings commandSettings, Command command)
         {
             if (commandSettings.Subcommands.Any(x => string.Equals(x.Name,
                 command.Name, _argsMapperSettings.StringComparison)))

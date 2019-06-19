@@ -30,12 +30,7 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return default(float);
-            }
-
-            return float.Parse(value, NumberStyles.Any, formatProvider);
+            return string.IsNullOrEmpty(value) ? default : float.Parse(value, NumberStyles.Any, formatProvider);
         }
     }
 }

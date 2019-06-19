@@ -27,6 +27,6 @@ namespace ArgsMapper.InitializationValidations.SubcommandValidations
 {
     internal interface ISubcommandValidator
     {
-        void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command) where TCommand : class;
+        void Validate(IArgsCommandSettings commandSettings, Command command);
     }
 }

@@ -163,52 +163,20 @@ namespace ArgsMapper.Utilities
         {
             if (arg.Length == 2)
             {
-                foreach (var shortName in Constants.VersionOptionShortNames)
-                {
-                    if (arg == shortName.AddShortNamePrefix())
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return Constants.VersionOptionShortNames.Any(x => arg == x.AddShortNamePrefix());
             }
 
-            foreach (var longName in Constants.VersionOptionLongNames)
-            {
-                if (arg == longName.AddLongNamePrefix())
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return Constants.VersionOptionLongNames.Any(x => arg == x.AddLongNamePrefix());
         }
 
         internal static bool IsHelpOption(this string arg)
         {
             if (arg.Length == 2)
             {
-                foreach (var shortName in Constants.HelpOptionShortNames)
-                {
-                    if (arg == shortName.AddShortNamePrefix())
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return Constants.HelpOptionShortNames.Any(x => arg == x.AddShortNamePrefix());
             }
 
-            foreach (var longName in Constants.HelpOptionLongNames)
-            {
-                if (arg == longName.AddLongNamePrefix())
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return Constants.HelpOptionLongNames.Any(x => arg == x.AddLongNamePrefix());
         }
     }
 }

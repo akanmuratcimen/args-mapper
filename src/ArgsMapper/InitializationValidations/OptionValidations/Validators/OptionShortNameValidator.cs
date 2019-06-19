@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class OptionShortNameValidator : IOptionValidator
     {
-        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        public void Validate(IArgsMapper mapper, Option option)
         {
             // ReSharper disable once InvertIf
             if (option.HasShortName)

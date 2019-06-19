@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class OptionLongNameDuplicationValidator : IOptionValidator
     {
-        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        public void Validate(IArgsMapper mapper, Option option)
         {
             if (mapper.Options.Any(x => string.Equals(x.LongName, option.LongName, mapper.Settings.StringComparison)))
             {

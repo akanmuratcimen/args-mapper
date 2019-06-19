@@ -83,17 +83,7 @@ namespace ArgsMapper.Utilities
 
         internal static int GetNextPositionalOptionPosition(this IEnumerable<Option> options)
         {
-            var result = 0;
-
-            foreach (var option in options)
-            {
-                if (option.IsPositionalOption)
-                {
-                    result++;
-                }
-            }
-
-            return result;
+            return options.Count(option => option.IsPositionalOption);
         }
 
         internal static bool HasPositionalOption(this IEnumerable<Option> options)

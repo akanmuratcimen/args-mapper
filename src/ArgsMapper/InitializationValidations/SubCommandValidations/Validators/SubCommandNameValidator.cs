@@ -28,8 +28,7 @@ namespace ArgsMapper.InitializationValidations.SubcommandValidations.Validators
 {
     internal class SubcommandNameValidator : ISubcommandValidator
     {
-        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Command command)
-            where TCommand : class
+        public void Validate(IArgsCommandSettings commandSettings, Command command)
         {
             if (string.IsNullOrEmpty(command.Name) || string.IsNullOrWhiteSpace(command.Name))
             {

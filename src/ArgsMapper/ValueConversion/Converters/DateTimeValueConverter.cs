@@ -29,12 +29,7 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return default(DateTime);
-            }
-
-            return DateTime.Parse(value, formatProvider);
+            return string.IsNullOrEmpty(value) ? default : DateTime.Parse(value, formatProvider);
         }
     }
 }

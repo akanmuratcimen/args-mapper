@@ -35,8 +35,7 @@ namespace ArgsMapper.InitializationValidations.CommandOptionValidations.Validato
             _argsMapperSettings = argsMapperSettings;
         }
 
-        public void Validate<TCommand>(IArgsCommandSettings<TCommand> commandSettings, Option commandOption)
-            where TCommand : class
+        public void Validate(IArgsCommandSettings commandSettings, Option commandOption)
         {
             if (commandSettings.Options.Any(x => string.Equals(x.LongName,
                 commandOption.LongName, _argsMapperSettings.StringComparison)))

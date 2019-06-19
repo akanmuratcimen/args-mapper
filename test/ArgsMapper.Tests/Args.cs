@@ -88,12 +88,6 @@ namespace ArgsMapper.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    internal class OneByteOptionArgs
-    {
-        public byte Option { get; set; }
-    }
-
-    [ExcludeFromCodeCoverage]
     internal class OneCommandWithOneBoolOptionAndOneBoolOptionArgs
     {
         public OneBoolOptionArgs Command { get; set; }

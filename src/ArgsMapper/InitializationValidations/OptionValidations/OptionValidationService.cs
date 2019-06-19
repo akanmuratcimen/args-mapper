@@ -30,7 +30,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations
 {
     internal interface IOptionValidationService
     {
-        void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class;
+        void Validate(IArgsMapper mapper, Option option);
     }
 
     internal class OptionValidationService : IOptionValidationService
@@ -50,7 +50,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations
 
         private IEnumerable<IOptionValidator> Validators { get; }
 
-        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        public void Validate(IArgsMapper mapper, Option option)
         {
             foreach (var validator in Validators)
             {

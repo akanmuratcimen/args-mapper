@@ -28,7 +28,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
 {
     internal class OptionLongNameValidator : IOptionValidator
     {
-        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        public void Validate(IArgsMapper mapper, Option option)
         {
             if (string.IsNullOrEmpty(option.LongName) || string.IsNullOrWhiteSpace(option.LongName))
             {

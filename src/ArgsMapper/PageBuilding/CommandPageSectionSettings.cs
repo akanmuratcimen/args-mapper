@@ -62,7 +62,7 @@ namespace ArgsMapper.PageBuilding
                 throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 option.ToString(), contentOptionSettings);
         }
 
@@ -85,7 +85,7 @@ namespace ArgsMapper.PageBuilding
                 throw new CommandCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
             }
 
-            _pageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent,
+            PageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent,
                 command.ToString(), contentCommandSettings);
         }
 
@@ -100,7 +100,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 Constants.HelpOptionString, contentOptionSettings);
         }
     }
