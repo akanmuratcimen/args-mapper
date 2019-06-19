@@ -5,7 +5,7 @@
     <PackageId>args-mapper</PackageId>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Akan Murat Cimen</Authors>
     <PackageProjectUrl>https://github.com/akanmuratcimen/args-mapper</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/akanmuratcimen/args-mapper/master/args-mapper.png</PackageIconUrl>
