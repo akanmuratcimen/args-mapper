@@ -29,12 +29,7 @@ namespace ArgsMapper.Models.EqualityComparers
     {
         public bool Equals(Option x, Option y)
         {
-            if (ReferenceEquals(x, y))
-            {
-                return true;
-            }
-
-            return x.PropertyInfo.Equals(y.PropertyInfo);
+            return ReferenceEquals(x, y) || x.PropertyInfo.Equals(y.PropertyInfo);
         }
 
         public int GetHashCode(Option obj)

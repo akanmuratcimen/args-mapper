@@ -35,7 +35,7 @@ namespace ArgsMapper.InitializationValidations.CommandValidations.Validators
             _argsMapperSettings = argsMapperSettings;
         }
 
-        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
+        public void Validate(IArgsMapper mapper, Command command)
         {
             if (mapper.Commands.Any(x => string.Equals(x.Name, command.Name, _argsMapperSettings.StringComparison)))
             {

@@ -46,7 +46,7 @@ namespace ArgsMapper.PageBuilding
 
             sectionSettings(settings);
 
-            _pageRenderer.AppendSection(header, contentRenderer.ToString());
+            PageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
@@ -60,7 +60,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.None,
                 Constants.HelpOptionString, contentOptionSettings);
         }
 
@@ -75,7 +75,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.None,
                 Constants.VersionOptionString, contentOptionSettings);
         }
     }

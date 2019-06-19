@@ -30,22 +30,24 @@ namespace ArgsMapper.PageBuilding
     internal class CommandPageBuilder<TCommand> : DefaultPageBuilder,
         ICommandPageBuilder<TCommand> where TCommand : class
     {
-        private readonly IEnumerable<Option> _commandOptions;
+        private readonly IEnumerable<Command> _subcommands;
+        private readonly IEnumerable<Option> _options;
 
-        public CommandPageBuilder(IEnumerable<Option> commandOptions) :
+        public CommandPageBuilder(IEnumerable<Command> subcommands, IEnumerable<Option> options) :
             base(new PageRenderer())
         {
-            _commandOptions = commandOptions;
+            _subcommands = subcommands;
+            _options = options;
         }
 
         public void AddSection(string header, Action<ICommandPageSectionSettings<TCommand>> sectionSettings)
         {
             var contentRenderer = new PageRenderer();
-            var settings = new CommandPageSectionSettings<TCommand>(_commandOptions, contentRenderer);
+            var settings = new CommandPageSectionSettings<TCommand>(_subcommands, _options, contentRenderer);
 
             sectionSettings(settings);
 
-            _pageRenderer.AppendSection(header, contentRenderer.ToString());
+            PageRenderer.AppendSection(header, contentRenderer.ToString());
         }
 
         public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
@@ -59,7 +61,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.None,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.None,
                 Constants.HelpOptionString, contentOptionSettings);
         }
     }

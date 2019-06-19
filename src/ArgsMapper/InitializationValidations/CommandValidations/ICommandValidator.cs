@@ -27,6 +27,6 @@ namespace ArgsMapper.InitializationValidations.CommandValidations
 {
     internal interface ICommandValidator
     {
-        void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class;
+        void Validate(IArgsMapper mapper, Command command);
     }
 }

@@ -25,53 +25,53 @@ namespace ArgsMapper.PageBuilding
 {
     internal class DefaultPageBuilder : IPageBuilder
     {
-        protected readonly IPageRenderer _pageRenderer;
+        protected readonly IPageRenderer PageRenderer;
 
         public DefaultPageBuilder(IPageRenderer pageRenderer)
         {
-            _pageRenderer = pageRenderer;
+            PageRenderer = pageRenderer;
         }
 
         public void AddEmptyLine()
         {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, string.Empty);
+            PageRenderer.AppendText(PageContentRowFormattingStyle.None, string.Empty);
         }
 
         public void AddText(params string[] contents)
         {
-            _pageRenderer.AppendText(PageContentRowFormattingStyle.None, contents);
+            PageRenderer.AppendText(PageContentRowFormattingStyle.None, contents);
         }
 
         public void AddTable((string, string) columns,
             params (string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
+            PageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string) columns,
             params (string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
+            PageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string) columns,
             params (string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
+            PageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string) columns,
             params (string, string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
+            PageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
         public void AddTable((string, string, string, string, string, string) columns,
             params (string, string, string, string, string, string)[] rows)
         {
-            _pageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
+            PageRenderer.AppendTable(PageContentRowFormattingStyle.None, columns, rows);
         }
 
-        public string Content => _pageRenderer.ToString();
+        public string Content => PageRenderer.ToString();
     }
 }

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  * 
  * Copyright (c) 2019 Akan Murat Cimen
@@ -41,6 +41,20 @@ namespace ArgsMapper.Tests.PageBuildingTests
                 });
 
                 commandSettings.AddOption(x => x.Option);
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddSection_AddCommand_AddSubcommand_Should_Throw_CommandCouldNotBeFoundException()
+        {
+            var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.Usage.AddSection("header", section => {
+                    Assert.Throws<CommandCouldNotBeFoundException>(() =>
+                        section.AddSubcommand(x => x.Command)
+                    );
+                });
             });
         }
 

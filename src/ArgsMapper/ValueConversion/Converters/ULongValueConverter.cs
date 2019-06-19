@@ -30,12 +30,7 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return default(ulong);
-            }
-
-            return ulong.Parse(value, NumberStyles.Any, formatProvider);
+            return string.IsNullOrEmpty(value) ? default : ulong.Parse(value, NumberStyles.Any, formatProvider);
         }
     }
 }

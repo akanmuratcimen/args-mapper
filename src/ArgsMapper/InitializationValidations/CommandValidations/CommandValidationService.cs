@@ -29,7 +29,7 @@ namespace ArgsMapper.InitializationValidations.CommandValidations
 {
     internal interface ICommandValidationService
     {
-        void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class;
+        void Validate(IArgsMapper mapper, Command command);
     }
 
     internal class CommandValidationService : ICommandValidationService
@@ -45,7 +45,7 @@ namespace ArgsMapper.InitializationValidations.CommandValidations
 
         private IEnumerable<ICommandValidator> Validators { get; }
 
-        public void Validate<T>(IArgsMapper<T> mapper, Command command) where T : class
+        public void Validate(IArgsMapper mapper, Command command)
         {
             foreach (var validator in Validators)
             {

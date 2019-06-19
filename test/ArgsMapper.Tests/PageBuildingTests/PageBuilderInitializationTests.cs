@@ -28,6 +28,123 @@ namespace ArgsMapper.Tests.PageBuildingTests
     public class PageBuilderInitializationTests
     {
         [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddEmptyLine()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.Usage.AddEmptyLine();
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddHelpOption()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.Usage.AddHelpOption();
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddSection_AddCommand()
+        {
+            var mapper = new ArgsMapper<ThreeLevelNestedCommandArgs>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddSubcommand(x => x.Command);
+
+                    subcommandSettings.Usage.AddSection("header", section => {
+                        section.AddSubcommand(x => x.Command);
+                    });
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddSection_AddEmptyLine()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.Usage.AddSection("header", section => {
+                        section.AddEmptyLine();
+                    });
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddSection_AddHelpOption()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.Usage.AddSection("header", section => {
+                        section.AddHelpOption();
+                    });
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddSection_AddHelpOption_With_Settings()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.Usage.AddSection("header", section => {
+                        section.AddHelpOption(settings => { });
+                    });
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddSection_AddOption()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.Option);
+
+                    subcommandSettings.Usage.AddSection("header", section => {
+                        section.AddOption(x => x.Option);
+                    });
+                });
+            });
+        }
+
+        [Fact]
+        internal void Usage_AddCommand_AddSubCommand_Usage_AddSection_AddOption_With_Its_Settings()
+        {
+            var mapper = new ArgsMapper<OneCommandWithOneClassWithOneBoolOption>();
+
+            mapper.AddCommand(x => x.Command, commandSettings => {
+                commandSettings.AddSubcommand(x => x.Command, subcommandSettings => {
+                    subcommandSettings.AddOption(x => x.Option);
+
+                    subcommandSettings.Usage.AddSection("header", section => {
+                        section.AddOption(x => x.Option, contentOptionSettings => {
+                            contentOptionSettings.Description = "option description";
+                            contentOptionSettings.NameColumnWidth = 20;
+                        });
+                    });
+                });
+            });
+        }
+
+        [Fact]
         internal void Usage_AddCommand_Usage_AddEmptyLine()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
@@ -84,7 +201,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
-        internal void Usage_AddCommand_Usage_AddSection_AddOption_In_Settings()
+        internal void Usage_AddCommand_Usage_AddSection_AddOption()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
@@ -433,7 +550,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddCommand_In_Settings()
+        internal void Usage_AddSection_AddCommand()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
@@ -445,7 +562,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddCommand_In_Settings_With_Settings()
+        internal void Usage_AddSection_AddCommand_With_Settings()
         {
             var mapper = new ArgsMapper<OneCommandWithOneBoolOptionArgs>();
 
@@ -489,7 +606,7 @@ namespace ArgsMapper.Tests.PageBuildingTests
         }
 
         [Fact]
-        internal void Usage_AddSection_AddOption_In_Settings()
+        internal void Usage_AddSection_AddOption()
         {
             var mapper = new ArgsMapper<OneBoolOptionArgs>();
 

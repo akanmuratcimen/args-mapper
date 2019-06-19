@@ -32,12 +32,15 @@ namespace ArgsMapper.PageBuilding
     internal class CommandPageSectionSettings<TCommand> : DefaultPageBuilder,
         ICommandPageSectionSettings<TCommand> where TCommand : class
     {
-        private readonly IEnumerable<Option> _commandOptions;
+        private readonly IEnumerable<Option> _options;
+        private readonly IEnumerable<Command> _subcommands;
 
-        public CommandPageSectionSettings(IEnumerable<Option> commandOptions, IPageRenderer pageRenderer) :
+        public CommandPageSectionSettings(IEnumerable<Command> subcommands,
+            IEnumerable<Option> options, IPageRenderer pageRenderer) :
             base(pageRenderer)
         {
-            _commandOptions = commandOptions;
+            _subcommands = subcommands;
+            _options = options;
         }
 
         public void AddOption<TOption>(Expression<Func<TCommand, TOption>> propertySelector,
@@ -52,15 +55,38 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            var option = _commandOptions.Get(propertySelector);
+            var option = _options.Get(propertySelector);
 
             if (option == null)
             {
                 throw new OptionCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 option.ToString(), contentOptionSettings);
+        }
+
+        public void AddSubcommand<TSubcommand>(Expression<Func<TCommand, TSubcommand>> propertySelector,
+            Action<PageContentCommandSettings> settings = null) where TSubcommand : class
+        {
+            PageContentCommandSettings contentCommandSettings = null;
+
+            if (settings != null)
+            {
+                contentCommandSettings = new PageContentCommandSettings();
+
+                settings(contentCommandSettings);
+            }
+
+            var command = _subcommands.Get(propertySelector);
+
+            if (command == null)
+            {
+                throw new CommandCouldNotBeFoundException(propertySelector.GetPropertyInfos()[0]);
+            }
+
+            PageRenderer.AppendCommand(PageContentRowFormattingStyle.Indent,
+                command.ToString(), contentCommandSettings);
         }
 
         public void AddHelpOption(Action<PageContentOptionSettings> settings = null)
@@ -74,7 +100,7 @@ namespace ArgsMapper.PageBuilding
                 settings(contentOptionSettings);
             }
 
-            _pageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
+            PageRenderer.AppendOption(PageContentRowFormattingStyle.Indent,
                 Constants.HelpOptionString, contentOptionSettings);
         }
     }

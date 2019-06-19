@@ -35,7 +35,7 @@ namespace ArgsMapper.InitializationValidations.OptionValidations.Validators
             _valueConverterFactory = valueConverterFactory;
         }
 
-        public void Validate<T>(IArgsMapper<T> mapper, Option option) where T : class
+        public void Validate(IArgsMapper mapper, Option option)
         {
             if (!_valueConverterFactory.IsSupportedBaseType(option.Type))
             {

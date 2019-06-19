@@ -51,12 +51,7 @@ namespace ArgsMapper.Utilities
 
         internal static Type GetFirstGenericArgument(this Type type)
         {
-            if (!type.IsGenericType)
-            {
-                return null;
-            }
-
-            return type.GetGenericArguments()[0];
+            return !type.IsGenericType ? null : type.GetGenericArguments()[0];
         }
 
         internal static bool IsList(this Type type)

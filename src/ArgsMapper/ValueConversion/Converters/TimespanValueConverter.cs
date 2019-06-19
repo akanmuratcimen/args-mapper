@@ -29,12 +29,7 @@ namespace ArgsMapper.ValueConversion.Converters
     {
         public object Convert(string value, IFormatProvider formatProvider)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return default(TimeSpan);
-            }
-
-            return TimeSpan.Parse(value, formatProvider);
+            return string.IsNullOrEmpty(value) ? default : TimeSpan.Parse(value, formatProvider);
         }
     }
 }

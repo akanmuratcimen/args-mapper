@@ -37,16 +37,14 @@ using ArgsMapper.ValueConversion;
 
 namespace ArgsMapper
 {
-    internal interface IArgsMapper<T> where T : class
+    internal interface IArgsMapper
     {
         IList<Command> Commands { get; }
         IList<Option> Options { get; }
-        IGeneralPageBuilder<T> Introduction { get; }
-        IGeneralPageBuilder<T> Usage { get; }
         IArgsMapperSettings Settings { get; }
     }
 
-    public sealed class ArgsMapper<T> : IArgsMapper<T> where T : class
+    public sealed class ArgsMapper<T> : IArgsMapper where T : class
     {
         internal ICommandOptionValidationService CommandOptionValidationService;
         internal ICommandValidationService CommandValidationService;
@@ -78,9 +76,9 @@ namespace ArgsMapper
         public IGeneralPageBuilder<T> Introduction { get; }
         public IGeneralPageBuilder<T> Usage { get; }
 
-        IList<Command> IArgsMapper<T>.Commands => Commands;
-        IList<Option> IArgsMapper<T>.Options => Options;
-        IArgsMapperSettings IArgsMapper<T>.Settings => Settings;
+        IList<Command> IArgsMapper.Commands => Commands;
+        IList<Option> IArgsMapper.Options => Options;
+        IArgsMapperSettings IArgsMapper.Settings => Settings;
 
         public void Execute(string[] args, Action<T> onSuccess,
             Action<ArgsMapperErrorResult> onError = null)
