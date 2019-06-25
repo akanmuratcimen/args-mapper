@@ -31,7 +31,7 @@ namespace ArgsMapper
     {
         public Version ApplicationVersion { get; set; } = new Version(1, 0, 0, 0);
         public TextWriter DefaultWriter { get; set; } = Console.Out;
-        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+        public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         public StringComparison StringComparison { get; set; } = StringComparison.CurrentCultureIgnoreCase;
     }
 
