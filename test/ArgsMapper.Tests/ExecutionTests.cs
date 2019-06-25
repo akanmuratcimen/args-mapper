@@ -25,6 +25,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using ArgsMapper.Tests.Helpers;
 using Xunit;
 
 namespace ArgsMapper.Tests
@@ -129,7 +130,8 @@ namespace ArgsMapper.Tests
             // Act
             mapper.Execute(new[] { "--option" }, null);
 
-            Assert.Equal("Unknown option '--option'.", output.ToString());
+            // Assert
+            Assert.Equal($"Unknown option '--option'.{Environment.NewLine}", output.ToString());
         }
 
         [Fact]
