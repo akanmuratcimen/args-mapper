@@ -52,7 +52,7 @@ namespace ArgsMapper
         {
             if (!option.Type.IsList() && values.Count > 1)
             {
-                throw new MultipleValueForNotCollectionType(option.ToString(), values.Count);
+                throw new MultipleValueForNotCollectionTypeException(option.ToString(), values.Count);
             }
 
             try

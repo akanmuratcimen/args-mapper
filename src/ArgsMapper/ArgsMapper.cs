@@ -179,7 +179,7 @@ namespace ArgsMapper
             {
                 if (onError == null)
                 {
-                    Settings.DefaultWriter.Write(mapperResult.ErrorMessage);
+                    Settings.DefaultWriter.WriteLine(mapperResult.ErrorMessage);
 
                     return;
                 }
