@@ -470,4 +470,10 @@ namespace ArgsMapper.Tests
         public bool Option6 { get; set; }
         public List<string> Option7 { get; set; }
     }
+
+    [ExcludeFromCodeCoverage]
+    internal class OneIntegerNamedIntOptionArgs
+    {
+        public int Integer { get; set; }
+    }
 }

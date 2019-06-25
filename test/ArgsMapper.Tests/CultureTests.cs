@@ -62,5 +62,22 @@ namespace ArgsMapper.Tests
             // Assert
             Assert.Equal(3.14, result.Model.Option);
         }
+
+        [Fact]
+        internal void Mapper_Should_Match_Culture_Specific_Option_Name()
+        {
+            // Arrange
+            var mapper = new ArgsMapper<OneIntegerNamedIntOptionArgs>();
+
+            mapper.Settings.Culture = CultureInfo.GetCultureInfo("tr");
+
+            mapper.AddOption(x => x.Integer);
+
+            // Act
+            var result = mapper.Map("--ınteger", "3.14");
+
+            // Assert
+            Assert.Equal(314, result.Model.Integer);
+        }
     }
 }
