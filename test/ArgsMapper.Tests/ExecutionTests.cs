@@ -25,7 +25,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using ArgsMapper.Tests.Helpers;
 using Xunit;
 
 namespace ArgsMapper.Tests
