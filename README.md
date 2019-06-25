@@ -27,7 +27,7 @@ An easy to use, simple, strongly typed dotnet core command line parser.
 Install the args-mapper nuget package into your project.
 
 ```
-> Install-Package args-mapper -prerelease
+> Install-Package args-mapper
 ```
 
 ## Quick Start
