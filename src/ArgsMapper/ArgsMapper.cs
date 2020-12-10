@@ -194,14 +194,6 @@ namespace ArgsMapper
             onSuccess?.Invoke(mapperResult.Model);
         }
 
-        public async Task ExecuteAsync(string[] args,
-            Action<T> onSuccess, Action<ArgsMapperErrorResult> onError = null)
-        {
-            Execute(args, onSuccess, onError);
-
-            await Task.CompletedTask;
-        }
-
         /// <summary>
         ///     Parses given <paramref name="args" /> and
         ///     returns an instance of <see cref="ArgsMapperResult{T}" />.

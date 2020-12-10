@@ -16,7 +16,6 @@ An easy to use, simple, strongly typed dotnet core command line parser.
 - Rich usage and introduction page building (includes table generator).
 - Culture support for value conversion.
 - Parsing error page customization support.
-- Synchronous and asynchronous Execute method support
 - Supports subcommands. (also known as nested commands.)
 - Supports positional options. (for both single or collection values.)
 - Supports for stacked options.
