@@ -1,4 +1,4 @@
-name: .NET Core
+name: default
 
 on:
   push:
@@ -37,4 +37,3 @@ jobs:
         path-to-lcov: ./TestCoverageResult/coverage.info  
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.4
-	    
