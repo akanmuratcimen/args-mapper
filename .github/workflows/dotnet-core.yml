@@ -22,4 +22,12 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal -c Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../artifacts/coverage.xml /p:Exclude=[xunit*]*
+      run: dotnet test --no-restore --verbosity normal -c Debug 
+            /p:CollectCoverage=true
+            /p:CoverletOutputFormat=opencover 
+            /p:CoverletOutput=../../artifacts/coverage.xml 
+            /p:Exclude=[xunit*]*
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ secrets.COVERALLS_API_TOKEN }}
