@@ -22,13 +22,16 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal test/ArgsMapper.Tests/ArgsMapper.Tests.csproj -c Debug 
+      run: dotnet test test/ArgsMapper.Tests/ArgsMapper.Tests.csproj 
+            --no-restore 
+            --verbosity normal 
+            -c Debug 
             /p:CollectCoverage=true
             /p:CoverletOutputFormat=lcov 
-            /p:CoverletOutput=TestResults/
+            /p:CoverletOutput=./../../TestCoverageResult/
             /p:Exclude=[xunit*]*
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v1.1.2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./TestResults/coverage.info
+        path-to-lcov: ./TestCoverageResult/coverage.info
