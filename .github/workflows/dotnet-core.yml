@@ -37,3 +37,6 @@ jobs:
         path-to-lcov: ./TestCoverageResult/coverage.info  
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
