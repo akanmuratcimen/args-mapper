@@ -38,7 +38,7 @@ jobs:
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.4
       with:
-        args: /k:"akanmuratcimen_args-mapper" /o:"akanmuratcimen-github"
+        args: -k "akanmuratcimen_args-mapper" -o "akanmuratcimen-github"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
