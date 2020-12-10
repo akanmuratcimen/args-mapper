@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>args-mapper</Title>
     <PackageId>args-mapper</PackageId>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Version>0.2.1</Version>
     <Authors>Akan Murat Cimen</Authors>
