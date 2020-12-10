@@ -154,24 +154,5 @@ namespace ArgsMapper.Tests
                 Assert.True(args.Command.Command.Option);
             });
         }
-
-        [Fact]
-        internal async Task ExecuteAsync_Usage()
-        {
-            // Arrange
-            var mapper = new ArgsMapper<OneBoolOptionArgs>();
-
-            mapper.AddOption(x => x.Option);
-
-            var result = false;
-
-            // Act
-            await mapper.ExecuteAsync(new[] { "--option" }, args => {
-                result = args.Option;
-            });
-
-            // Assert
-            Assert.True(result);
-        }
     }
 }

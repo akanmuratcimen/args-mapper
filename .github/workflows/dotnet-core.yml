@@ -1,0 +1,37 @@
+name: default
+
+on:
+  push:
+    branches: [ dev, master ]
+  pull_request:
+    branches: [ dev, master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test test/ArgsMapper.Tests/ArgsMapper.Tests.csproj 
+            --no-restore 
+            --verbosity normal 
+            -c Debug 
+            /p:CollectCoverage=true
+            /p:CoverletOutputFormat=lcov 
+            /p:CoverletOutput=./../../TestCoverageResult/
+            /p:Exclude=[xunit*]*
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v1.1.2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./TestCoverageResult/coverage.info  
