@@ -8,7 +8,7 @@
     <Version>1.0.0</Version>
     <Authors>Akan Murat Cimen</Authors>
     <PackageProjectUrl>https://github.com/akanmuratcimen/args-mapper</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/akanmuratcimen/args-mapper/master/args-mapper.png</PackageIconUrl>
+    <PackageIcon>args-mapper.png</PackageIcon>
     <Copyright>Copyright (c) 2019 Akan Murat Cimen</Copyright>
     <RepositoryUrl>https://github.com/akanmuratcimen/args-mapper</RepositoryUrl>
     <PackageTags>args cli command line fluent commandline parser mapper argsmapper</PackageTags>
@@ -24,5 +24,9 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\args-mapper.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
 </Project>
